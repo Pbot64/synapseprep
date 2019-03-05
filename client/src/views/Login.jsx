@@ -1,29 +1,30 @@
+// Node Modules
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
+
+//Actions
+import { loginUser } from '../actions/authActions'
+
+// Local Components
+
+// Material UI Components
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import withStyles from '@material-ui/core/styles/withStyles';
 
-import classnames from 'classnames';
-import FormHelperText from '@material-ui/core/FormHelperText';
+// Local Assets
 
-
-import { Link } from 'react-router-dom'
-
-import { connect } from 'react-redux';
-import { loginUser } from '../actions/authActions'
-
-
-
-
+//  Style Overrides (to this component only)
 const styles = theme => ({
   main: {
     width: 'auto',
@@ -76,7 +77,6 @@ class Login extends Component {
     if (nextProps.auth.isAuthenticated) {
       this.props.history.push('/dashboard')
     }
-
     if (nextProps.errors) {
       this.setState({errors: nextProps.errors});
     }
@@ -88,79 +88,74 @@ class Login extends Component {
     }
   }
 
-handleChange(e) {
-  this.setState({[e.target.name]: e.target.value});
-}
+  handleChange(e) {
+    this.setState({[e.target.name]: e.target.value});
+  }
 
-handleSubmit(e) {
-  e.preventDefault();
+  handleSubmit(e) {
+    e.preventDefault();
+    const userData = {
+      email: this.state.email,
+      password: this.state.password
+    };
+    this.props.loginUser(userData);
+  }
 
-  const userData = {
-    email: this.state.email,
-    password: this.state.password
-  };
-
-  this.props.loginUser(userData);
-}
-
-render() {
-  const { errors } = this.state;
-  const { classes } = this.props;
-  return (
-    <main className={classes.main}>
-      <Paper className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Login
-        </Typography>
-        <form onSubmit = {this.handleSubmit} className={classes.form}>
-          <FormControl error = {errors.email} margin="normal" required fullWidth>
-            <InputLabel htmlFor="email">Email Address</InputLabel>
-            <Input
-              id="email"
-              name="email"
-              autoComplete="email"
-              autoFocus
-              value = {this.state.email}
-              onChange = {this.handleChange} />
-            <FormHelperText id="component-error-text">{errors.email}</FormHelperText>
-          </FormControl>
-          <FormControl error = {errors.password} margin="normal" required fullWidth>
-            <InputLabel htmlFor="password">Password</InputLabel>
-            <Input
-              name="password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              value = {this.state.password}
-              onChange = {this.handleChange} />
-            <FormHelperText id="component-error-text">{errors.password}</FormHelperText>
-
-          </FormControl>
-          <FormControlLabel
-            control={<Checkbox
-            value="remember"
-            color="primary" />}
-            label="Remember me"
-          />
-
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            className={classes.submit}
-          >
+  render() {
+    const { errors } = this.state;
+    const { classes } = this.props;
+    return (
+      <main className={classes.main}>
+        <Paper className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
             Login
-          </Button>
-        </form>
-      </Paper>
-    </main>
-  );
+          </Typography>
+          <form onSubmit = {this.handleSubmit} className={classes.form}>
+            <FormControl error = {errors.email} margin="normal" required fullWidth>
+              <InputLabel htmlFor="email">Email Address</InputLabel>
+              <Input
+                id="email"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                value = {this.state.email}
+                onChange = {this.handleChange} />
+              <FormHelperText id="component-error-text">{errors.email}</FormHelperText>
+            </FormControl>
+            <FormControl error = {errors.password} margin="normal" required fullWidth>
+              <InputLabel htmlFor="password">Password</InputLabel>
+              <Input
+                name="password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                value = {this.state.password}
+                onChange = {this.handleChange} />
+              <FormHelperText id="component-error-text">{errors.password}</FormHelperText>
+            </FormControl>
+            <FormControlLabel
+              control={<Checkbox
+              value="remember"
+              color="primary" />}
+              label="Remember me"
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              className={classes.submit}
+            >
+              Login
+            </Button>
+          </form>
+        </Paper>
+      </main>
+    );
+  }
 }
-}
-
 
 Login.propTypes = {
   loginUser: PropTypes.func.isRequired,

@@ -1,111 +1,119 @@
+// Node Modules
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles';
 
+// Local Components
+import Question from '../components/Question';
+import ButtonStyled from '../assets/jss/components/ButtonStyle.jsx'
+import CardCustom from '../assets/jss/components/CardCustom.jsx'
 
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-
+// Material UI Components
+import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
+import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 
+// Local Assets
+import right_arrow from '../assets/images/right_arrow.svg';
 
+//  Style Overrides (to this component only)
+const drawerWidth = 220;
+const styles = theme => ({
+  root: {
+    display: 'flex',
+  },
+  center: {
+    textAlign: 'center',
+  },
+  menuButton: {
+    marginRight: 20,
+    [theme.breakpoints.up('md')]: {
+      display: 'none',
+    },
+  },
+  card: {
+    maxWidth: 800,
+    margin: 'auto'
+  },
+  bullet: {
+    display: 'inline-block',
+    margin: '0 2px',
+    transform: 'scale(0.8)',
+  },
+  title: {
 
-
-import Navbar from './Navbar'
-
-import Sidebar from './Sidebar'
-
-
-  const drawerWidth = 220;
-
-  const styles = theme => ({
-    root: {
-      display: 'flex',
-    },
-    drawer: {
-        display: 'none',
-        [theme.breakpoints.up('md')]: {
-        width: drawerWidth,
-        flexShrink: 0,
-        display: 'flex',
-      },
-    },
-    menuButton: {
-      marginRight: 20,
-      [theme.breakpoints.up('md')]: {
-        display: 'none',
-      },
-    },
-    toolbar: theme.mixins.toolbar,
-    drawerPaper: {
-      width: drawerWidth,
-      zIndex: 999,
-    },
-    content: {
-      flexGrow: 1,
-      
-    },
-    card: {
-      maxWidth: 600,
-    },
-    bullet: {
-      display: 'inline-block',
-      margin: '0 2px',
-      transform: 'scale(0.8)',
-    },
-    title: {
-      textAlign: 'center',
-    },
-    pos: {
-      marginBottom: 12,
-    },
-    progress: {
-      maxWidth: 300,
-      marginTop: 50,
-    }
+  },
+  progress: {
+    maxWidth: 300,
+    marginTop: 50,
+  }
 })
 
-class Dashboard extends Component {
+const Dashboard = (props) => {
+  const { classes } = props;
+  return (
+    <React.Fragment>
+      <CardCustom className={classes.card}>
+        <CardContent> 
+          <Grid container align = 'center' direction = 'column'>
+              <Typography variant='h4' className={classes.title} color="textSecondary" >
+                Question Feed
+              </Typography>
+              <Typography  color="textSecondary" gutterBottom>
+                These are your most important practice questions
+              </Typography>
+          </Grid>
 
+          <Grid container spacing = {16} justify = 'space-around'>
+          <Grid item>
+         <ButtonStyled variant="contained" color= 'primary'>Reading</ButtonStyled>
+         </Grid>
+         <Grid item>
+         <Button variant="contained" color= 'secondary'>Math</Button>
+         </Grid>
+         <Grid item>
+         <Button variant="contained" color= 'default'>Writing</Button>
+        
+         
+          </Grid>
+          </Grid>
 
-  render () {
-    const { classes } = this.props;
-    return (
-
-        <main className={classes.content}>
-          <Card className={classes.card}>
-        <CardContent>
-        <Typography variant='h4' className={classes.title} color="textSecondary" gutterBottom>
-           Feed
-        </Typography>
-        <Typography variant="h5" component="h2">
-        </Typography>
-        <Typography className={classes.pos} color="textSecondary">
-        These are your most important practice questions
-        </Typography>
-        <Typography component="p">
-        Lorem ipsum dolor sit amet,
-          <br />
-          {'"Lorem ipsum dolor sit amet,"'}
-        </Typography>
-        </CardContent>
-        <CardActions>
-        <Button size="small">Learn More</Button>
+          <CardActions>
+          <Button size="small">Learn More</Button>
         </CardActions>
-        </Card>
-        <Card className={classes.progress}>
-        <CardContent>
         </CardContent>
-        </Card>
-        </main>
+      </CardCustom>
+   
+      
 
 
-    )
-  };
-};
+     
+
+
+      <Card className={classes.progress}>
+        <CardContent>
+          <Typography variant="h5" component="p">
+            Continue Where you left off
+          </Typography>
+          <img src={right_arrow} alt={right_arrow} width='40'/>
+        </CardContent>
+      </Card>
+
+      <Card className={classes.progress}>
+        <CardContent>
+          <Typography variant="h5" component="h2">
+            Estimated Scores
+          </Typography>
+          <Typography component="p">
+            These are the scores we think you'd get if you took the SAT today
+          </Typography>
+        </CardContent>
+      </Card>
+      </React.Fragment>
+  )
+}
 
 export default withStyles(styles)(Dashboard);

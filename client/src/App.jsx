@@ -1,29 +1,33 @@
+// Node Modules
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import { BrowserRouter as Router, Route} from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
 import { setCurrentUser, logoutUser } from './actions/authActions'
-
 import { Provider } from 'react-redux';
 import store from './store';
 
-import Modal from '@material-ui/core/Modal';
-
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
+// Local Components
+import Dashboard from './layouts/Dashboard'
+import Intro from './layouts/Intro'
+import Reading from './layouts/Reading'
 import Login from './views/Login';
 import Register from './views/Register'
-import Dashboard from './layouts/Dashboard'
 import SiteWrapper from './layouts/Sitewrapper'
-import Intro from './layouts/Intro'
 
 
+// Material UI Components
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Modal from '@material-ui/core/Modal';
 
+// Local Assets
 
-import axios from 'axios';
-import withStyles from '@material-ui/core/styles/withStyles';
-import purple from '@material-ui/core/colors/purple';
+//  Style Overrides (to this component only)
+const styles = theme => ({
 
+});
 
 //Check for Token
 if(localStorage.jwtToken) {
@@ -46,40 +50,31 @@ if(localStorage.jwtToken) {
   }
 }
 
-// background: url(../assets/images/wave-pattern.png), -webkit-linear-gradient(45deg, #2980ba 300px, #238E9B 700px, #17ab5d 1100px),
-// background: url(../assets/images/wave-pattern.png), linear-gradient(45deg, #2980ba 300px, #238E9B 700px, #17ab5d 1100px),
-// background-blend-mode: color-burn
-
-const styles = theme => ({
-  button: {
-    backgroundColor: 'purple',
-
-  }
-});
-
 class App extends Component {
   constructor(props) {
-  super(props);
-  this.state = {
-    data: [],
-  }
-};
+    super(props);
 
+    this.state = {
+    data: [],
+    }
+  };
 
   render() {
-      const { classes } = this.props;
+    const { classes } = this.props;
     return (
       <Provider store = { store }>
         <Router>
-        <div>
-          <CssBaseline />
-          <SiteWrapper>
-            <Route exact path = '/dashboard' component = { Dashboard } />
+          <div>
+            <CssBaseline />
+            <SiteWrapper>
+              <Route exact path = '/dashboard' component = { Dashboard } />
               <Route exact path = '/login' component = { Login } />
+              <Route exact path = '/intro' component = { Intro } />
+              <Route exact path = '/reading' component = { Reading } />
+              
               <Route exact path = '/register' component = { Register } />
-            <Route exact path = '/intro' component = {Intro} />
-          </SiteWrapper>
-        </div>
+            </SiteWrapper>
+          </div>
         </Router>
       </Provider>
     );

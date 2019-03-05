@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
 // Local Components
-import Lessons from '../components/Lessons'
+
 // Material UI Components
 
 // Local Assets
@@ -14,14 +14,22 @@ const styles = theme => ({
 
 });
 
-const Intro = () => {
+
+
+const '' = (props) => {
+  const { classes } = props;
   return (
-    <div>
-      <Lessons>
-      <h4>PDF LINK TO INTRO</h4>
-      </Lessons>
-    </div>
+      <div>   
+
+      </div>
   )
 }
 
-export default withStyles(styles)(Intro);
+  ''.propTypes = {
+   
+  };
+
+  export default withStyles(styles)('');
+
+
+ 

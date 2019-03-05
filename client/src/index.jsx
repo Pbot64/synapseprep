@@ -7,6 +7,8 @@ import green from '@material-ui/core/colors/green';
 import Typography from '@material-ui/core/Typography';
 
 
+
+
 const theme = createMuiTheme({
   typography: {
     useNextVariants: true,
@@ -22,7 +24,7 @@ const theme = createMuiTheme({
   },
 });
 
-
+console.log(theme)
 ReactDOM.render(
   <MuiThemeProvider theme={theme}>
   <App />

@@ -14,14 +14,14 @@ const styles = theme => ({
 
 });
 
-const Intro = () => {
+const Reading = () => {
   return (
     <div>
       <Lessons>
-      <h4>PDF LINK TO INTRO</h4>
+      <h4>PDF LINK TO READING</h4>
       </Lessons>
     </div>
   )
 }
 
-export default withStyles(styles)(Intro);
+export default withStyles(styles)(Reading);
