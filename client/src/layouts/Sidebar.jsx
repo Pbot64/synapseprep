@@ -29,8 +29,8 @@ const styles = theme => ({
     display: 'flex',
   },
   drawer: {
-      display: 'none',
-      [theme.breakpoints.up('md')]: {
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
       width: drawerWidth,
       flexShrink: 0,
       display: 'flex',
@@ -61,13 +61,13 @@ class Sidebar extends Component {
     super(props);
 
     this.state = {
-     open: false,
-   };
+      open: false,
+    };
   }
 
   handleClick = () => {
-   this.setState(state => ({ open: !state.open })
-   );
+    this.setState(state => ({ open: !state.open })
+    );
   };
 
   render() {
@@ -87,7 +87,7 @@ class Sidebar extends Component {
                 paper: classes.drawerPaper,
               }}
             >
-              <SidebarList handleClick = {this.handleClick.bind(this)} open = {this.state.open} />
+              <SidebarList handleClick={this.handleClick.bind(this)} open={this.state.open} />
             </Drawer>
           </Hidden>
           <Hidden xsDown implementation="css">
@@ -98,7 +98,7 @@ class Sidebar extends Component {
               variant="permanent"
               open
             >
-            <SidebarList handleClick = {this.handleClick.bind(this)} open = {this.state.open} />
+              <SidebarList handleClick={this.handleClick.bind(this)} open={this.state.open} />
             </Drawer>
           </Hidden>
         </nav>

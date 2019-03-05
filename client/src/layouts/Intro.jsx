@@ -18,7 +18,7 @@ const Intro = () => {
   return (
     <div>
       <Lessons>
-      <h4>PDF LINK TO INTRO</h4>
+        <h4>PDF LINK TO INTRO</h4>
       </Lessons>
     </div>
   )

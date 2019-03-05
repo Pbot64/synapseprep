@@ -18,7 +18,7 @@ const Reading = () => {
   return (
     <div>
       <Lessons>
-      <h4>PDF LINK TO READING</h4>
+        <h4>PDF LINK TO READING</h4>
       </Lessons>
     </div>
   )

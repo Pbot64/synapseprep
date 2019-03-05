@@ -30,25 +30,25 @@ class SiteWrapper extends Component {
     mobileOpen: false,
   };
 
-handleDrawerToggle = () => {
-  this.setState(state => ({ mobileOpen: !state.mobileOpen }));
-};
+  handleDrawerToggle = () => {
+    this.setState(state => ({ mobileOpen: !state.mobileOpen }));
+  };
 
-render () {
-  const { classes } = this.props;
-  return (
-    <div>
-      <Navbar handleDrawerToggle = {this.handleDrawerToggle} />
-      <div className = {classes.flex}>
-        <Sidebar
-          handleDrawerToggle = {this.handleDrawerToggle}
-          mobileOpen = {this.state.mobileOpen}
-        />
-        <div className = {classes.main}>
-          {this.props.children}
+  render() {
+    const { classes } = this.props;
+    return (
+      <div>
+        <Navbar handleDrawerToggle={this.handleDrawerToggle} />
+        <div className={classes.flex}>
+          <Sidebar
+            handleDrawerToggle={this.handleDrawerToggle}
+            mobileOpen={this.state.mobileOpen}
+          />
+          <div className={classes.main}>
+            {this.props.children}
+          </div>
         </div>
       </div>
-    </div>
     )
   }
 }

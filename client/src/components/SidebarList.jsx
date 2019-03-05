@@ -38,7 +38,7 @@ const styles = theme => ({
   center: {
     justifyContent: 'center',
   },
-  link : {
+  link: {
     color: 'inherit',
     textDecoration: 'none',
   },
@@ -47,116 +47,116 @@ const styles = theme => ({
 
 const StyledListItem = withStyles({
   button: {
-   '&:focus': {
-     backgroundColor: 'rgba(0,0,0,0.2)',
-   },
- },
+    '&:focus': {
+      backgroundColor: 'rgba(0,0,0,0.2)',
+    },
+  },
 })(ListItem);
 
 const SidebarList = (props) => {
   const { classes } = props;
   return (
     <div>
-      <Link to = './' className = {classes.link}>
-        <Toolbar className = {classes.center}>
+      <Link to='./' className={classes.link}>
+        <Toolbar className={classes.center}>
           <Typography variant="h3" color='inherit'>
             Synapse Prep
           </Typography>
         </Toolbar>
       </Link>
-      
+
       <Divider />
-        <List component="nav">
-          <Link to = './dashboard' className = {classes.link}>
-            <StyledListItem button   >
-              <ListItemIcon>
-                <DashboardIcon />
-              </ListItemIcon>
+      <List component="nav">
+        <Link to='./dashboard' className={classes.link}>
+          <StyledListItem button   >
+            <ListItemIcon>
+              <DashboardIcon />
+            </ListItemIcon>
             <ListItemText inset primary="Dashboard" />
-            </StyledListItem>
-          </Link>
+          </StyledListItem>
+        </Link>
 
-          <StyledListItem  button onClick={props.handleClick}>
-            <ListItemIcon>
-              <School />
-            </ListItemIcon>
-            <ListItemText inset primary="Lessons" />
-            {props.open ? <ExpandLess /> : <ExpandMore />}
-          </StyledListItem >
+        <StyledListItem button onClick={props.handleClick}>
+          <ListItemIcon>
+            <School />
+          </ListItemIcon>
+          <ListItemText inset primary="Lessons" />
+          {props.open ? <ExpandLess /> : <ExpandMore />}
+        </StyledListItem >
 
-          <Collapse in={props.open} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <Link to = './intro' className = {classes.link}>
-                <StyledListItem  button className={classes.nested}>
-                  <ListItemIcon>
-                    <StarBorder />
-                  </ListItemIcon>
-                  <ListItemText inset primary="Intro" />
-                </StyledListItem >
-              </Link>
-            </List>
-          </Collapse>
-          <Collapse in={props.open} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <Link to = './reading' className = {classes.link}>
-                <StyledListItem  button className={classes.nested}>
-                  <ListItemIcon>
-                    <StarBorder />
-                  </ListItemIcon>
-                  <ListItemText inset primary="Reading" />
-                </StyledListItem >
-              </Link>
-            </List>
-          </Collapse>
-          <Collapse in={props.open} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <StyledListItem  button className={classes.nested}>
+        <Collapse in={props.open} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <Link to='./intro' className={classes.link}>
+              <StyledListItem button className={classes.nested}>
                 <ListItemIcon>
                   <StarBorder />
                 </ListItemIcon>
-                <ListItemText inset primary="Writing" />
+                <ListItemText inset primary="Intro" />
               </StyledListItem >
-            </List>
-          </Collapse>
-          <Collapse in={props.open} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <StyledListItem  button className={classes.nested}>
-                <ListItemIcon>
-                  <PieChart />
-                </ListItemIcon>
-                <ListItemText inset primary="Math" />
-              </StyledListItem >
-            </List>
-          </Collapse>
-          <Collapse in={props.open} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <StyledListItem  button className={classes.nested}>
+            </Link>
+          </List>
+        </Collapse>
+        <Collapse in={props.open} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <Link to='./reading' className={classes.link}>
+              <StyledListItem button className={classes.nested}>
                 <ListItemIcon>
                   <StarBorder />
                 </ListItemIcon>
-                <ListItemText inset primary="Essay" />
+                <ListItemText inset primary="Reading" />
               </StyledListItem >
-            </List>
-          </Collapse>
+            </Link>
+          </List>
+        </Collapse>
+        <Collapse in={props.open} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <StyledListItem button className={classes.nested}>
+              <ListItemIcon>
+                <StarBorder />
+              </ListItemIcon>
+              <ListItemText inset primary="Writing" />
+            </StyledListItem >
+          </List>
+        </Collapse>
+        <Collapse in={props.open} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <StyledListItem button className={classes.nested}>
+              <ListItemIcon>
+                <PieChart />
+              </ListItemIcon>
+              <ListItemText inset primary="Math" />
+            </StyledListItem >
+          </List>
+        </Collapse>
+        <Collapse in={props.open} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <StyledListItem button className={classes.nested}>
+              <ListItemIcon>
+                <StarBorder />
+              </ListItemIcon>
+              <ListItemText inset primary="Essay" />
+            </StyledListItem >
+          </List>
+        </Collapse>
 
-          <StyledListItem button>
-            <ListItemIcon>
-              <Timer />
-            </ListItemIcon>
-            <ListItemText inset primary="Full Tests" />
-          </StyledListItem >
-          <StyledListItem button>
-            <ListItemIcon>
-              <StarBorder />
-            </ListItemIcon>
-            <ListItemText inset primary="Review" />
-          </StyledListItem >
-        </List>
+        <StyledListItem button>
+          <ListItemIcon>
+            <Timer />
+          </ListItemIcon>
+          <ListItemText inset primary="Full Tests" />
+        </StyledListItem >
+        <StyledListItem button>
+          <ListItemIcon>
+            <StarBorder />
+          </ListItemIcon>
+          <ListItemText inset primary="Review" />
+        </StyledListItem >
+      </List>
       <Divider />
 
       <List>
         {['Settings', 'Support'].map((text, index) => (
-          <StyledListItem  button key={text}>
+          <StyledListItem button key={text}>
             <ListItemIcon>{index % 2 === 0 ? <Settings /> : <MailIcon />}</ListItemIcon>
             <ListItemText primary={text} />
           </StyledListItem >

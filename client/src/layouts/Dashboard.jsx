@@ -2,14 +2,16 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles';
+import Button from 'wix-style-react/Button';
 
 // Local Components
 import Question from '../components/Question';
-import ButtonStyled from '../assets/jss/components/ButtonStyle.jsx'
+import ButtonCustom from '../assets/jss/components/ButtonCustom.jsx'
 import CardCustom from '../assets/jss/components/CardCustom.jsx'
 
 // Material UI Components
-import Button from '@material-ui/core/Button';
+
+
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -57,40 +59,40 @@ const Dashboard = (props) => {
   return (
     <React.Fragment>
       <CardCustom className={classes.card}>
-        <CardContent> 
-          <Grid container align = 'center' direction = 'column'>
-              <Typography variant='h4' className={classes.title} color="textSecondary" >
-                Question Feed
+        <CardContent>
+          <Grid container align='center' direction='column'>
+            <Typography variant='h4' className={classes.title} color="textSecondary" >
+              Question Feed
               </Typography>
-              <Typography  color="textSecondary" gutterBottom>
-                These are your most important practice questions
+            <Typography color="textSecondary" gutterBottom>
+              These are your most important practice questions
               </Typography>
           </Grid>
 
-          <Grid container spacing = {16} justify = 'space-around'>
-          <Grid item>
-         <ButtonStyled variant="contained" color= 'primary'>Reading</ButtonStyled>
-         </Grid>
-         <Grid item>
-         <Button variant="contained" color= 'secondary'>Math</Button>
-         </Grid>
-         <Grid item>
-         <Button variant="contained" color= 'default'>Writing</Button>
-        
-         
-          </Grid>
+          <Grid container spacing={16} justify='space-around'>
+            <Grid item>
+              <ButtonCustom variant="contained" color='primary'>Reading</ButtonCustom>
+            </Grid>
+            <Grid item>
+              <Button >Math</Button>
+            </Grid>
+            <Grid item>
+              <Button >Writing</Button>
+
+
+            </Grid>
           </Grid>
 
           <CardActions>
-          <Button size="small">Learn More</Button>
-        </CardActions>
+            <Button>Learn More</Button>
+          </CardActions>
         </CardContent>
       </CardCustom>
-   
-      
 
 
-     
+
+
+
 
 
       <Card className={classes.progress}>
@@ -98,7 +100,7 @@ const Dashboard = (props) => {
           <Typography variant="h5" component="p">
             Continue Where you left off
           </Typography>
-          <img src={right_arrow} alt={right_arrow} width='40'/>
+          <img src={right_arrow} alt={right_arrow} width='40' />
         </CardContent>
       </Card>
 
@@ -112,7 +114,7 @@ const Dashboard = (props) => {
           </Typography>
         </CardContent>
       </Card>
-      </React.Fragment>
+    </React.Fragment>
   )
 }
 

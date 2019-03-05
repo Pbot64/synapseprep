@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { logoutUser} from '../actions/authActions'
+import { logoutUser } from '../actions/authActions'
 import { withStyles } from '@material-ui/core/styles';
 
 // Material UI Components
@@ -43,22 +43,22 @@ const styles = theme => ({
     zIndex: 1000,
     color: '#FFFFFF',
     background:
-    'url(' + wavePattern + '), linear-gradient(45deg, #2980ba 10%, #238E9B 40%, #17ab5d 100%)',
+      'url(' + wavePattern + '), linear-gradient(45deg, #2980ba 10%, #238E9B 40%, #17ab5d 100%)',
     backgroundBlendMode: 'color-burn',
   },
   iconButton: {
     padding: '6px',
   },
   navlinks: {
-    backgroundColor:'#d12229',
+    backgroundColor: '#d12229',
     flexGrow: 1
   },
-  notificationsIcon : {
+  notificationsIcon: {
     padding: 6,
     marginRight: 15,
   },
   logo_title: {
-      display: 'none',
+    display: 'none',
     [theme.breakpoints.up('md')]: {
       display: 'flex',
     },
@@ -67,8 +67,8 @@ const styles = theme => ({
 
 const StyledIconButton = withStyles({
   label: {
-   display: 'block',
-   },
+    display: 'block',
+  },
 })(IconButton);
 
 class Navbar extends Component {
@@ -86,11 +86,11 @@ class Navbar extends Component {
   };
 
   handleMenuNotifications = e => {
-  this.setState({ anchorElNotifications: e.currentTarget });
+    this.setState({ anchorElNotifications: e.currentTarget });
   };
 
   handleMenuNotificationsClose = () => {
-  this.setState({ anchorElNotifications: null });
+    this.setState({ anchorElNotifications: null });
   };
 
   handleLogout(e) {
@@ -99,7 +99,7 @@ class Navbar extends Component {
     this.props.logoutUser();
   }
 
-  render () {
+  render() {
     const { classes } = this.props;
     const { isAuthenticated, user } = this.props.auth;
     const { anchorEl, anchorElNotifications } = this.state;
@@ -107,11 +107,10 @@ class Navbar extends Component {
     const openNotifications = Boolean(anchorElNotifications)
 
     const authLinks = (
-      <div className = 'container'>
-      
-       { /*  Notifications Icon */ }
+      <div className='container'>
+        { /* Notifications Icon */}
         <StyledIconButton
-          className = {classes.notificationsIcon}
+          className={classes.notificationsIcon}
           aria-owns={open ? 'menu-appbar' : undefined}
           aria-haspopup="true"
           onClick={this.handleMenuNotifications}
@@ -122,7 +121,7 @@ class Navbar extends Component {
           </Badge>
         </StyledIconButton>
 
-        { /*  Notifications Menu */ } 
+        { /* Notifications Menu */}
         <Menu
           anchorEl={anchorElNotifications}
           anchorOrigin={{
@@ -135,24 +134,24 @@ class Navbar extends Component {
           }}
           open={openNotifications}
           onClose={this.handleMenuNotificationsClose}
-          >
+        >
           <MenuItem onClick={this.handleMenuNotificationsClose}>Your notifications</MenuItem>
         </Menu>
 
-        { /*  User Icon */ }
+        { /* User Icon */}
         <IconButton
-          className = {classes.iconButton}
+          className={classes.iconButton}
           aria-owns={open ? 'menu-appbar' : undefined}
           aria-haspopup="true"
           onClick={this.handleMenu}
           color="inherit"
         >
-          <Avatar className = {classes.avatar} src={user.avatar} alt={user.name}
-            title = 'You must have a gravatar connected to your email to display an image'>
+          <Avatar className={classes.avatar} src={user.avatar} alt={user.name}
+            title='You must have a gravatar connected to your email to display an image'>
           </Avatar>
         </IconButton>
 
-        { /*  User Menu */ }
+        { /* User Menu */}
         <Menu
           id="menu-appbar"
           anchorEl={anchorEl}
@@ -166,21 +165,21 @@ class Navbar extends Component {
           }}
           open={open}
           onClose={this.handleMenuClose}
-          >
+        >
           <MenuItem></MenuItem>
           <MenuItem onClick={this.handleMenuClose}>My Account</MenuItem>
-          <MenuItem onClick= {this.handleLogout.bind(this)}>Logout</MenuItem>
+          <MenuItem onClick={this.handleLogout.bind(this)}>Logout</MenuItem>
           <MenuItem onClick={this.handleMenuClose}>Get Paid to Rep</MenuItem>
         </Menu>
       </div>
     );
 
     const guestLinks = (
-      <div className = 'container'>
-        <Link to = './register'>
+      <div className='container'>
+        <Link to='./register'>
           <h4>Register</h4>
         </Link>
-        <Link to = './login'>
+        <Link to='./login'>
           <h4>Login</h4>
         </Link>
       </div>
@@ -188,22 +187,22 @@ class Navbar extends Component {
 
     return (
       <div>
-        <AppBar className = {classes.appBar} position="static">
+        <AppBar className={classes.appBar} position="static">
           <Toolbar>
             <IconButton
               className={classes.menuButton}
-              color= 'inherit'
+              color='inherit'
               aria-label="Menu"
-              onClick = {this.props.handleDrawerToggle}
-              >
+              onClick={this.props.handleDrawerToggle}
+            >
               <MenuIcon />
             </IconButton>
-            <Grid item className = {classes.grow}>
-              <Typography variant="h3" color='inherit' className = {classes.logo_title}>
+            <Grid item className={classes.grow}>
+              <Typography variant="h3" color='inherit' className={classes.logo_title}>
                 Synapse Prep
               </Typography>
             </Grid>
-            <Grid item  className='navlinks'>
+            <Grid item className='navlinks'>
               {isAuthenticated ? authLinks : guestLinks}
             </Grid>
           </Toolbar>

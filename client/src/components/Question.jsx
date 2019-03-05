@@ -28,49 +28,49 @@ const styles = theme => ({
 });
 
 const Question = (props) => {
-  const { classes } = props;
-  return (
-    <div>
-      <Grid container  className = {classes.container}>
-			<Grid item xs = {1}>
-						<Typography className = {classes.blackSquare} >
-							3
+	const { classes } = props;
+	return (
+		<div>
+			<Grid container className={classes.container}>
+				<Grid item xs={1}>
+					<Typography className={classes.blackSquare} >
+						3
 						</Typography>
 				</Grid>
-				<Grid item xs = {11}>
-				<div  className = {classes.greyRectangle}></div>
+				<Grid item xs={11}>
+					<div className={classes.greyRectangle}></div>
 				</Grid>
 
-					<Grid item xs = {12}>
+				<Grid item xs={12}>
 					<Typography variant="body1" gutterBottom>
-					The author’s (Synapse Prep) attitude toward the SAT is best described as  
+						The author’s (Synapse Prep) attitude toward the SAT is best described as
 					</Typography>
-					<Grid item xs = {12}>
-      		<Typography variant="body1" gutterBottom>
-						 A) Hateful 
+					<Grid item xs={12}>
+						<Typography variant="body1" gutterBottom>
+							A) Hateful
 						 </Typography>
-						 <Typography variant="body1" gutterBottom>	 
-						B)  Ambivalent 
+						<Typography variant="body1" gutterBottom>
+							B)  Ambivalent
 						</Typography>
 
 						<Typography variant="body1" gutterBottom>
-						C)    Adoring
+							C)    Adoring
 						</Typography>
 
 						<Typography variant="body1" gutterBottom>
-						D)    Critical      
+							D)    Critical
 						</Typography>
-						</Grid>
-						</Grid>
-      
-    	</Grid>
-    
-    
-    
-    
-    
-    </div>
-  )
+					</Grid>
+				</Grid>
+
+			</Grid>
+
+
+
+
+
+		</div>
+	)
 }
 
 export default withStyles(styles)(Question);
