@@ -56,7 +56,7 @@ const StyledListItem = withStyles({
 const SidebarList = (props) => {
   const { classes } = props;
   return (
-    <div>
+    <div className = {classes.root}>
       <Link to='./' className={classes.link}>
         <Toolbar className={classes.center}>
           <Typography variant="h3" color='inherit'>

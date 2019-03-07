@@ -2,7 +2,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles';
-import Button from 'wix-style-react/Button';
 
 // Local Components
 import Question from '../components/Question';
@@ -10,8 +9,6 @@ import ButtonCustom from '../assets/jss/components/ButtonCustom.jsx'
 import CardCustom from '../assets/jss/components/CardCustom.jsx'
 
 // Material UI Components
-
-
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -51,7 +48,10 @@ const styles = theme => ({
   progress: {
     maxWidth: 300,
     marginTop: 50,
-  }
+  },
+  buttons: {
+    margin: '100px 10px',
+  },
 })
 
 const Dashboard = (props) => {
@@ -69,22 +69,22 @@ const Dashboard = (props) => {
               </Typography>
           </Grid>
 
-          <Grid container spacing={16} justify='space-around'>
+          <Grid container spacing={16} justify='space-around' className = {classes.buttons}>
             <Grid item>
               <ButtonCustom variant="contained" color='primary'>Reading</ButtonCustom>
             </Grid>
             <Grid item>
-              <Button >Math</Button>
+              <ButtonCustom>Math</ButtonCustom>
             </Grid>
             <Grid item>
-              <Button >Writing</Button>
+              <ButtonCustom>Writing</ButtonCustom>
 
 
             </Grid>
           </Grid>
 
           <CardActions>
-            <Button>Learn More</Button>
+      
           </CardActions>
         </CardContent>
       </CardCustom>
