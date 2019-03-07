@@ -33,7 +33,7 @@ const styles = theme => ({
       outlineStyle: 'none',
     },
     [theme.breakpoints.up('md')]: {
-      transition: 'left .5s',
+      transition: 'left .3s',
       width: '220px',
       left: '0px',
     },
@@ -65,7 +65,7 @@ const initialItems = [
         type: 'menu',
         title: 'Intro',
         items: [
-          { type: 'link', to: '//wix.com', title: 'link #2-3_1' },
+          { type: 'link', to: '/intro', title: 'link #2-3_1' },
           { type: 'link', to: '//wix.com', title: 'link #2-3_2' },
           { type: 'link', to: '//wix.com', title: 'link #2-3_3' },
         ],
@@ -174,9 +174,9 @@ class SideBar extends Component {
         isActive={link.isActive}
         disabled={link.disabled}
       >
-        <a href={link.to} onClick={e => this.onMenuSelected(e, link)}>
+        <Link to={link.to} onClick={e => this.onMenuSelected(e, link)}>
           {link.title}
-        </a>
+        </Link>
       </SideMenuDrill.Link>
     );
   }
