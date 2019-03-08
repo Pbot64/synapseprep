@@ -2,15 +2,13 @@
 import React, { Component } from 'react';
 import SideMenuDrill from 'wix-style-react/SideMenuDrill';
 import SideMenu from 'wix-style-react/SideMenu';
-import Button from 'wix-style-react/Button';
-import Tooltip from 'wix-style-react/Tooltip';
 import Heading from 'wix-style-react/Heading';
 import { Link } from 'react-router-dom'
 
 import { withStyles } from '@material-ui/core/styles';
-import { nativePseudoClasses } from '@stylable/core';
 import Modal from '@material-ui/core/Modal';
 import Slide from '@material-ui/core/Slide';
+
 const styles = theme => ({
   mobileOpen: {
     display: 'flex',
@@ -46,10 +44,7 @@ const styles = theme => ({
 });
 
 const duration = 500;
-
-
-
-let counter = 3;
+const counter = 3;
 
 const initialItems = [
   {
@@ -144,11 +139,6 @@ class SideBar extends Component {
     };
   }
 
-  mounted = false;
-
-  componentDidMount() {
-    this.mounted = true;
-  }
 
   selectMenu(items, link) {
     items.forEach(item => {
@@ -162,7 +152,7 @@ class SideBar extends Component {
   onMenuSelected(e, link) {
     e.preventDefault();
     const items = [...this.state.items];
-    console.log(items)
+
     this.selectMenu(items, link);
     this.setState({ items: items });
   }
@@ -174,18 +164,15 @@ class SideBar extends Component {
         isActive={link.isActive}
         disabled={link.disabled}
       >
-        <Link to={link.to} onClick={e => this.onMenuSelected(e, link)}>
+        <a href={link.to} onClick={e => this.onMenuSelected(e, link)}>
           {link.title}
-        </Link>
+        </a>
       </SideMenuDrill.Link>
     );
   }
 
   renderMenu(menu) {
     const showCategory = menu.title !== 'Sub Menu #3';
-
-
-
 
     return (
       <SideMenuDrill.SubMenu
@@ -215,18 +202,6 @@ class SideBar extends Component {
       return null;
     });
   }
-
-  addItem() {
-    const newItem = {
-      type: 'link',
-      to: '//wix.com',
-      title: `link #0_${counter++}`,
-    };
-    this.setState({
-      items: [...this.state.items, newItem],
-    });
-  }
-
 
   renderHeader() {
     const title = 'Synapse Prep';
@@ -285,6 +260,7 @@ class SideBar extends Component {
 
     return (
       <React.Fragment>
+
         <Modal
           open={this.props.mobileOpen}
           onClose={this.props.handleDrawerToggle}
@@ -297,9 +273,9 @@ class SideBar extends Component {
               inFlex
               dataHook="side-menu"
             >
-      
-              <SideMenu.NavigationSeparator />
             
+              <SideMenu.NavigationSeparator />
+
               {this.renderNavigation(items)}
             </SideMenuDrill>
           </div>

@@ -198,7 +198,7 @@ class Navbar extends Component {
               <MenuIcon />
             </IconButton>
             <Grid item className={classes.grow}>
-              <Typography variant="h3" color='inherit' className={classes.logo_title}>
+              <Typography variant="caption" color='inherit' className={classes.logo_title}>
                 Synapse Prep
               </Typography>
             </Grid>

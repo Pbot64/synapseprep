@@ -12,7 +12,7 @@ import Typography from '@material-ui/core/Typography';
 const theme = createMuiTheme({
   typography: {
     useNextVariants: true,
-    h3: {
+    caption: {
       fontFamily: ['"Logofont"'].join(','),
       fontWeight: 500,
       fontSize: 15,

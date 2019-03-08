@@ -44,8 +44,8 @@ class SiteWrapper extends Component {
         <Navbar handleDrawerToggle={this.handleDrawerToggle} />
         <div className={classes.flex}>
         
-      
-          <SideBar 
+        
+          <Sidebar 
           handleDrawerToggle={this.handleDrawerToggle}
           mobileOpen = {this.state.mobileOpen} />
         

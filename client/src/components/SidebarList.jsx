@@ -59,7 +59,7 @@ const SidebarList = (props) => {
     <div className = {classes.root}>
       <Link to='./' className={classes.link}>
         <Toolbar className={classes.center}>
-          <Typography variant="h3" color='inherit'>
+          <Typography variant="caption" color='inherit'>
             Synapse Prep
           </Typography>
         </Toolbar>
@@ -139,12 +139,22 @@ const SidebarList = (props) => {
           </List>
         </Collapse>
 
+        <StyledListItem button onClick={props.handleClick}>
+          <ListItemIcon>
+            <School />
+          </ListItemIcon>
+          <ListItemText inset primary="Practice" />
+          {props.open ? <ExpandLess /> : <ExpandMore />}
+        </StyledListItem >
+
         <StyledListItem button>
           <ListItemIcon>
             <Timer />
           </ListItemIcon>
           <ListItemText inset primary="Full Tests" />
         </StyledListItem >
+
+
         <StyledListItem button>
           <ListItemIcon>
             <StarBorder />

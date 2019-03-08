@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Card from '@material-ui/core/Card';
 import { withStyles } from '@material-ui/core/styles';
+import classNames from 'classnames';
 
 
 const styles = theme => ({
@@ -16,9 +17,9 @@ const styles = theme => ({
 });
 
   const CardStyled = (props) => {
-    const { classes } = props;
+    const { classes, className } = props;
     return (
-    <Card className = {classes.root}> {props.children} </Card>
+    <Card className={classNames(classes.root, className)}> {props.children} </Card>
     )
   };
   

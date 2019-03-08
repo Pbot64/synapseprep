@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
+import classNames from 'classnames';
+
 
 
 const styles = theme => ({
@@ -31,9 +33,9 @@ const styles = theme => ({
 });
 
 const ButtonCustom = (props) => {
-  const { classes } = props;
+  const { classes, className } = props;
   return (
-    <Button className={classes.root}> {props.children} </Button>
+    <Button className={classNames(classes.root, className)}> {props.children} </Button>
   )
 };
 

@@ -37,58 +37,91 @@ const styles = theme => ({
     maxWidth: 800,
     margin: 'auto'
   },
+  cardTitle: { 
+    borderBottomLeftRadius: '0px',
+    borderBottomRightRadius: '0px',
+    borderBottom: 'solid 1px lightgrey',
+    padding: 15,
+  },
+  cardQuestions: { 
+    borderTopLeftRadius: '0px',
+    borderTopRightRadius: '0px',
+    height: '400px'
+  },
   bullet: {
     display: 'inline-block',
     margin: '0 2px',
     transform: 'scale(0.8)',
   },
-  title: {
-
+  button: {
+    flexGrow: 1,
+    width: '100%',
+    height: 40,
+    padding: '0px 31px',
+    borderRadius: '0px',
   },
   progress: {
     maxWidth: 300,
     marginTop: 50,
   },
   buttons: {
-    margin: '100px 10px',
+    fontSize: '20px',
   },
+  mainContainer: {
+    maxWidth: 400,
+  }
 })
 
 const Dashboard = (props) => {
   const { classes } = props;
   return (
     <React.Fragment>
-      <CardCustom className={classes.card}>
-        <CardContent>
+      <div className = {classes.mainContainer}>
+      <CardCustom className={classes.cardTitle}>
+       
           <Grid container align='center' direction='column'>
-            <Typography variant='h4' className={classes.title} color="textSecondary" >
+            <Typography variant='h5' className={classes.title} color="textSecondary" >
               Question Feed
               </Typography>
-            <Typography color="textSecondary" gutterBottom>
+            <Typography variant='subtitle1' color="textSecondary" gutterBottom>
               These are your most important practice questions
               </Typography>
           </Grid>
+     
+      </CardCustom>
 
-          <Grid container spacing={16} justify='space-around' className = {classes.buttons}>
-            <Grid item>
-              <ButtonCustom variant="contained" color='primary'>Reading</ButtonCustom>
-            </Grid>
-            <Grid item>
-              <ButtonCustom>Math</ButtonCustom>
-            </Grid>
-            <Grid item>
-              <ButtonCustom>Writing</ButtonCustom>
 
+          <Grid container justify='space-around' className = {classes.buttons}>
+            <Grid item xs ={4}>
+              <ButtonCustom className = {classes.button}>Reading</ButtonCustom>
+            </Grid>
+            <Grid item xs ={4}>
+              <ButtonCustom className = {classes.button} >Math</ButtonCustom>
+            </Grid>
+            <Grid item xs ={4}>
+              <ButtonCustom className = {classes.button} >Writing</ButtonCustom>
 
             </Grid>
           </Grid>
 
-          <CardActions>
-      
-          </CardActions>
+          <CardCustom className={classes.cardQuestions}>
+
+        <CardContent >
+          <Grid container align='center' direction='column'>
+            <Typography variant='h2' className={classes.title} color="textSecondary" >
+              Question #1
+              </Typography>
+            <Typography color="textSecondary" gutterBottom>
+              Question #2
+              </Typography>
+          </Grid>
         </CardContent>
       </CardCustom>
 
+      </div>
+
+        
+    
 
 
 
