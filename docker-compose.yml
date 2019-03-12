@@ -1,0 +1,15 @@
+version: "2"
+services:
+  mongo:
+    container_name: mongo
+    image: mongo
+    env_file: .env
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASS}
+      MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
+    volumes:
+      - ./data:/data/synapse-db
+    ports:
+      - "27017:27017"
+      
