@@ -1,7 +1,11 @@
 import problems from '../problems';
 
-describe('Problem api', () => {
-  it('can get create the Problems router', () => {
-    expect(problems).not.toBeNull();
+describe('Problems routes', () => {
+  it('can create the Problems router', () => {
+    expect(problems).toBeDefined();
+  });
+
+  it('when request url is /problems then calls list on controller.', () => {
+    throw {};
   });
 });
