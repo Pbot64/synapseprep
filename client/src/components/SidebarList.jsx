@@ -37,6 +37,10 @@ const styles = theme => ({
   },
   center: {
     justifyContent: 'center',
+    [theme.breakpoints.up('sm')]: {
+      paddingLeft: 0,
+      paddingRight: 0,
+    },
   },
   link: {
     color: 'inherit',

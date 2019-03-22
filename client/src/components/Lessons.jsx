@@ -15,59 +15,62 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
 // Local Assets
+import students from '../assets/images/students.jpg'
 
 //  Style Overrides (to this component only)
 const styles = theme => ({
   headerContainer: {
+    paddingTop: 50,
     display: 'flex',
     justifyContent: 'center',
   },
   mainContainer: {
     display: 'flex',
-    paddingTop: 50,
     justifyContent: 'space-around',
     position: 'sticky',
     top: 0,
+    backgroundColor: '#f6f9fc',
+    paddingBottom: '10px',
+    paddingTop: '10px',
   },
   videoContainer: {
-    
-    height: 250,  
-  
-    flexBasis: '600px'
+    maxWidth: 1050,
+
+    height: '500px',
   },
   title: {
     padding: '16px 50px',
+  img: {
+    width: '100%',
+  },
   },
 });
 
 const Lessons = (props) => {
   const { classes } = props
+  
   return (
     <div className={classes.root}>
-        <div className = {classes.headerContainer}>
-        <CardCustom>
-          <Grid container align='center' direction='column'>
-            <Typography variant='h3' className={classes.title} color="textSecondary" >
-              What is the SAT?
-           </Typography>
-          </Grid>
-        </CardCustom>
-        </div>
+      
   
       <div className={classes.mainContainer}>
     
         <CardCustom className={classes.videoContainer}>
           <Grid container align='center' direction='column'>
-            <Typography variant='h3' className={classes.title} color="textSecondary" >
-              Video
-           </Typography>
-            <Typography variant='subtitle1' color="textSecondary" gutterBottom>
-              Video Box Here
-           </Typography>
+          <h1>What is the SAT?</h1>
+            <img className = {classes.img} src = {students} ></img>
           </Grid>
         </CardCustom>
+
+        
     
       </div>
+
+      <div className = {classes.headerContainer}>
+      
+         
+        
+        </div>
       {props.children}
     </div>
   )

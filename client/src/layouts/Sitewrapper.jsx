@@ -6,8 +6,9 @@ import { withStyles } from '@material-ui/core/styles';
 // Local Components
 import Navbar from './Navbar'
 import Sidebar from './Sidebar'
-import SideBar from './SideMenu'
-import MenuTest from './MenuTest'
+
+import SideMenuCustom from './SideMenuCustom.jsx'
+// import MenuTest from './MenuTest'
 
 // Material UI Components
 
@@ -17,13 +18,13 @@ import MenuTest from './MenuTest'
 const styles = theme => ({
   flex: {
     display: 'flex',
-    height: '1000px',
     backgroundColor: '#f6f9fc',
   },
   main: {
+    padding: '100px 4%',
+    width: '100%',
     flexGrow: 1,
-    paddingTop: theme.spacing.unit * 13,
-    padding: theme.spacing.unit * 5,
+    
   },
   
 });
@@ -45,7 +46,7 @@ class SiteWrapper extends Component {
         <div className={classes.flex}>
         
         
-          <Sidebar 
+          <Sidebar
           handleDrawerToggle={this.handleDrawerToggle}
           mobileOpen = {this.state.mobileOpen} />
         

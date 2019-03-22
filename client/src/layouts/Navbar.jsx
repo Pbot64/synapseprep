@@ -30,7 +30,7 @@ const styles = theme => ({
   menuButton: {
     marginLeft: -12,
     marginRight: 20,
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('lg')]: {
       display: 'none',
     },
   },
@@ -39,7 +39,7 @@ const styles = theme => ({
     height: '25px',
   },
   appBar: {
-    position: 'fixed',
+   position: 'fixed',
     zIndex: 1000,
     color: '#FFFFFF',
     background:
@@ -59,7 +59,7 @@ const styles = theme => ({
   },
   logo_title: {
     display: 'none',
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('lg')]: {
       display: 'flex',
     },
   },

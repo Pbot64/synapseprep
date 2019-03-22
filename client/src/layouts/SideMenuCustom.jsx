@@ -1,18 +1,26 @@
 /* eslint-disable no-console */
 import React, { Component } from 'react';
-import SideMenuDrill from 'wix-style-react/SideMenuDrill';
-import SideMenu from 'wix-style-react/SideMenu';
+import SideMenuDrill from './SideMenuDrill/index.js';
+import SideMenu from './SideMenu/index.js'
 import Heading from 'wix-style-react/Heading';
 import { Link } from 'react-router-dom'
 
 import { withStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Slide from '@material-ui/core/Slide';
+import Button from 'wix-style-react/Button';
+
+
+import createHistory from 'history/createBrowserHistory'
+ 
+
+  
+
 
 const styles = theme => ({
   mobileOpen: {
     display: 'flex',
-    width: 220,
+    width: 200,
     height: '100%',
     '&:focus': {
       outlineStyle: 'none',
@@ -26,19 +34,19 @@ const styles = theme => ({
     height: '100%',
     marginTop: '50px',
     position: 'fixed',
-    left: '-220px',
+    left: '-200px',
     '&:focus': {
       outlineStyle: 'none',
     },
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('lg')]: {
       transition: 'left .3s',
-      width: '220px',
+      width: '200px',
       left: '0px',
     },
   },
   container: {
-    [theme.breakpoints.up('md')]: {
-      width: 220,
+    [theme.breakpoints.up('lg')]: {
+      minWidth: '200px',
     },
   },
 });
@@ -60,8 +68,8 @@ const initialItems = [
         type: 'menu',
         title: 'Intro',
         items: [
-          { type: 'link', to: '/intro', title: 'link #2-3_1' },
-          { type: 'link', to: '//wix.com', title: 'link #2-3_2' },
+          { type: 'link', to: '/intro', title: 'Welcome!' },
+          { type: 'link', to: '/intro:1', title: 'What is the SAT?' },
           { type: 'link', to: '//wix.com', title: 'link #2-3_3' },
         ],
       },
@@ -129,13 +137,14 @@ const initialItems = [
   },
 ];
 
-class SideBar extends Component {
+class SideMenuCustom extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       items: initialItems,
-      open: false
+      open: false,
+      itemSelected: null
     };
   }
 
@@ -149,10 +158,8 @@ class SideBar extends Component {
     });
   }
 
-  onMenuSelected(e, link) {
-    e.preventDefault();
+  onMenuSelected(link) {
     const items = [...this.state.items];
-
     this.selectMenu(items, link);
     this.setState({ items: items });
   }
@@ -160,26 +167,22 @@ class SideBar extends Component {
   renderLink(link) {
     return (
       <SideMenuDrill.Link
-        key={link.title}
-        isActive={link.isActive}
-        disabled={link.disabled}
+        isActive={link.isActive} key={link.title}
       >
-        <a href={link.to} onClick={e => this.onMenuSelected(e, link)}>
+        <Link to={link.to} onClick={() => this.onMenuSelected(link)}>
           {link.title}
-        </a>
+        </Link>
       </SideMenuDrill.Link>
     );
   }
 
   renderMenu(menu) {
-    const showCategory = menu.title !== 'Sub Menu #3';
 
     return (
       <SideMenuDrill.SubMenu
         key={menu.title}
         menuKey={menu.title}
         title={menu.title}
-        showCategory={showCategory}
         disabled={menu.disabled}
       >
 
@@ -191,7 +194,8 @@ class SideBar extends Component {
   }
 
   renderNavigation(items) {
-    return items.map(item => {
+
+    return items.map((item) => {
       if (item.type === 'link') {
         return this.renderLink(item);
       }
@@ -232,6 +236,18 @@ class SideBar extends Component {
   render() {
     const { items } = this.state;
     const { classes } = this.props;
+    const history = createHistory()
+ 
+    // Get the current location.
+    const location = history.location
+     
+    // Listen for changes to the current location.
+   
+    
+ 
+    
+
+    
 
     const mySideMenuDrill = (
       <div className={this.props.mobileOpen ? classes.mobileOpen : classes.mobileClosed}>
@@ -277,6 +293,7 @@ class SideBar extends Component {
               <SideMenu.NavigationSeparator />
 
               {this.renderNavigation(items)}
+             
             </SideMenuDrill>
           </div>
         </div>
@@ -286,8 +303,8 @@ class SideBar extends Component {
   }
 }
 
-SideBar.defaultProps = {
+SideMenuCustom.defaultProps = {
 
 };
 
-export default withStyles(styles)(SideBar);
+export default withStyles(styles)(SideMenuCustom);

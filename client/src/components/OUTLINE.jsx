@@ -19,9 +19,8 @@ const styles = theme => ({
 const '' = (props) => {
   const { classes } = props;
   return (
-      <div>   
-
-      </div>
+    <React.Fragment>   
+    </React.Fragment>
   )
 }
 

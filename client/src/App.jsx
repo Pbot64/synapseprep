@@ -9,6 +9,7 @@ import { setCurrentUser, logoutUser } from './actions/authActions'
 import { Provider } from 'react-redux';
 import store from './store';
 
+
 // Local Components
 import Dashboard from './layouts/Dashboard'
 import Intro from './layouts/Intro'
@@ -60,7 +61,6 @@ class App extends Component {
   };
 
   render() {
-    const { classes } = this.props;
     return (
       <Provider store = { store }>
         <Router>
@@ -69,9 +69,8 @@ class App extends Component {
             <SiteWrapper>
               <Route exact path = '/dashboard' component = { Dashboard } />
               <Route exact path = '/login' component = { Login } />
-              <Route exact path = '/intro' component = { Intro } />
+              <Route path='/intro' component={Intro} />
               <Route exact path = '/reading' component = { Reading } />
-              
               <Route exact path = '/register' component = { Register } />
             </SiteWrapper>
           </div>
