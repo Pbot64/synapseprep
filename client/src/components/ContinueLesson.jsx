@@ -90,7 +90,7 @@ const styles = theme => ({
   },
   writing: {
     extend: 'button',
-    background: 'url(' + wavePattern + '), linear-gradient(224deg, #b8cbb8 0%, #b8cbb8 0%, #b465da 0%, #cf6cc9 33%, #ee609c 66%, #ee609c 100%)',
+    background: 'url(' + wavePattern + '), linear-gradient(224deg,  #b465da 0%, #cf6cc9 33%, #ee609c 66%, #ee609c 100%)',
     backgroundBlendMode: 'color-burn',
   },
   essay: {
@@ -168,7 +168,7 @@ class ContinueLesson extends Component {
     return (
       <React.Fragment>
         <Grid item xs={12} sm={8} md={5} className={classes.mainContainer}>
-          <Typography variant="h6" color="textPrimary" className={classes.title}>
+          <Typography variant="h5" color="textPrimary" className={classes.title}>
             Continue Lesson
           </Typography>
           <CardCustom className={classes.topCardContainer}>

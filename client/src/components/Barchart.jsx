@@ -11,12 +11,15 @@ import Grid from '@material-ui/core/Grid';
 
 const styles = theme => ({
   main: {
-      
+
   },
-    barchartContainer: {
-      maxWidth: '80%',
-    }
-  
+  barchartContainer: {
+    maxWidth: '80%',
+  },
+  rounded: {
+    borderRadius: '5px',
+  },
+
 });
 
 
@@ -40,7 +43,7 @@ const data = [
 
 
 const CustomTooltip = props => {
-  
+
   // payload[0] doesn't exist when tooltip isn't visible
   if (props.payload[0] != null) {
     // mutating props directly is against react's conventions
@@ -48,22 +51,22 @@ const CustomTooltip = props => {
     console.log(props.payload[0])
     const newPayload = [
       {
-      
-       value: '+30',
-       name: 'Difference',
+
+        value: '+30',
+        name: 'Difference',
         value: props.payload[0].payload.Difference,
-       
-        
-        
-       
-        
+
+
+
+
+
         // all your data which created the tooltip is located in the .payload property
-        
+
         // you can also add "unit" here if you need it
       },
-      
+
     ];
-console.log(newPayload)
+    console.log(newPayload)
     // we render the default, but with our overridden payload
     return <DefaultTooltipContent {...props} payload={newPayload} />;
   }
@@ -81,13 +84,13 @@ const valueAccessor2 = (entry) => {
 };
 
 class Barchart extends Component {
- 
-  
 
- 
- 
 
- 
+
+
+
+
+
 
   static jsfiddleUrl = 'https://jsfiddle.net/alidingling/90v76x08/';
 
@@ -97,18 +100,18 @@ class Barchart extends Component {
       startColor,
       gradientId,
       children } = this.props;
-  
+
     const gradientTransform = `rotate(10)`
 
 
 
-    
+
     const colors = [`url(#${'math'})`, `url(#${'reading'})`, `url(#${'writing'})`, `url(#${'essay'})`];
     return (
       <React.Fragment>
 
 
-        <svg style={{ height: 0, width: 0, position: 'absolute'}}>
+        <svg style={{ height: 0, width: 0, position: 'absolute' }}>
           <defs>
             <linearGradient
               id={'reading'}
@@ -155,54 +158,57 @@ class Barchart extends Component {
             </linearGradient>
           </defs>
         </svg>
-       <Grid item container xs = {12} className = {classes.main}>
-    
-        <BarChart className = {classes.barchartContainer}
+        <Grid container item xs={12}>
+          <div style={{ width: '100%', height: 250 }}>
+            <ResponsiveContainer>
 
-          barCategoryGap={5}
-          layout='vertical'
-          width={800}
-          height={200}
-          data={data}
-          margin={{
-            top: 20, right: 30, left: 20, bottom: 5,
-          }}
-        >
+              <BarChart className={classes.barchartContainer}
 
-          <XAxis type="number" domain={[200, 800]} allowDataOverflow />
-          <YAxis dataKey="name" type="category" />
-          <Tooltip cursor={{ fill: 'grey', fillOpacity: 0.05 }} itemStyle={{ color: '#000', padding: '1px' }} labelStyle={{
-            fontWeight: '500',
-            paddingBottom: '5px',
-            borderBottom: '1px solid black',
-            margin: '0px',
-            fontSize: '15px',
-            marginBottom: '3px',
-        
-          }}
-            contentStyle={{ borderRadius: '6px', fontSize: '15px', marginTop: '0px', }} 
-            content = {CustomTooltip}
-            
-            
-            />
-          <Legend
-          />
-          <Bar dataKey='Current' stackId="a" className={classes.test}  fill = {`url(#${'math'})`} >
-            {
-              data.map((entry, index) => {
-                return <Cell fill={colors[index]} />;
-              })
-            }
-          </Bar>
-          <Bar name = 'Goal' dataKey='Difference' stackId="a" fill={'#d3d3d3'} >
-          <LabelList position="left" style = {{color: 'white', fontWeight: 600}} valueAccessor={valueAccessor}>
-          </LabelList>
-            <LabelList datakey = 'Difference' position="right" style = {{fontWeight: 600}}  valueAccessor={valueAccessor2} />
-          </Bar>
+                barCategoryGap={8}
+                layout='vertical'
 
-        </BarChart>
-       
-      </Grid>
+                height={200}
+                data={data}
+                margin={{
+                  top: 20, right: 30, left: 20, bottom: 5,
+                }}
+              >
+
+                <XAxis type="number" domain={[200, 800]} allowDataOverflow />
+                <YAxis dataKey="name" type="category" />
+                <Tooltip cursor={{ fill: 'grey', fillOpacity: 0.05 }} itemStyle={{ color: '#000', padding: '1px' }} labelStyle={{
+                  fontWeight: '500',
+                  paddingBottom: '5px',
+                  borderBottom: '1px solid black',
+                  margin: '0px',
+                  fontSize: '15px',
+                  marginBottom: '3px',
+
+                }}
+                  contentStyle={{ borderRadius: '6px', fontSize: '15px', marginTop: '0px', }}
+                  content={CustomTooltip}
+
+
+                />  
+                <Legend iconSize = {20} classes={{'recharts-legend-icon': classes.rounded}}/>
+                <Bar dataKey='Current' stackId="a" className={classes.test} fill={`url(#${'math'})`} >
+                  {
+                    data.map((entry, index) => {
+                      return <Cell fill={colors[index]} />;
+                    })
+                  }
+                </Bar>
+                <Bar name='Goal' dataKey='Difference' stackId="a" fill={'#d3d3d3'} >
+                  <LabelList position="left" style={{ color: 'white', fontWeight: 600 }} valueAccessor={valueAccessor}>
+                  </LabelList>
+                  <LabelList datakey='Difference' position="right" style={{ fontWeight: 600 }} valueAccessor={valueAccessor2} />
+                </Bar>
+
+              </BarChart>
+
+            </ResponsiveContainer>
+          </div>
+        </Grid>
       </React.Fragment>
     )
   }

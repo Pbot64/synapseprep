@@ -21,7 +21,7 @@ const styles = theme => ({
   scoresContainer: {
     borderBottomLeftRadius: '0px',
     borderBottomRightRadius: '0px',
-    marginTop: 80,
+    marginTop: 50,
   },
   cardBottomTextContainer: {
     borderTopLeftRadius: '0px',
@@ -54,8 +54,9 @@ const EstimatedScores = (props) => {
   const { classes } = props;
   return (
     <React.Fragment>
-      <Grid className={classes.scoresContainer} item xs={12}>
-        <Typography variant="h6" component="h2" color="textPrimary" className={classes.title}>
+      <Grid item container className={classes.main} >
+      <Grid className={classes.scoresContainer} justify = 'center' item xs = {12} sm={12} md = {10}>
+        <Typography variant="h5" component="h2" color="textPrimary" className={classes.title}>
           Estimated Scores
           </Typography>
         <CardCustom className={classes.topCardContainer}>
@@ -84,6 +85,7 @@ const EstimatedScores = (props) => {
           </Grid>
 
         </CardCustom>
+      </Grid>
       </Grid>
     </React.Fragment>
   )
