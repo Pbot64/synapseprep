@@ -1,8 +1,8 @@
 import express from 'express';
-import problemController from '../../controllers/problemController';
+import { list } from '../../controllers/problemController';
 
 const router = express.Router();
 
-router.get('problems', problemController.list);
+router.get('/list', list);
 
 export default router;
