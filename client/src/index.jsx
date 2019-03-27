@@ -19,19 +19,19 @@ const theme = createMuiTheme({
       fontWeight: 500,
       fontSize: 15,
       letterSpacing: 2,
-      },
-      body2: {
-        letterSpacing: '2px',
-        textTransform: 'none',
-        fontWeight: '500',
-      },
-      h5: {
-        fontWeight: '300',
-      },
-      h6: {
-        fontWeight: '300',
-      },
-
+    },
+    body2: {
+      letterSpacing: '2px',
+      textTransform: 'none',
+      fontWeight: '500',
+      fontSize: '16px',
+    },
+    h5: {
+      fontWeight: '300',
+    },
+    h6: {
+      fontWeight: '300',
+    },
   },
   palette: {
     primary: '#2980ba'[500],
@@ -43,8 +43,8 @@ const theme = createMuiTheme({
   },
 });
 
-
 console.log(theme)
+
 // Configure JSS
 const jss = create({ plugins: [...jssPreset().plugins, extend()] });
 
@@ -55,8 +55,8 @@ const generateClassName = createGenerateClassName();
 
 ReactDOM.render(
   <MuiThemeProvider theme={theme}>
-   <JssProvider jss={jss} generateClassName={generateClassName}>
-  <App />
-  </JssProvider>
+    <JssProvider jss={jss} generateClassName={generateClassName}>
+      <App />
+    </JssProvider>
   </MuiThemeProvider>, document.getElementById('root'));
 

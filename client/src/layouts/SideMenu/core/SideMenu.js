@@ -11,7 +11,8 @@ import { withStyles } from '@material-ui/core/styles';
       flexDirection: 'column',
       width: '100%',
       height: '100%',
-      background: '#375b74',
+      background: '#fff',
+      borderRight: '1px solid rgba(0, 0, 0, 0.12)',
     },
 })
 

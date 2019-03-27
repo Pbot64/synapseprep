@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 const styles = theme => ({
   navigation: {
     marginBottom: 'auto',
-    overflow: 'auto',
+    
     flex: 1,
     flexBasis: 0,
   }

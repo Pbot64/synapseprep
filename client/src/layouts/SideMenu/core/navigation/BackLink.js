@@ -10,7 +10,7 @@ const styles = theme => ({
     display: 'block',
     padding: '12px 30px',
     transition: '.2s ease all',
-    color: 'white',
+    color: 'black',
     cursor: 'pointer',
     fontSize: '14px',
     textDecoration: 'none',

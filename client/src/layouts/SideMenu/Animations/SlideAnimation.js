@@ -4,11 +4,38 @@ import { CSSTransition } from 'react-transition-group';
 import slideIn from './SlideInAnimation.scss';
 import slideOut from './SlideOutAnimation.scss';
 
+import { withStyles } from '@material-ui/core/styles';
+
 export const SlideDirection = {
   in: 'in',
   out: 'out',
 };
 
+const styles = theme => ({
+  enterActiveBase: {
+  transform: 'translate(0%)',
+  transition: 'transform 0.3s ease-in-out',
+  },
+  exitBase: {
+    transform: 'translate(0%)',
+  },
+  exitActiveBase: {
+    transition: 'transform 0.3s ease-in-out',
+  },
+  [['$enter', '$appear']]: {
+    transform: 'translate(100%)',
+  },
+  '.enter.enterActive, .appear.appearActive': {
+    extend: 'enterActiveBase'
+  },
+  exit: {
+    extend: 'exitBase',
+  },
+  '.exit .exitActive': {
+    extend: 'exitActiveBase',
+    transform: 'translate(-100%)',
+  },
+})
 const animationDuration = 300; // Synced with SlideAnimation.scss file
 
 class SlideAnimation extends Component {
@@ -24,6 +51,7 @@ class SlideAnimation extends Component {
       onExit,
       onEntered,
       onExited,
+      classes
     } = this.props;
     const transitionNames =
       direction === SlideDirection.in ? slideIn : slideOut;
@@ -72,4 +100,4 @@ SlideAnimation.defaultProps = {
   children: null,
 };
 
-export default SlideAnimation;
+export default withStyles(styles)(SlideAnimation);

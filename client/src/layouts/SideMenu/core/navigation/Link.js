@@ -17,6 +17,12 @@ const styles = theme => ({
     fontSize: '14px',
     textDecoration: 'none',
     lineHeight: '14px',
+    '&:hover': {
+      textDecoration: 'none',
+      '& $linkArrow': {
+        opacity: 100,
+      },
+    },
   },
   linkAnchor: {
     display: 'flex',

@@ -8,28 +8,29 @@ import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
   linkLayout: {
-    position: 'relative',
-    display: 'block',
     color: 'white',
+    display: 'block',
+    position: 'relative',
     '&:hover': {
       textDecoration: 'none',
+      '& a': {
+        color: '#9fd8fc'
+      },
       '& $linkArrow': {
         opacity: 100,
       },
-    },
-    '&:hover, &:hover a': {
-      color: '#9fd8fc',
     },
     '& a': {
       display: 'block',
       padding: '12px 30px',
       transition: '.2s ease all',
-      color: 'white',
+      
       cursor: 'pointer',
-      fontSize: '14px',
+      fontSize: '16px',
       textDecoration: 'none',
       lineHeight: '14px',
-       color: 'black',
+      color: 'black',
+      fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
     },
     '& .linkAnchor': {
       display: 'flex',
@@ -38,22 +39,25 @@ const styles = theme => ({
       flexGrow: 1,
     },
   },
-  '& .linkDiminishedHover:hover, & .linkDiminishedHover:hover a': {
-    background: 'transparent',
-    color: '#4EB7F5',
+    '& .linkDiminishedHover': {
+    '&:hover': {
+      background: 'transparent',
+      color: 'red',
+    },
   },
   '& .linkDiminishedHover:focus, & .linkDiminishedHover:focus a': {
     background: 'transparent',
+    background: 'red',
   },
   '&:hover:not(.linkActive),  &:focus:not(.linkActive), &:hover:not(.linkActive) a, &:focus:not(.linkActive) a': {
-    background: '#33566f',
+    background: 'rgba(0, 0, 0, 0.02)',
     transition: '0.3s',
   },
 },
   linkActive: {
     '& a': {
-    color: '#9fd8fc',
-    background: '#2A4F68',
+    color: '#3899ec',
+    background: 'rgba(0, 0, 0, 0.2)',
     transition: '0.3s',
     },
   }, 
