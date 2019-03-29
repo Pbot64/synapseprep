@@ -8,15 +8,15 @@ import wavePattern from '../assets/images/wavePattern.png'
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    width: '80%', 
+    width: '80%',
   },
- colorPrimary: {
-  background: 'url(' + wavePattern + '), linear-gradient(224deg, #ee5087, #ef5186 1%, #f05784 7%, #ffbe5f 100%)',
- },
- barColorPrimary: {
-  background: 'url(' + wavePattern + '), linear-gradient(224deg, #ee5087, #ef5186 1%, #f05784 7%, #ffbe5f 100%)',
-  backgroundBlendMode: 'color-burn',
- }
+  colorPrimary: {
+    background: 'url(' + wavePattern + '), linear-gradient(224deg, #ee5087, #ef5186 1%, #f05784 7%, #ffbe5f 100%)',
+  },
+  barColorPrimary: {
+    background: 'url(' + wavePattern + '), linear-gradient(224deg, #ee5087, #ef5186 1%, #f05784 7%, #ffbe5f 100%)',
+    backgroundBlendMode: 'color-burn',
+  }
 });
 
 function LinearProgressBar(props) {
@@ -42,11 +42,11 @@ function LinearProgressBar(props) {
   return (
     <div className={classes.root}>
       <LinearProgress classes={{
-          colorPrimary: classes.colorPrimary,
-          barColorPrimary: classes.barColorPrimary,
-        }} variant="determinate" value={completed} />
-     
-     
+        colorPrimary: classes.colorPrimary,
+        barColorPrimary: classes.barColorPrimary,
+      }} variant="determinate" value={completed} />
+
+
     </div>
   );
 }

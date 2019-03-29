@@ -22,7 +22,10 @@ const styles = theme => ({
   exitActiveBase: {
     transition: 'transform 0.3s ease-in-out',
   },
-  [['$enter', '$appear']]: {
+  enter: {
+    transform: 'translate(100%)',
+  },
+  appear: {
     transform: 'translate(100%)',
   },
   '.enter.enterActive, .appear.appearActive': {
