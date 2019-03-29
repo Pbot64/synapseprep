@@ -3,9 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import green from '@material-ui/core/colors/green';
 import Typography from '@material-ui/core/Typography';
-
+import { create } from 'jss';
+import extend from 'jss-extend';
+import JssProvider from 'react-jss/lib/JssProvider';
+import { createGenerateClassName, jssPreset } from '@material-ui/core/styles';
 
 
 
@@ -17,19 +19,44 @@ const theme = createMuiTheme({
       fontWeight: 500,
       fontSize: 15,
       letterSpacing: 2,
-      },
+    },
+    body2: {
+      letterSpacing: '2px',
+      textTransform: 'none',
+      fontWeight: '500',
+      fontSize: '16px',
+    },
+    h5: {
+      fontWeight: '300',
+    },
+    h6: {
+      fontWeight: '300',
+    },
   },
   palette: {
     primary: '#2980ba'[500],
+    text: {
+      primary: '#000000',
+      secondary: 'white',
+      lightGrey: 'rgba(0, 0, 0, 0.3)',
+    },
   },
 });
 
 console.log(theme)
+
+// Configure JSS
+const jss = create({ plugins: [...jssPreset().plugins, extend()] });
+
+// Custom Material-UI class name generator.
+const generateClassName = createGenerateClassName();
+
+
+
 ReactDOM.render(
   <MuiThemeProvider theme={theme}>
-  <App />
+    <JssProvider jss={jss} generateClassName={generateClassName}>
+      <App />
+    </JssProvider>
   </MuiThemeProvider>, document.getElementById('root'));
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
