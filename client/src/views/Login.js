@@ -56,7 +56,7 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 3,
     color: '#FFFFFF',
     background:
-    'url(../assets/images/wavePattern.png), linear-gradient(45deg, #2980ba 10%, #238E9B 40%, #17ab5d 100%)',
+      'url(../assets/images/wavePattern.png), linear-gradient(45deg, #2980ba 10%, #238E9B 40%, #17ab5d 100%)',
     backgroundBlendMode: 'color-burn'
   },
 });
@@ -78,18 +78,18 @@ class Login extends Component {
       this.props.history.push('/dashboard')
     }
     if (nextProps.errors) {
-      this.setState({errors: nextProps.errors});
+      this.setState({ errors: nextProps.errors });
     }
   }
 
   componentDidMount() {
-    if(this.props.auth.isAuthenticated) {
+    if (this.props.auth.isAuthenticated) {
       this.props.history.push('./dashboard');
     }
   }
 
   handleChange(e) {
-    this.setState({[e.target.name]: e.target.value});
+    this.setState({ [e.target.name]: e.target.value });
   }
 
   handleSubmit(e) {
@@ -113,33 +113,33 @@ class Login extends Component {
           <Typography component="h1" variant="h5">
             Login
           </Typography>
-          <form onSubmit = {this.handleSubmit} className={classes.form}>
-            <FormControl error = {errors.email} margin="normal" required fullWidth>
+          <form onSubmit={this.handleSubmit} className={classes.form}>
+            <FormControl error={errors.email} margin="normal" required fullWidth>
               <InputLabel htmlFor="email">Email Address</InputLabel>
               <Input
                 id="email"
                 name="email"
                 autoComplete="email"
                 autoFocus
-                value = {this.state.email}
-                onChange = {this.handleChange} />
+                value={this.state.email}
+                onChange={this.handleChange} />
               <FormHelperText id="component-error-text">{errors.email}</FormHelperText>
             </FormControl>
-            <FormControl error = {errors.password} margin="normal" required fullWidth>
+            <FormControl error={errors.password} margin="normal" required fullWidth>
               <InputLabel htmlFor="password">Password</InputLabel>
               <Input
                 name="password"
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                value = {this.state.password}
-                onChange = {this.handleChange} />
+                value={this.state.password}
+                onChange={this.handleChange} />
               <FormHelperText id="component-error-text">{errors.password}</FormHelperText>
             </FormControl>
             <FormControlLabel
               control={<Checkbox
-              value="remember"
-              color="primary" />}
+                value="remember"
+                color="primary" />}
               label="Remember me"
             />
             <Button

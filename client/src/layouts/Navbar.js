@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logoutUser } from '../actions/authActions'
+import { clearCurrentProfile } from '../actions/profileActions';
 import { withStyles } from '@material-ui/core/styles';
 
 // Material UI Components
@@ -55,7 +56,7 @@ const styles = theme => ({
     ...colors.blueToGreen,
   },
   iconButton: {
-    
+
   },
   notificationsIcon: {
     marginRight: '5px',
@@ -67,11 +68,14 @@ const styles = theme => ({
       display: 'flex',
     },
   },
+  link: {
+    textDecoration: 'none',
+  },
   badge: {
     padding: '6px',
     '&:hover': {
-    borderRadius: '30px',
-    backgroundColor: 'rgba(0, 0, 0, 0.08)',
+      borderRadius: '30px',
+      backgroundColor: 'rgba(0, 0, 0, 0.08)',
     },
   },
 })
@@ -106,6 +110,7 @@ class Navbar extends Component {
 
   handleLogout = (e) => {
     e.preventDefault();
+    this.props.clearCurrentProfile();
     this.handleMenuClose();
     this.props.logoutUser();
   }
@@ -116,6 +121,10 @@ class Navbar extends Component {
     const { anchorEl, anchorElNotifications } = this.state;
     const open = Boolean(anchorEl);
     const openNotifications = Boolean(anchorElNotifications)
+
+
+
+
 
     const authLinks = (
       <div className='container'>
@@ -178,8 +187,9 @@ class Navbar extends Component {
           open={open}
           onClose={this.handleMenuClose}
         >
-          
-          <MenuItem className={classes.menuItem} onClick={this.handleMenuClose}>My Account</MenuItem>
+          <Link to='./profile' className={classes.link}>
+            <MenuItem className={classes.menuItem} onClick={this.handleMenuClose}>My Account</MenuItem>
+          </Link>
           <MenuItem className={classes.menuItem} onClick={this.handleLogout}>Logout</MenuItem>
           <MenuItem className={classes.menuItem} onClick={this.handleMenuClose}>Get Paid to Rep</MenuItem>
         </Menu>
@@ -222,6 +232,8 @@ class Navbar extends Component {
       </div>
     )
   }
+
+
 }
 
 Navbar.propTypes = {
@@ -234,4 +246,4 @@ const mapStatetoProps = (state) => ({
 });
 
 export default withStyles(styles)(
-  connect(mapStatetoProps, { logoutUser })(Navbar));
+  connect(mapStatetoProps, { logoutUser, clearCurrentProfile })(Navbar));

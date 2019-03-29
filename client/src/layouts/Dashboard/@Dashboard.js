@@ -3,13 +3,14 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles';
 
+
 // Material UI Components
 import Grid from '@material-ui/core/Grid';
 
 // Local Components
-import QuestionFeed from '../components/QuestionFeed'
-import ContinueLesson from '../components/ContinueLesson';
-import EstimatedScores from '../components/EstimatedScores';
+import QuestionFeed from './QuestionFeed'
+import ContinueLesson from './ContinueLesson';
+import EstimatedScores from './EstimatedScores';
 
 // Local Assets
 

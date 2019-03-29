@@ -1,0 +1,111 @@
+const gradientTransform = `rotate(10)`
+const colors = [`url(#${0})`, `url(#${1})`,`url(#${2})`, `url(#${3})`];
+const gradient = [
+  {
+    startColor: '#ee5087',
+    endColor: '#ffbe5f', 
+  },
+  {
+    startColor: '#b465da',
+    endColor: '#ee609c', 
+  },
+  {
+    startColor: '#17ab5d',
+    endColor: '#2980ba', 
+  },
+  {
+    startColor: '#209cff',
+    endColor: '#68e0cf', 
+  },
+];
+const gradients = gradient.map((item, index) => {
+  console.log(index)
+  return (
+<svg style={{ height: 0, width: 0, position: 'absolute' }}>
+          <defs>
+            <linearGradient
+            
+              id = {index}
+              gradientTransform={gradientTransform}
+            >
+              <stop offset="20%" stopColor={item.startColor} />
+              <stop offset="100%" stopColor={item.endColor} />
+            </linearGradient>
+          </defs>
+        </svg>
+  )
+})
+console.log(gradients[index])
+
+<Bar dataKey='Current' stackId="a" className={classes.test} fill={`url(#${'math'})`} >
+{
+  data.map((entry, index) => {
+    return <Cell fill={colors[index]} />;
+  })
+}
+</Bar>
+
+
+
+
+
+
+const gradientTransform = `rotate(10)`
+const colors = [`url(#${'reading'})`, `url(#${'writing'})`,`url(#${'math'})`, `url(#${'essay'})`];
+return (
+  <React.Fragment>
+    <svg style={{ height: 0, width: 0, position: 'absolute' }}>
+      <defs>
+        <linearGradient
+          id={'reading'}
+          gradientTransform={gradientTransform}
+        >
+          <stop offset="20%" stopColor={'#ee5087'} />
+          <stop offset="100%" stopColor={'#ffbe5f'} />
+        </linearGradient>
+      </defs>
+    </svg>
+
+    <svg style={{ height: 0, width: 0, position: 'absolute' }}>
+      <defs>
+        <linearGradient
+          id={'writing'}
+          gradientTransform={gradientTransform}
+        >
+          <stop offset="0%" stopColor={'#b465da'} />
+          <stop offset="100%" stopColor={'#ee609c'} />
+        </linearGradient>
+      </defs>
+    </svg>
+
+    <svg style={{ height: 0, width: 0, position: 'absolute' }}>
+      <defs>
+        <linearGradient
+          id={'math'}
+          gradientTransform={gradientTransform}
+        >
+          <stop offset="0%" stopColor={'#2980ba'} />
+          <stop offset="120%" stopColor={'#17ab5d'} />
+        </linearGradient>
+      </defs>
+    </svg>
+
+    <svg style={{ height: 0, width: 0, position: 'absolute' }}>
+      <defs>
+        <linearGradient
+          id={'essay'}
+          gradientTransform={gradientTransform}
+        >
+          <stop offset="0%" stopColor={'#209cff'} />
+          <stop offset="100%" stopColor={'#68e0cf'} />
+        </linearGradient>
+      </defs>
+    </svg>
+
+
+    <Bar dataKey='Current' stackId="a" className={classes.test} fill={`url(#${'math'})`} >
+                  {
+                    data.map((entry, index) => {
+                      return <Cell fill={colors[index]} />;
+                    })
+                  }
