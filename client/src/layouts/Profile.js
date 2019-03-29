@@ -34,16 +34,16 @@ class Profile extends Component {
   render() {
     const { classes } = this.props;
     const { user } = this.props.auth;
-    const { profile, loading} = this.props.profile;
+    const { profile, loading } = this.props.profile;
 
     let profileContent;
 
-    if(profile === null || loading) {
+    if (profile === null || loading) {
       profileContent = <CircularProgress className={classes.progress} />
- 
+
     } else {
       //Check if logged in user has profile data
-      if(Object.keys(profile).length > 0) {
+      if (Object.keys(profile).length > 0) {
         profileContent = <h4>TODO Display Profile</h4>
       } else {
         // User is logged in but has no profile
@@ -51,11 +51,11 @@ class Profile extends Component {
           <div>
             <p>Welcome {user.name}</p>
             <p> You haven't set up a profile</p>
-            <Link to='./createProfile' className = {classes.link}>
-                <ButtonCustom hasArrow>
-                  Go to Lesson
-                </ButtonCustom>
-                </Link>
+            <Link to='./createProfile' className={classes.link}>
+              <ButtonCustom hasArrow>
+                Go to Lesson
+              </ButtonCustom>
+            </Link>
           </div>
         )
       }
@@ -63,9 +63,9 @@ class Profile extends Component {
     return (
       <React.Fragment>
         <Typography variant="h5" color="textPrimary" className={classes.title}>
-            Profile 
+          Profile
           </Typography>
-          {profileContent}
+        {profileContent}
       </React.Fragment>
     )
   }

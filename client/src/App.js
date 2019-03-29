@@ -8,7 +8,6 @@ import { setCurrentUser, logoutUser } from './actions/authActions'
 import { Provider } from 'react-redux';
 import store from './store';
 
-
 // Local Components
 import Dashboard from './layouts/Dashboard/@Dashboard'
 import Intro from './layouts/Intro'
@@ -19,11 +18,9 @@ import Register from './views/Register'
 import SiteWrapper from './layouts/Sitewrapper'
 import Profile from './layouts/Profile'
 
-
 // Material UI Components
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { clearCurrentProfile } from './actions/profileActions';
-
 
 // Local Assets
 
