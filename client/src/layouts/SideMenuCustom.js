@@ -12,9 +12,9 @@ import Button from 'wix-style-react/Button';
 
 
 import createHistory from 'history/createBrowserHistory'
- 
 
-  
+
+
 
 
 const styles = theme => ({
@@ -237,17 +237,17 @@ class SideMenuCustom extends Component {
     const { items } = this.state;
     const { classes } = this.props;
     const history = createHistory()
- 
+
     // Get the current location.
     const location = history.location
-     
-    // Listen for changes to the current location.
-   
-    
- 
-    
 
-    
+    // Listen for changes to the current location.
+
+
+
+
+
+
 
     const mySideMenuDrill = (
       <div className={this.props.mobileOpen ? classes.mobileOpen : classes.mobileClosed}>
@@ -289,11 +289,11 @@ class SideMenuCustom extends Component {
               inFlex
               dataHook="side-menu"
             >
-            
+
               <SideMenu.NavigationSeparator />
 
               {this.renderNavigation(items)}
-             
+
             </SideMenuDrill>
           </div>
         </div>

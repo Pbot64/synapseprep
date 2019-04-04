@@ -4,14 +4,12 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
 // Material UI Components
-import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import CardCustom from '../assets/jss/components/CardCustom.js'
-import CustomBarchart from './Barchart'
+import CardCustom from '../../assets/jss/components/CardCustom.js'
+import CustomBarchart from '../../components/Barchart'
 
 // Local Components
-import ButtonCustom from '../assets/jss/components/ButtonCustom.js'
 
 // Local Assets
 
@@ -23,10 +21,10 @@ const styles = theme => ({
   bottomCardContainer: {
     borderTopLeftRadius: '0px',
     borderTopRightRadius: '0px',
-    borderTop: 'solid 1px lightgrey',
     padding: 5,
   },
   topCardContainer: {
+    borderBottom: 'solid 1px lightgrey',
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,
     marginTop: 18,

@@ -54,14 +54,11 @@ const styles = theme => ({
 });
 
 class Sidebar extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
+    state = {
       practiceMenuOpen: false,
       lessonsMenuOpen: false,
     };
-  }
+  
 
   handleClick = (menu) => {
     switch (menu) {
@@ -70,7 +67,6 @@ class Sidebar extends Component {
       case 'Lessons': this.setState(state => ({ lessonsMenuOpen: !state.lessonsMenuOpen }));
         break;
       default: return null
-
     }
   };
 
