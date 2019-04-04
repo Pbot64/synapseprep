@@ -3,19 +3,23 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import 'react-circular-progressbar/dist/styles.css';
+import { Link } from 'react-router-dom'
+
 
 // Material UI Components
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
 // Local Components
-import CardCustom from '../assets/jss/components/CardCustom'
-import ButtonCustom from '../assets/jss/components/ButtonCustom'
-import ProgressBar from './ProgressBar'
-import * as colors from '../assets/jss/components/colors'
+import CardCustom from '../../assets/jss/components/CardCustom'
+import LinkCustom from '../../assets/jss/components/LinkCustom'
+import ButtonCustom from '../../assets/jss/components/ButtonCustom'
+import ProgressBar from '../../components/ProgressBar'
+import * as colors from '../../assets/jss/components/colors'
 
 // Local Assets
-import wavePattern from '../assets/images/wavePattern.png'
+import wavePattern from '../../assets/images/wavePattern.png'
+
 
 //  Style Overrides 
 const styles = theme => ({
@@ -84,7 +88,7 @@ class ContinueLesson extends Component {
     this.setState({
       menuItem: item,
     });
-  };v
+  };
 
   render() {
     const { classes } = this.props;
@@ -165,9 +169,11 @@ class ContinueLesson extends Component {
                     }
                   })()}
                 </Grid>
+                <LinkCustom to='./intro'>
                 <ButtonCustom hasArrow>
                   Go to Lesson
                 </ButtonCustom>
+                </LinkCustom>
               </Grid>
             </Grid>
           </CardCustom>

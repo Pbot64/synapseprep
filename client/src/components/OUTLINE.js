@@ -9,7 +9,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 // Local Assets
 
-//  Style Overrides (to this component only)
+//  Style Overrides 
 const styles = theme => ({
 
 });
@@ -19,15 +19,15 @@ const styles = theme => ({
 const '' = (props) => {
   const { classes } = props;
   return (
-    <React.Fragment>   
+    <React.Fragment>
     </React.Fragment>
   )
 }
 
-  ''.propTypes = {
-   
-  };
+''.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
 
-  export default withStyles(styles)('');
+export default withStyles(styles)('');
 
 

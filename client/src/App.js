@@ -8,19 +8,19 @@ import { setCurrentUser, logoutUser } from './actions/authActions'
 import { Provider } from 'react-redux';
 import store from './store';
 
-
 // Local Components
-import Dashboard from './layouts/Dashboard'
+import Dashboard from './layouts/Dashboard/@Dashboard'
 import Intro from './layouts/Intro'
 import Reading from './layouts/Reading'
+import QuestionFeedPage from './layouts/QuestionFeedPage'
 import Login from './views/Login';
 import Register from './views/Register'
 import SiteWrapper from './layouts/Sitewrapper'
-
+import Profile from './layouts/Profile'
 
 // Material UI Components
 import CssBaseline from '@material-ui/core/CssBaseline';
-
+import { clearCurrentProfile } from './actions/profileActions';
 
 // Local Assets
 
@@ -44,22 +44,20 @@ if (localStorage.jwtToken) {
     // Logout user
     store.dispatch(logoutUser());
     // TODO: Clear current Profile
-
+    store.dispatch(clearCurrentProfile());
     // Redirect to login
     window.location.href = '/login';
   }
 }
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
+  state = {
       data: [],
     }
-  };
-
+  
   render() {
+    const { match } = this.props
+    console.log(match)
     return (
       <Provider store={store}>
         <Router>
@@ -67,9 +65,11 @@ class App extends Component {
             <CssBaseline />
             <SiteWrapper>
               <Route exact path='/dashboard' component={Dashboard} />
-              <Route exact path='/login' component={Login} />
-              <Route path='/intro' component={Intro} />
+              <Route exact path='/profile' component={Profile} />
+              <Route exact path='/question-feed' component={QuestionFeedPage}/>
               <Route exact path='/reading' component={Reading} />
+              <Route exact path='/intro' component={Intro} />
+              <Route exact path='/login' component={Login} />
               <Route exact path='/register' component={Register} />
             </SiteWrapper>
           </div>
