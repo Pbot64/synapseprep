@@ -1,10 +1,10 @@
 /* eslint-disable no-underscore-dangle */
 import httpMocks from 'node-mocks-http';
-import problemController from '../problemController';
+import { list } from '../problemController';
 
 describe('Problem api', () => {
   it('can get create the Problem controller', () => {
-    expect(problemController).toBeDefined();
+    expect(list).toBeDefined();
   });
 
   it('can list practice problems', () => {
@@ -13,7 +13,7 @@ describe('Problem api', () => {
       url: '/problems/asdf'
     });
     const mockResponse = httpMocks.createResponse();
-    problemController.list(mockRequest, mockResponse);
+    list(mockRequest, mockResponse);
     const actual = mockResponse._getData();
     const expected = 'asdf';
 

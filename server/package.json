@@ -14,7 +14,11 @@
   "jest": {
     "setupFiles": [
       "<rootDir>/node_modules/regenerator-runtime/runtime"
-    ]
+    ],
+    "transform": {
+      "^.+\\.js$": "babel-jest",
+      "^.+\\.jsx$": "babel-jest"
+    }
   },
   "author": "",
   "license": "ISC",
@@ -33,7 +37,6 @@
     "jss-extend": "^6.2.0",
     "mongo-uri-builder": "^2.0.0",
     "mongoose": "^5.4.14",
-    "node-mocks-http": "^1.7.3",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
     "regenerator-runtime": "^0.13.1",
@@ -41,7 +44,7 @@
   },
   "devDependencies": {
     "@babel/preset-env": "^7.3.4",
-    "babel-jest": "^24.5.0",
+    "babel-jest": "^24.7.1",
     "babel-polyfill": "^6.26.0",
     "eslint": "^5.3.0",
     "eslint-config-airbnb": "^17.1.0",
@@ -52,6 +55,7 @@
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.12.4",
     "jest": "^24.5.0",
+    "node-mocks-http": "^1.7.3",
     "nodemon": "^1.18.10",
     "prettier": "^1.16.4",
     "supertest": "^4.0.2"
