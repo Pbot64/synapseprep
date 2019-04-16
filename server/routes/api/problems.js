@@ -1,4 +1,8 @@
 import express from 'express';
+import { list } from '../../controllers/problemController';
 
-const problems = express.Router();
-export default problems;
+const router = express.Router();
+
+router.get('/list', list);
+
+export default router;
