@@ -96,7 +96,7 @@ const SidebarList = (props) => {
                   <StarBorder />
                 </ListItemIcon>
                 <ListItemText inset primary="Intro" />
-                <LinearProgressBar />
+               
               </StyledListItem >
             </Link>
           

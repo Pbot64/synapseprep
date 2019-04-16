@@ -16,10 +16,13 @@ import SideMenuCustom from './SideMenuCustom.js'
 //  Style Overrides 
 const styles = theme => ({
   dashboardContainer: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    backgroundColor: '#f6f9fc',
+    flexGrow: 1,
+    maxWidth: '1500px',
     padding: '100px 4%',
     width: '100%',
-    flexGrow: 1,
-    backgroundColor: '#f6f9fc',
   },
 });
 
