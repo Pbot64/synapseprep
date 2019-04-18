@@ -40,31 +40,30 @@ router.post('/register', (req, res) => {
     if (user) {
       errors.email = 'Email already exists';
       return res.status(400).json(errors);
-    } else {
-      const avatar = gravatar.url(req.body.email, {
-        s: '200', //Size
-        r: 'pg', // Rating
-        d: 'mm' // Default
-      });
-
-      const newUser = new User({
-        name: req.body.name,
-        email: req.body.email,
-        avatar,
-        password: req.body.password
-      });
-
-      bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(newUser.password, salt, (err, hash) => {
-          if (err) console.log(err);
-          newUser.password = hash;
-          newUser
-            .save()
-            .then(user => res.json(user))
-            .catch(err => console.log(err));
-        });
-      });
     }
+    const avatar = gravatar.url(req.body.email, {
+      s: '200', // Size
+      r: 'pg', // Rating
+      d: 'mm' // Default
+    });
+
+    const newUser = new User({
+      name: req.body.name,
+      email: req.body.email,
+      avatar,
+      password: req.body.password
+    });
+
+    bcrypt.genSalt(10, (err, salt) => {
+      bcrypt.hash(newUser.password, salt, (err, hash) => {
+        if (err) console.log(err);
+        newUser.password = hash;
+        newUser
+          .save()
+          .then(user => res.json(user))
+          .catch(err => console.log(err));
+      });
+    });
   });
 });
 
@@ -78,8 +77,8 @@ router.post('/login', (req, res) => {
   if (!isValid) {
     return res.status(400).json(errors);
   }
-  const email = req.body.email;
-  const password = req.body.password;
+  const { email } = req.body;
+  const { password } = req.body;
 
   // Find user by email
   User.findOne({
@@ -110,7 +109,7 @@ router.post('/login', (req, res) => {
           (err, token) => {
             res.json({
               success: true,
-              token: 'Bearer ' + token
+              token: `Bearer ${token}`
             });
           }
         );
