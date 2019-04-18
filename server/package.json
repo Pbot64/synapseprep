@@ -26,8 +26,10 @@
     "jss-extend": "^6.2.0",
     "mongo-uri-builder": "^2.0.0",
     "mongoose": "^5.4.14",
+    "nodemailer": "^6.0.0",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
+    "sequelize": "^5.3.5",
     "validator": "^10.11.0"
   },
   "devDependencies": {

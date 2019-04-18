@@ -155,3 +155,4 @@ const Barchart = (props) => {
   )
 }
 export default withStyles(styles)(Barchart);
+

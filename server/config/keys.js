@@ -1,6 +1,6 @@
 require('dotenv').config();
 
-console.log(process.env.MONGO_PASS);
+
 module.exports = {
   mongoURI: `mongodb://${process.env.MONGO_USERNAME}:${
     process.env.MONGO_PASS

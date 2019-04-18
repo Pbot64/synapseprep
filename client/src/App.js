@@ -1,12 +1,14 @@
 // Node Modules
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
 import { setCurrentUser, logoutUser } from './actions/authActions'
 import { Provider } from 'react-redux';
 import store from './store';
+import PrivateRoute from './components/common/PrivateRoute'
+import { createBrowserHistory } from 'history';
 
 // Local Components
 import Dashboard from './layouts/Dashboard/@Dashboard'
@@ -15,12 +17,16 @@ import Reading from './layouts/Reading'
 import QuestionFeedPage from './layouts/QuestionFeedPage'
 import Login from './views/Login';
 import Register from './views/Register'
+import PasswordResetEmail from './views/PasswordResetEmail';
 import SiteWrapper from './layouts/Sitewrapper'
 import Profile from './layouts/Profile'
+import ResetPassword from './views/ResetPassword'
+import ScrollToTop from './components/common/ScrollToTop'
 
 // Material UI Components
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { clearCurrentProfile } from './actions/profileActions';
+
 
 // Local Assets
 
@@ -50,30 +56,37 @@ if (localStorage.jwtToken) {
   }
 }
 
+
 class App extends Component {
   state = {
       data: [],
     }
   
   render() {
-    const { match } = this.props
-    console.log(match)
     return (
       <Provider store={store}>
         <Router>
+        <ScrollToTop>
           <div>
             <CssBaseline />
             <SiteWrapper>
-              <Route exact path='/dashboard' component={Dashboard} />
-              <Route exact path='/profile' component={Profile} />
+             
+              <Switch>
+                <PrivateRoute exact path='/dashboard' component={Dashboard} />
+                <PrivateRoute exact path='/profile' component={Profile} />
+                <Route exact path="/resetpassword/:token" component={ResetPassword} />
+              </Switch>
               <Route exact path='/question-feed' component={QuestionFeedPage}/>
               <Route exact path='/reading' component={Reading} />
-              <Route exact path='/intro' component={Intro} />
+              <Route exact path='/intro' component={Reading} />
               <Route exact path='/login' component={Login} />
               <Route exact path='/register' component={Register} />
+              <Route exact path='/passwordResetEmail' component={PasswordResetEmail} />
             </SiteWrapper>
           </div>
+          </ScrollToTop>
         </Router>
+       
       </Provider>
     );
   }

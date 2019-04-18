@@ -19,15 +19,15 @@ const styles = theme => ({
     marginTop: 50,
   },
   bottomCardContainer: {
-    borderTopLeftRadius: '0px',
-    borderTopRightRadius: '0px',
+    borderBottomLeftRadius: '10px',
+    borderBottomRightRadius: '10px',
     padding: 5,
+    backgroundColor: 'white',
+    borderTop: 'solid 1px lightgrey',
   },
   topCardContainer: {
-    borderBottom: 'solid 1px lightgrey',
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0,
-    marginTop: 18,
+    borderBottomLeftRadius: '0px',
+    borderBottomRightRadius: '0px',
   },
   title: {
     borderBottom: '1px solid rgba(0, 0, 0, 0.87)',
@@ -47,21 +47,18 @@ const EstimatedScores = (props) => {
     <React.Fragment>
       <Grid item container className={classes.root} >
         <Grid item xs={12} sm={12} md={10}>
-          <Typography variant="h5" component="h2" color="textPrimary" className={classes.title}>
-            Estimated Scores
-           </Typography>
-          <CardCustom className={classes.topCardContainer}>
+           <CardCustom title = 'Estimated Scores' borderBottom className={classes.topCardContainer}>
             <Grid container justify='center' className={classes.topCardInner}>
               <CustomBarchart gradientId="barChart" />
             </Grid>
           </CardCustom>
-          <CardCustom className={classes.bottomCardContainer}>
+          <div className={classes.bottomCardContainer}>
             <Grid container align='center' direction='column'>
               <Typography variant='subtitle2' className={classes.bottomText}>
                 These are the scores we think you'd get if you took the SAT today
               </Typography>
             </Grid>
-          </CardCustom>
+          </div>
         </Grid>
       </Grid>
     </React.Fragment>

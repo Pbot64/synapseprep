@@ -29,15 +29,15 @@ const styles = theme => ({
     color: `${theme.palette.text.lightGrey}`,
   },
   cardBottomContainer: {
-    borderTopLeftRadius: '0px',
-    borderTopRightRadius: '0px',
+    borderBottomLeftRadius: '10px',
+    borderBottomRightRadius: '10px',
     padding: 5,
+    backgroundColor: 'white',
+    borderTop: 'solid 1px lightgrey',
   },
-  cardTopContainer: {
+  topCardContainer: {
     borderBottomLeftRadius: '0px',
     borderBottomRightRadius: '0px',
-    borderBottom: 'solid 1px lightgrey',
-    marginTop: '15px',
   },
   title: {
     borderBottom: '1px solid rgba(0, 0, 0, 0.87)',
@@ -51,21 +51,18 @@ class QuestionFeed extends Component {
     return (
       <React.Fragment>
         <Grid item md={7} xs={12} >
-          <Typography variant='h5' className={classes.title} color="textPrimary" >
-            Question Feed
-        </Typography>
-          <CardCustom className={classes.cardTopContainer}>
+        <CardCustom title = 'Question Feed' borderBottom className={classes.topCardContainer}>
             <Grid item container align='center' direction='column'>
               <QuestionFeedTabs />
             </Grid>
           </CardCustom>
-          <CardCustom className={classes.cardBottomContainer}>
+          <div className={classes.cardBottomContainer}>
             <Grid container align='center' direction='column'>
               <Typography variant='subtitle2' className={classes.bottomText}>
                 Hand picked questions to strengthen your weakest skills.
               </Typography>
             </Grid>
-          </CardCustom>
+          </div>
         </Grid>
       </React.Fragment>
     )
