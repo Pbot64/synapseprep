@@ -1,3 +1,6 @@
+// Load User model
+import User from '../../models/User';
+
 const express = require('express');
 
 const router = express.Router();
@@ -17,9 +20,6 @@ const validateRegisterInput = require('../../validation/register');
 const validateLoginInput = require('../../validation/login');
 const validateChangePassInput = require('../../validation/change-pass');
 const validateResetInput = require('../../validation/reset');
-
-// Load User model
-const User = require('../../models/User');
 
 // @route Get api/users/test
 // @desc Tests users route
