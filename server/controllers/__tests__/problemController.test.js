@@ -10,7 +10,7 @@ describe('Problem api', () => {
   it('can list practice problems', () => {
     const mockRequest = httpMocks.createRequest({
       method: 'GET',
-      url: '/problems/asdf'
+      url: '/problems/'
     });
     const mockResponse = httpMocks.createResponse();
     list(mockRequest, mockResponse);
