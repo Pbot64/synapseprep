@@ -1,6 +1,5 @@
 // Node Modules
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logoutUser } from '../actions/authActions'
@@ -19,8 +18,11 @@ import Menu from '@material-ui/core/Menu';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import Popper from '@material-ui/core/Popper';
 
 // Local Components
+import MenuTest from '../components/Menu'
+import LinkCustom from '../assets/jss/components/LinkCustom'
 
 
 // Local Assets
@@ -29,14 +31,6 @@ import * as colors from '../assets/jss/components/colors'
 
 //  Style Overrides 
 const styles = theme => ({
-  menuItem: {
-    '&:focus': {
-      backgroundColor: theme.palette.primary.main,
-      '& $primary, & $icon': {
-        color: theme.palette.common.white,
-      },
-    },
-  },
   grow: {
     flexGrow: 1,
   },
@@ -47,16 +41,13 @@ const styles = theme => ({
       display: 'none',
     },
   },
-  avatar: {
-    width: '25px',
-    height: '25px',
+  container: {
+    display: 'flex',
+    color: 'white',
   },
   appBar: {
     position: 'fixed',
     ...colors.blueToGreen,
-  },
-  iconButton: {
-
   },
   notificationsIcon: {
     marginRight: '5px',
@@ -78,6 +69,15 @@ const styles = theme => ({
       backgroundColor: 'rgba(0, 0, 0, 0.08)',
     },
   },
+  register: {
+    paddingRight: '10px',
+    color: 'white',
+    borderRight: '2px solid white',
+  },
+  login: {
+    color: 'white',
+    marginLeft: '10px',
+  },
 })
 
 const StyledIconButton = withStyles({
@@ -92,13 +92,7 @@ class Navbar extends Component {
     anchorElNotifications: null
   };
 
-  handleMenu = e => {
-    this.setState({ anchorEl: e.currentTarget });
-  };
 
-  handleMenuClose = () => {
-    this.setState({ anchorEl: null });
-  };
 
   handleMenuNotifications = e => {
     this.setState({ anchorElNotifications: e.currentTarget });
@@ -108,12 +102,6 @@ class Navbar extends Component {
     this.setState({ anchorElNotifications: null });
   };
 
-  handleLogout = (e) => {
-    e.preventDefault();
-    this.props.clearCurrentProfile();
-    this.handleMenuClose();
-    this.props.logoutUser();
-  }
 
   render() {
     const { classes, handleDrawerToggle } = this.props;
@@ -122,13 +110,8 @@ class Navbar extends Component {
     const open = Boolean(anchorEl);
     const openNotifications = Boolean(anchorElNotifications)
 
-
-
-
-
     const authLinks = (
-      <div className='container'>
-
+      <div className={classes.container}>
         { /* Notifications Icon */}
         <StyledIconButton
           className={classes.notificationsIcon}
@@ -160,50 +143,26 @@ class Navbar extends Component {
         </Menu>
 
         { /* User Icon */}
-        <IconButton
-          className={classes.iconButton}
-          aria-owns={open ? 'menu-appbar' : undefined}
-          aria-haspopup="true"
-          onClick={this.handleMenu}
-          color="inherit"
-        >
-          <Avatar className={classes.avatar} src={user.avatar} alt={user.name}
-            title='You must have a gravatar connected to your email to display an image'>
-          </Avatar>
-        </IconButton>
+
 
         { /* User Menu */}
-        <Menu
-          id="menu-appbar"
-          anchorEl={anchorEl}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
-          }}
-          open={open}
-          onClose={this.handleMenuClose}
-        >
-          <Link to='./profile' className={classes.link}>
-            <MenuItem className={classes.menuItem} onClick={this.handleMenuClose}>My Account</MenuItem>
-          </Link>
-          <MenuItem className={classes.menuItem} onClick={this.handleLogout}>Logout</MenuItem>
-          <MenuItem className={classes.menuItem} onClick={this.handleMenuClose}>Get Paid to Rep</MenuItem>
-        </Menu>
+
+        <MenuTest />
       </div>
     );
 
     const guestLinks = (
-      <div className='container'>
-        <Link to='./register'>
-          <h4>Register</h4>
-        </Link>
-        <Link to='./login'>
-          <h4>Login</h4>
-        </Link>
+      <div className={classes.container}>
+        <LinkCustom to='./register' className = {classes.register}>
+          <Typography component="h1" variant="body1" color = "inherit">
+            Register
+          </Typography>
+        </LinkCustom>
+        <LinkCustom to='./login' className = {classes.login}>
+          <Typography component="h1" variant="body1" color = "inherit">
+            Login
+          </Typography>
+        </LinkCustom>
       </div>
     );
 

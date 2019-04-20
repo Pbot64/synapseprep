@@ -49,7 +49,7 @@ const Lessons = (props) => {
       <div className={classes.mainContainer}>
         <CardCustom className={classes.videoContainer}>
           <Grid container align='center' direction='column'>
-            <h1>What is the SAT?</h1>
+            <h1>Under Construction</h1>
             <img className={classes.img} src={students} ></img>
           </Grid>
         </CardCustom>

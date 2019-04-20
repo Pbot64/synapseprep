@@ -8,6 +8,8 @@ import { connect } from 'react-redux';
 import { loginUser } from '../actions/authActions'
 
 // Local Components
+import LinkCustom from '../assets/jss/components/LinkCustom'
+
 
 // Material UI Components
 import Avatar from '@material-ui/core/Avatar';
@@ -23,6 +25,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
 // Local Assets
+import * as colors from '../assets/jss/components/colors'
 
 //  Style Overrides 
 const styles = theme => ({
@@ -55,10 +58,9 @@ const styles = theme => ({
   submit: {
     marginTop: theme.spacing.unit * 3,
     color: '#FFFFFF',
-    background:
-      'url(../assets/images/wavePattern.png), linear-gradient(45deg, #2980ba 10%, #238E9B 40%, #17ab5d 100%)',
-    backgroundBlendMode: 'color-burn'
+    ...colors.blueToGreen
   },
+ 
 });
 
 class Login extends Component {
@@ -75,6 +77,7 @@ class Login extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated) {
+
       this.props.history.push('/dashboard')
     }
     if (nextProps.errors) {
@@ -104,6 +107,7 @@ class Login extends Component {
   render() {
     const { errors } = this.state;
     const { classes } = this.props;
+    console.log('hello')
     return (
       <main className={classes.main}>
         <Paper className={classes.paper}>
@@ -115,7 +119,7 @@ class Login extends Component {
           </Typography>
           <form onSubmit={this.handleSubmit} className={classes.form}>
             <FormControl error={errors.email} margin="normal" required fullWidth>
-              <InputLabel htmlFor="email">Email Address</InputLabel>
+              <InputLabel htmlFor="email" className = {classes.label}>Email Address</InputLabel>
               <Input
                 id="email"
                 name="email"
@@ -126,7 +130,7 @@ class Login extends Component {
               <FormHelperText id="component-error-text">{errors.email}</FormHelperText>
             </FormControl>
             <FormControl error={errors.password} margin="normal" required fullWidth>
-              <InputLabel htmlFor="password">Password</InputLabel>
+              <InputLabel htmlFor="password" >Password</InputLabel>
               <Input
                 name="password"
                 type="password"
@@ -137,11 +141,14 @@ class Login extends Component {
               <FormHelperText id="component-error-text">{errors.password}</FormHelperText>
             </FormControl>
             <FormControlLabel
-              control={<Checkbox
-                value="remember"
-                color="primary" />}
-              label="Remember me"
-            />
+            control={<Checkbox value="remember"  color="primary"  />}
+            label="Remember me"
+          />
+          <LinkCustom to = './passwordResetEmail'>
+          <Typography component="h1" variant="body1" align ='right'>
+            Forgot Password?
+          </Typography>
+          </LinkCustom>
             <Button
               type="submit"
               fullWidth
