@@ -199,7 +199,6 @@ router.post('/reset', (req, res) => {
       return res.status(404).json(errors);
     }
     const token = crypto.randomBytes(20).toString('hex');
-    res.json(token);
     user.resetPasswordToken = token;
     (user.resetPasswordExpires = Date.now() + 3600000),
       user.save(err => {
@@ -208,8 +207,6 @@ router.post('/reset', (req, res) => {
         }
       });
 
-    console.log({ email: keys.emailUser });
-    console.log({ password: keys.emailPassword });
     const transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
       port: 587,
