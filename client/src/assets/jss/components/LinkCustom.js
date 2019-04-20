@@ -11,9 +11,9 @@ const styles = theme => ({
 
 
 const LinkCustom = (props) => {
-  const { classes, className } = props;
+  const { classes, className, ...rest } = props;
   return (
-    <Link className={classNames(classes.root, className)} {...props}> {props.children} </Link>
+    <Link className={classNames(classes.root, className)} {...rest}> {props.children} </Link>
   )
 };
 

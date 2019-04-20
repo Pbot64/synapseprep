@@ -21,7 +21,7 @@ const theme = createMuiTheme({
       letterSpacing: 2,
     },
     body2: {
-      letterSpacing: '2px',
+      letterSpacing: '1.5px',
       textTransform: 'none',
       fontWeight: '500',
       fontSize: '16px',
@@ -37,7 +37,6 @@ const theme = createMuiTheme({
     primary: '#2980ba'[500],
     text: {
       primary: '#000000',
-      secondary: 'white',
       lightGrey: 'rgba(0, 0, 0, 0.3)',
     },
   },

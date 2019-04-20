@@ -2,15 +2,14 @@ import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
 import jwt_decode from 'jwt-decode';
 
-import { GET_ERRORS } from './types'
-import { SET_CURRENT_USER } from './types'
+import { GET_ERRORS, CLEAR_ERRORS, SET_CURRENT_USER } from './types'
 
 
 // Register User
 export const registerUser = (userData, history) => dispatch => {
   axios
     .post('/api/users/register', userData)
-    .then(res => history.push('/login'))
+    .then(() => history.push('/login'))
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
@@ -33,6 +32,7 @@ export const loginUser = userData => dispatch => {
       const decoded = jwt_decode(token);
       // Set current user
       dispatch(setCurrentUser(decoded))
+      dispatch(clearErrors())
     })
     .catch(err =>
       dispatch({
@@ -49,7 +49,7 @@ export const setCurrentUser = (decoded) => {
   }
 }
 
-// Log user out
+// Logout user 
 export const logoutUser = () => dispatch => {
   // Remove token from localStorage
   localStorage.removeItem('jwtToken');
@@ -57,7 +57,44 @@ export const logoutUser = () => dispatch => {
   setAuthToken(false);
   // Set current user to {} which will also set isAuthenticated to false
   dispatch(setCurrentUser({}));
-
-
-
 }
+
+// Clear errors
+export const clearErrors = () => {
+  return {
+    type: CLEAR_ERRORS
+  };
+};
+
+// Change Currently Loggedin User's Password 
+export const changePassword = (passwordData, updated) => dispatch => {
+  axios
+    .post('/api/users/changepass', passwordData)
+    .then(() => {
+      dispatch(clearErrors())
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+  );
+};
+
+// Reset User's Forgotten Password
+export const resetPassword = (email) => dispatch => {
+  axios
+    .post('/api/users/reset', email)
+    .then((res) => {
+      this.setState({
+        messageFromServer: 'nice!'
+        })
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+  );
+};
+
