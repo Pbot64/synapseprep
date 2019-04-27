@@ -15,7 +15,7 @@ function getConnectionString() {
     ...(process.env.MONGO_PASS && { password: `${process.env.MONGO_PASS}` }),
     ...(process.env.MONGO_HOST && { host: `${process.env.MONGO_HOST}` }),
     ...(process.env.MONGO_DATABASE && { database: process.env.MONGO_DATABASE }),
-    replicas
+    ...(replicas && { replicas })
     // options: {
     //   ssl: true,
     //   authSource: 'admin',
