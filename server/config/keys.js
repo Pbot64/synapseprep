@@ -3,23 +3,24 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const replicas = [
-  { host: `synapseprepcluster-shard-00-01-xfwt7.azure.mongodb.net`, port: 27017 },
-  { host: `synapseprepcluster-shard-00-02-xfwt7.azure.mongodb.net`, port: 27017 }
-];
 function getConnectionString() {
+  const replicas =
+    process.env.MONGO_REPLICAS &&
+    process.env.MONGO_REPLICAS.split(',').map(host => ({
+      host: host.trim()
+    }));
+
   return mongoUriBuilder({
-    username: `${process.env.MONGO_USERNAME}`,
-    password: `${process.env.MONGO_PASS}`,
-    host: `${process.env.MONGO_HOST}`,
-    port: `27017`,
-    // replicas,
-    database: 'test',
-    options: {
-      ssl: true,
-      authSource: 'admin',
-      retryWrites: true
-    }
+    ...(process.env.MONGO_USERNAME && { username: `${process.env.MONGO_USERNAME}` }),
+    ...(process.env.MONGO_PASS && { password: `${process.env.MONGO_PASS}` }),
+    ...(process.env.MONGO_HOST && { host: `${process.env.MONGO_HOST}` }),
+    ...(process.env.MONGO_DATABASE && { database: process.env.MONGO_DATABASE }),
+    replicas
+    // options: {
+    //   ssl: true,
+    //   authSource: 'admin',
+    //   retryWrites: true
+    // }
   });
 }
 

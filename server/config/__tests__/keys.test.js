@@ -1,31 +1,69 @@
 import mockedEnv from 'mocked-env';
 import keys from '../keys';
 
-describe('keys', () => {
-  const mongoURI =
-    'mongodb://username:password@mongo.com:27017/test?ssl=true&authSource=admin&retryWrites=true';
+describe('Keys', () => {
+  const clear = [{ clear: true }];
+  describe('Mongo connection string', () => {
+    it('should set username', () => {
+      mockedEnv(
+        {
+          MONGO_USERNAME: 'fatboy'
+        },
+        // { clear: true }
+        ...clear
+      );
 
-  beforeEach(() => {
-    mockedEnv(
-      {
-        MONGO_USERNAME: 'username',
-        MONGO_PASS: 'password',
-        MONGO_HOST: 'mongo.com'
-      },
-      { clear: true }
-    );
-  });
+      const connectionString = 'mongodb://fatboy@localhost';
+      expect(keys.getMongoUri()).toEqual(connectionString);
+    });
 
-  it('should export mongo Uri connection string', () => {
-    const connectionString = keys.getMongoUri();
-    expect(connectionString).toEqual(mongoURI);
-  });
+    it('should set username and password', () => {
+      mockedEnv(
+        {
+          MONGO_USERNAME: 'fatboy',
+          MONGO_PASS: 'secret'
+        },
+        ...clear
+      );
 
-  it('should default to synapse prep replica sets', () => {
-    throw new Error('not done.');
-  });
+      const connectionString = 'mongodb://fatboy:secret@localhost';
+      expect(keys.getMongoUri()).toEqual(connectionString);
+    });
 
-  it('should use process env setting for replica sets', () => {
-    throw new Error('not done.');
+    it('should set host', () => {
+      mockedEnv(
+        {
+          MONGO_HOST: 'mongo.com'
+        },
+        ...clear
+      );
+
+      const connectionString = 'mongodb://mongo.com';
+      expect(keys.getMongoUri()).toEqual(connectionString);
+    });
+
+    it('should set database', () => {
+      mockedEnv(
+        {
+          MONGO_DATABASE: 'app'
+        },
+        ...clear
+      );
+
+      const connectionString = 'mongodb://localhost/app';
+      expect(keys.getMongoUri()).toEqual(connectionString);
+    });
+
+    it('should set replica set', () => {
+      mockedEnv(
+        {
+          MONGO_REPLICAS: 'mongo-2.com, mongo-3.com'
+        },
+        ...clear
+      );
+
+      const connectionString = 'mongodb://localhost,mongo-2.com,mongo-3.com';
+      expect(keys.getMongoUri()).toEqual(connectionString);
+    });
   });
 });
