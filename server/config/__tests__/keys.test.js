@@ -65,5 +65,16 @@ describe('Keys', () => {
       const connectionString = 'mongodb://localhost,mongo-2.com,mongo-3.com';
       expect(keys.getMongoUri()).toEqual(connectionString);
     });
+
+    it('should set ssl', () => {
+      mockedEnv(
+        {
+          MONGO_SSL: 'true'
+        },
+        ...clear
+      );
+      const connectionString = 'mongodb://localhost/?ssl=true';
+      expect(keys.getMongoUri()).toEqual(connectionString);
+    });
   });
 });
