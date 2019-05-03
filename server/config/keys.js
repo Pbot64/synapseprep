@@ -26,7 +26,6 @@ function getConnectionString() {
 
 module.exports = {
   mongoURI: getConnectionString(),
-  getMongoUri: getConnectionString,
   secretOrKey: `${process.env.SECRET_OR_KEY}`,
   emailUser: `${process.env.EMAIL_USER}`,
   emailPassword: `${process.env.EMAIL_PASSWORD}`
