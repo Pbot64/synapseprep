@@ -76,5 +76,31 @@ describe('Keys', () => {
       const connectionString = 'mongodb://localhost/?ssl=true';
       expect(keys.getMongoUri()).toEqual(connectionString);
     });
+
+    it('should set authSource', () => {
+      mockedEnv(
+        {
+          MONGO_AUTH_SOURCE: 'admin'
+        },
+        ...clear
+      );
+      const connectionString = 'mongodb://localhost/?authSource=admin';
+      expect(keys.getMongoUri()).toEqual(connectionString);
+    });
+
+    it('should set retryWrites', () => {
+      mockedEnv(
+        {
+          MONGO_RETRY_WRITES: 'true'
+        },
+        ...clear
+      );
+      const connectionString = 'mongodb://localhost/?retryWrites=true';
+      expect(keys.getMongoUri()).toEqual(connectionString);
+    });
+
+    it('should combine options', () => {
+      throw new Error('pick it up here');
+    });
   });
 });

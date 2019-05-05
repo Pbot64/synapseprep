@@ -1,10 +1,7 @@
-import express from 'express';
 import request from 'supertest';
 import problems from '../problems';
 import { list } from '../../../controllers/problemController';
 import app from '../../../server';
-
-import 'babel-polyfill';
 
 jest.mock('../../../controllers/problemController');
 jest.mock('mongoose');

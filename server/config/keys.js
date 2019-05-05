@@ -11,7 +11,9 @@ function getConnectionString() {
     }));
 
   const options = {
-    ...(process.env.MONGO_SSL && { ssl: `${process.env.MONGO_SSL}` })
+    ...(process.env.MONGO_SSL && { ssl: `${process.env.MONGO_SSL}` }),
+    ...(process.env.MONGO_AUTH_SOURCE && { authSource: `${process.env.MONGO_AUTH_SOURCE}` }),
+    ...(process.env.MONGO_RETRY_WRITES && { retryWrites: `${process.env.MONGO_RETRY_WRITES}` })
   };
 
   return mongoUriBuilder({
@@ -24,8 +26,8 @@ function getConnectionString() {
   });
 }
 
-module.exports = {
-  mongoURI: getConnectionString(),
+export default {
+  getMongoUri: getConnectionString,
   secretOrKey: `${process.env.SECRET_OR_KEY}`,
   emailUser: `${process.env.EMAIL_USER}`,
   emailPassword: `${process.env.EMAIL_PASSWORD}`
