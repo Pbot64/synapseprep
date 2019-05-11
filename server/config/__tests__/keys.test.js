@@ -100,7 +100,22 @@ describe('Keys', () => {
     });
 
     it('should combine options', () => {
-      throw new Error('pick it up here');
+      mockedEnv(
+        {
+          MONGO_SSL: 'true',
+          MONGO_AUTH_SOURCE: 'admin',
+          MONGO_RETRY_WRITES: 'true'
+        },
+        ...clear
+      );
+      const connectionString = 'mongodb://localhost/?ssl=true&authSource=admin&retryWrites=true';
+      expect(keys.getMongoUri()).toEqual(connectionString);
+    });
+
+    it('should not have options', () => {
+      mockedEnv({}, ...clear);
+      const connectionString = 'mongodb://localhost';
+      expect(keys.getMongoUri()).toEqual(connectionString);
     });
   });
 });
