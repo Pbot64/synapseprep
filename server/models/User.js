@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
-
+console.log({ mongoose });
 const { Schema } = mongoose;
+
+console.log(Schema);
 
 // Creat Schema
 const UserSchema = new Schema({
@@ -24,11 +26,11 @@ const UserSchema = new Schema({
     default: Date.now
   },
   resetPasswordToken: {
-    type: String,
+    type: String
   },
   resetPasswordExpires: {
-    type: Date,
-  },
+    type: Date
+  }
 });
 const User = mongoose.model('users', UserSchema);
 export default User;

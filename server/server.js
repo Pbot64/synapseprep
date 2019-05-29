@@ -1,5 +1,7 @@
+import mongoose from 'mongoose';
+import keys from './config/keys';
+
 const express = require('express');
-const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 
@@ -14,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // DB Config
-const db = require('./config/keys').getMongoUri();
+const db = keys.getMongoUri();
 
 // Connect to mongoDB
 mongoose

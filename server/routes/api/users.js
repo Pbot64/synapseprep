@@ -10,10 +10,7 @@ const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
-const sequelize = require('sequelize');
 const keys = require('../../config/keys');
-
-const { Op } = sequelize;
 
 // Load Imput Validation
 const validateRegisterInput = require('../../validation/register');
@@ -46,7 +43,7 @@ router.post('/register', (req, res) => {
   }).then(user => {
     if (user) {
       errors.email = 'Email already exists';
-      return res.status(400).json(errors);
+      res.status(400).json(errors);
     }
     const avatar = gravatar.url(req.body.email, {
       s: '200', // Size
