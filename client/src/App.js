@@ -33,11 +33,12 @@ import { clearCurrentProfile } from './actions/profileActions';
 const styles = theme => ({});
 
 //Check for Token
-if (localStorage.jwtToken) {
+const jwtToken = localStorage.getItem('jwtToken');
+if (jwtToken !== 'undefined' && jwtToken !== null) {
   // Set auth token header auth
-  setAuthToken(localStorage.jwtToken);
+  setAuthToken(jwtToken);
   // Decode token and get user info and exp
-  const decoded = jwt_decode(localStorage.jwtToken);
+  const decoded = jwt_decode(jwtToken);
   // Set user and isAuthenticated
   store.dispatch(setCurrentUser(decoded));
 
