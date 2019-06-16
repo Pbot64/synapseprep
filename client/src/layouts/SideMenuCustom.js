@@ -1,21 +1,14 @@
 /* eslint-disable no-console */
 import React, { Component } from 'react';
 import SideMenuDrill from './SideMenuDrill/index.js';
-import SideMenu from './SideMenu/index.js'
+import SideMenu from './SideMenu/index.js';
 import Heading from 'wix-style-react/Heading';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 import { withStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Slide from '@material-ui/core/Slide';
 import Button from 'wix-style-react/Button';
-
-
-import createHistory from 'history/createBrowserHistory'
-
-
-
-
 
 const styles = theme => ({
   mobileOpen: {
@@ -23,11 +16,11 @@ const styles = theme => ({
     width: 200,
     height: '100%',
     '&:focus': {
-      outlineStyle: 'none',
-    },
+      outlineStyle: 'none'
+    }
   },
   mobileClosed: {
-    width: 0,
+    width: 0
   },
   desktopMenu: {
     display: 'flex',
@@ -36,19 +29,19 @@ const styles = theme => ({
     position: 'fixed',
     left: '-200px',
     '&:focus': {
-      outlineStyle: 'none',
+      outlineStyle: 'none'
     },
     [theme.breakpoints.up('lg')]: {
       transition: 'left .3s',
       width: '200px',
-      left: '0px',
-    },
+      left: '0px'
+    }
   },
   container: {
     [theme.breakpoints.up('lg')]: {
-      minWidth: '200px',
-    },
-  },
+      minWidth: '200px'
+    }
+  }
 });
 
 const duration = 500;
@@ -70,8 +63,8 @@ const initialItems = [
         items: [
           { type: 'link', to: '/intro', title: 'Welcome!' },
           { type: 'link', to: '/intro:1', title: 'What is the SAT?' },
-          { type: 'link', to: '//wix.com', title: 'link #2-3_3' },
-        ],
+          { type: 'link', to: '//wix.com', title: 'link #2-3_3' }
+        ]
       },
       {
         type: 'menu',
@@ -79,8 +72,8 @@ const initialItems = [
         items: [
           { type: 'link', to: '//wix.com', title: 'link #2-3_1' },
           { type: 'link', to: '//wix.com', title: 'link #2-3_2' },
-          { type: 'link', to: '//wix.com', title: 'link #2-3_3' },
-        ],
+          { type: 'link', to: '//wix.com', title: 'link #2-3_3' }
+        ]
       },
       {
         type: 'menu',
@@ -88,8 +81,8 @@ const initialItems = [
         items: [
           { type: 'link', to: '//wix.com', title: 'link #2-3_1' },
           { type: 'link', to: '//wix.com', title: 'link #2-3_2' },
-          { type: 'link', to: '//wix.com', title: 'link #2-3_3' },
-        ],
+          { type: 'link', to: '//wix.com', title: 'link #2-3_3' }
+        ]
       },
       {
         type: 'menu',
@@ -97,11 +90,11 @@ const initialItems = [
         items: [
           { type: 'link', to: '//wix.com', title: 'link #2-3_1' },
           { type: 'link', to: '//wix.com', title: 'link #2-3_2' },
-          { type: 'link', to: '//wix.com', title: 'link #2-3_3' },
-        ],
+          { type: 'link', to: '//wix.com', title: 'link #2-3_3' }
+        ]
       },
-      { type: 'link', to: '//wix.com', title: 'Essay' },
-    ],
+      { type: 'link', to: '//wix.com', title: 'Essay' }
+    ]
   },
   {
     type: 'menu',
@@ -109,8 +102,8 @@ const initialItems = [
     items: [
       { type: 'link', to: '//wix.com', title: 'link #3_1' },
       { type: 'link', to: '//wix.com', title: 'link #3_2' },
-      { type: 'link', to: '//wix.com', title: 'link #3_3' },
-    ],
+      { type: 'link', to: '//wix.com', title: 'link #3_3' }
+    ]
   },
   {
     type: 'menu',
@@ -118,8 +111,8 @@ const initialItems = [
     items: [
       { type: 'link', to: '//wix.com', title: 'link #3_1' },
       { type: 'link', to: '//wix.com', title: 'link #3_2' },
-      { type: 'link', to: '//wix.com', title: 'link #3_3' },
-    ],
+      { type: 'link', to: '//wix.com', title: 'link #3_3' }
+    ]
   },
   {
     type: 'menu',
@@ -127,14 +120,14 @@ const initialItems = [
     items: [
       { type: 'link', to: '//wix.com', title: 'link #4_1' },
       { type: 'link', to: '//wix.com', title: 'link #4_2' },
-      { type: 'link', to: '//wix.com', title: 'link #4_3' },
-    ],
+      { type: 'link', to: '//wix.com', title: 'link #4_3' }
+    ]
   },
   {
     type: 'link',
     to: '/support',
     title: 'Support'
-  },
+  }
 ];
 
 class SideMenuCustom extends Component {
@@ -147,7 +140,6 @@ class SideMenuCustom extends Component {
       itemSelected: null
     };
   }
-
 
   selectMenu(items, link) {
     items.forEach(item => {
@@ -166,9 +158,7 @@ class SideMenuCustom extends Component {
 
   renderLink(link) {
     return (
-      <SideMenuDrill.Link
-        isActive={link.isActive} key={link.title}
-      >
+      <SideMenuDrill.Link isActive={link.isActive} key={link.title}>
         <Link to={link.to} onClick={() => this.onMenuSelected(link)}>
           {link.title}
         </Link>
@@ -177,7 +167,6 @@ class SideMenuCustom extends Component {
   }
 
   renderMenu(menu) {
-
     return (
       <SideMenuDrill.SubMenu
         key={menu.title}
@@ -185,17 +174,13 @@ class SideMenuCustom extends Component {
         title={menu.title}
         disabled={menu.disabled}
       >
-
-        <SideMenuDrill.Navigation>
-          {this.renderNavigation(menu.items)}
-        </SideMenuDrill.Navigation>
+        <SideMenuDrill.Navigation>{this.renderNavigation(menu.items)}</SideMenuDrill.Navigation>
       </SideMenuDrill.SubMenu>
     );
   }
 
   renderNavigation(items) {
-
-    return items.map((item) => {
+    return items.map(item => {
       if (item.type === 'link') {
         return this.renderLink(item);
       }
@@ -215,7 +200,7 @@ class SideMenuCustom extends Component {
           style={{
             padding: '26px 30px',
             width: '100%',
-            textAlign: 'center',
+            textAlign: 'center'
           }}
         >
           <div>
@@ -229,82 +214,47 @@ class SideMenuCustom extends Component {
   }
 
   handleClick = () => {
-    this.setState(state => ({ open: !state.open })
-    );
+    this.setState(state => ({ open: !state.open }));
   };
 
   render() {
     const { items } = this.state;
     const { classes } = this.props;
-    const history = createHistory()
-
-    // Get the current location.
-    const location = history.location
-
-    // Listen for changes to the current location.
-
-
-
-
-
-
 
     const mySideMenuDrill = (
       <div className={this.props.mobileOpen ? classes.mobileOpen : classes.mobileClosed}>
-        <SideMenuDrill
-          inFlex
-          dataHook="side-menu"
-          onClose={this.props.handleDrawerToggle}
-        >
+        <SideMenuDrill inFlex dataHook="side-menu" onClose={this.props.handleDrawerToggle}>
           {this.renderHeader()}
           <SideMenu.NavigationSeparator />
           {this.renderNavigation(items)}
-
         </SideMenuDrill>
       </div>
-    )
+    );
     const slidingSideMenuDrill = (
-      <Slide
-        in={this.props.mobileOpen}
-        timeout={duration}
-        direction={'right'}
-
-      >
+      <Slide in={this.props.mobileOpen} timeout={duration} direction={'right'}>
         {mySideMenuDrill}
       </Slide>
     );
 
     return (
       <React.Fragment>
-
-        <Modal
-          open={this.props.mobileOpen}
-          onClose={this.props.handleDrawerToggle}
-        >
+        <Modal open={this.props.mobileOpen} onClose={this.props.handleDrawerToggle}>
           {slidingSideMenuDrill}
         </Modal>
         <div className={classes.container}>
           <div className={classes.desktopMenu}>
-            <SideMenuDrill
-              inFlex
-              dataHook="side-menu"
-            >
-
+            <SideMenuDrill inFlex dataHook="side-menu">
               <SideMenu.NavigationSeparator />
 
               {this.renderNavigation(items)}
-
             </SideMenuDrill>
           </div>
         </div>
-
       </React.Fragment>
     );
   }
 }
 
-SideMenuCustom.defaultProps = {
-
-};
+SideMenuCustom.defaultProps = {};
 
 export default withStyles(styles)(SideMenuCustom);

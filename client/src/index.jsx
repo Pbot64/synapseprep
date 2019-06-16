@@ -9,8 +9,6 @@ import extend from 'jss-extend';
 import JssProvider from 'react-jss/lib/JssProvider';
 import { createGenerateClassName, jssPreset } from '@material-ui/core/styles';
 
-
-
 const theme = createMuiTheme({
   typography: {
     useNextVariants: true,
@@ -18,31 +16,31 @@ const theme = createMuiTheme({
       fontFamily: ['"Logofont"'].join(','),
       fontWeight: 500,
       fontSize: 15,
-      letterSpacing: 2,
+      letterSpacing: 2
     },
     body2: {
       letterSpacing: '1.5px',
       textTransform: 'none',
       fontWeight: '500',
-      fontSize: '16px',
+      fontSize: '16px'
     },
     h5: {
-      fontWeight: '300',
+      fontWeight: '300'
     },
     h6: {
-      fontWeight: '300',
-    },
+      fontWeight: '300'
+    }
   },
   palette: {
     primary: '#2980ba'[500],
     text: {
       primary: '#000000',
-      lightGrey: 'rgba(0, 0, 0, 0.3)',
-    },
-  },
+      lightGrey: 'rgba(0, 0, 0, 0.3)'
+    }
+  }
 });
 
-console.log(theme)
+console.log(theme);
 
 // Configure JSS
 const jss = create({ plugins: [...jssPreset().plugins, extend()] });
@@ -50,12 +48,11 @@ const jss = create({ plugins: [...jssPreset().plugins, extend()] });
 // Custom Material-UI class name generator.
 const generateClassName = createGenerateClassName();
 
-
-
 ReactDOM.render(
   <MuiThemeProvider theme={theme}>
     <JssProvider jss={jss} generateClassName={generateClassName}>
       <App />
     </JssProvider>
-  </MuiThemeProvider>, document.getElementById('root'));
-
+  </MuiThemeProvider>,
+  document.getElementById('root')
+);

@@ -12,7 +12,7 @@
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "9.0.0",
     "babel-jest": "23.6.0",
-    "babel-loader": "8.0.5",
+    "babel-loader": "8.0.4",
     "babel-plugin-named-asset-import": "^0.3.1",
     "babel-preset-react-app": "^7.0.1",
     "bfj": "6.1.1",
@@ -55,6 +55,7 @@
     "react-redux": "^6.0.1",
     "react-router-dom": "^4.3.1",
     "react-swipeable-views": "^0.13.1",
+    "react-scripts": "2.1.1",
     "recharts": "^1.5.0",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
@@ -72,7 +73,9 @@
   "scripts": {
     "start": "PORT=3006 node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js"
+    "test": "node scripts/test.js",
+    "now-build": "node scripts/build.js && mv build dist",
+    "now-dev": "PORT=3006 node scripts/start.js"
   },
   "proxy": "http://localhost:5005",
   "browserslist": [
