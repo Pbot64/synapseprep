@@ -10,12 +10,9 @@ const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
-const sequelize = require('sequelize');
 const keys = require('../../config/keys');
 
-const { Op } = sequelize;
-
-// Load Imput Validation
+// Load Input Validation
 const validateRegisterInput = require('../../validation/register');
 const validateLoginInput = require('../../validation/login');
 const validateChangePassInput = require('../../validation/change-pass');
@@ -131,50 +128,62 @@ router.post('/login', (req, res) => {
 // @route Get api/users/current
 // @desc Return current user
 // @access Private
-router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
-  res.json({
-    id: req.user.id,
-    name: req.user.name,
-    email: req.user.email
-  });
-});
+router.get(
+  '/current',
+  passport.authenticate('jwt', {
+    session: false
+  }),
+  (req, res) => {
+    res.json({
+      id: req.user.id,
+      name: req.user.name,
+      email: req.user.email
+    });
+  }
+);
 
 // @route Get api/users/changepass
 // @desc Change Password
 // @access Private
-router.post('/changepass', passport.authenticate('jwt', { session: false }), (req, res) => {
-  const { errors, isValid } = validateChangePassInput(req.body);
+router.post(
+  '/changepass',
+  passport.authenticate('jwt', {
+    session: false
+  }),
+  (req, res) => {
+    const { errors, isValid } = validateChangePassInput(req.body);
 
-  // Check validation
-  if (!isValid) {
-    return res.status(400).json(errors);
-  }
-  // Hash New Password
-  const { password } = req.body;
-  const { id } = req.user;
-  const hashPassword = () => {
-    return new Promise((resolve, reject) => {
-      bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(password, salt, (err, hash) => {
-          if (err) console.log(err);
-          resolve(hash);
+    // Check validation
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
+    // Hash New Password
+    const { password } = req.body;
+    const { id } = req.user;
+    const hashPassword = () => {
+      return new Promise((resolve, reject) => {
+        bcrypt.genSalt(10, (err, salt) => {
+          bcrypt.hash(password, salt, (err, hash) => {
+            if (err) console.log(err);
+            resolve(hash);
+          });
         });
       });
+    };
+    // Find and Update Password
+    hashPassword().then(hash => {
+      User.findByIdAndUpdate(id, {
+        password: hash
+      }).then(user => {
+        console.log(user);
+      });
+      res.json({
+        success: true,
+        hashedPassword: hash
+      });
     });
-  };
-  // Find and Update Password
-  hashPassword().then(hash => {
-    User.findByIdAndUpdate(id, {
-      password: hash
-    }).then(user => {
-      console.log(user);
-    });
-    res.json({
-      success: true,
-      hashedPassword: hash
-    });
-  });
-});
+  }
+);
 
 // @route Get api/users/reset
 // @desc Send Email with Password Reset Token
@@ -213,12 +222,12 @@ router.post('/reset', (req, res) => {
       secure: false,
       requireTLS: true,
       auth: {
-        user: `${keys.emailUser}`,
-        pass: `${keys.emailPassword}`
+        user: `${process.env.EMAIL_ADDRESS}`,
+        pass: `${process.env.EMAIL_PASSWORD}`
       }
     });
     const mailOptions = {
-      from: 'caine316@gmail.com',
+      from: 'pbarb017@gmail.com',
       to: `${user.email}`,
       subject: 'Link To Reset Password',
       text:
@@ -279,12 +288,10 @@ router.put('/updatePasswordViaEmail', (req, res) => {
     return res.status(400).json(errors);
   }
 
-  console.log(req.body.resetPasswordToken);
   User.findOne({
     resetPasswordToken: req.body.resetPasswordToken
   })
     .then(user => {
-      console.log(user);
       if (user == null) {
         console.error('password reset link is invalid');
         res.status(403).send('password reset link is invalid');
@@ -308,7 +315,9 @@ router.put('/updatePasswordViaEmail', (req, res) => {
           .catch(err => console.log(err))
           .then(() => {
             console.log('password updated');
-            res.status(200).send({ message: 'password updated' });
+            res.status(200).send({
+              message: 'password updated'
+            });
           })
           .catch(err => console.log(err));
       }

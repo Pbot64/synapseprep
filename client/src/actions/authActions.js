@@ -2,8 +2,7 @@ import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
 import jwt_decode from 'jwt-decode';
 
-import { GET_ERRORS, CLEAR_ERRORS, SET_CURRENT_USER } from './types'
-
+import { GET_ERRORS, CLEAR_ERRORS, SET_CURRENT_USER } from './types';
 
 // Register User
 export const registerUser = (userData, history) => dispatch => {
@@ -15,12 +14,13 @@ export const registerUser = (userData, history) => dispatch => {
         type: GET_ERRORS,
         payload: err.response.data
       })
-  );
+    );
 };
 
 // Login - Get User Token
 export const loginUser = userData => dispatch => {
-  axios.post('/api/users/login', userData)
+  axios
+    .post('/api/users/login', userData)
     .then(res => {
       // Save to localStorage
       const { token } = res.data;
@@ -31,25 +31,26 @@ export const loginUser = userData => dispatch => {
       //Decode token to get user data
       const decoded = jwt_decode(token);
       // Set current user
-      dispatch(setCurrentUser(decoded))
-      dispatch(clearErrors())
+      dispatch(setCurrentUser(decoded));
+      dispatch(clearErrors());
     })
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data
-      }));
+      })
+    );
 };
 
 // Set logged in user
-export const setCurrentUser = (decoded) => {
+export const setCurrentUser = decoded => {
   return {
     type: SET_CURRENT_USER,
     payload: decoded
-  }
-}
+  };
+};
 
-// Logout user 
+// Logout user
 export const logoutUser = () => dispatch => {
   // Remove token from localStorage
   localStorage.removeItem('jwtToken');
@@ -57,7 +58,7 @@ export const logoutUser = () => dispatch => {
   setAuthToken(false);
   // Set current user to {} which will also set isAuthenticated to false
   dispatch(setCurrentUser({}));
-}
+};
 
 // Clear errors
 export const clearErrors = () => {
@@ -66,35 +67,34 @@ export const clearErrors = () => {
   };
 };
 
-// Change Currently Loggedin User's Password 
+// Change Currently Loggedin User's Password
 export const changePassword = (passwordData, updated) => dispatch => {
   axios
     .post('/api/users/changepass', passwordData)
     .then(() => {
-      dispatch(clearErrors())
+      dispatch(clearErrors());
     })
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data
       })
-  );
+    );
 };
 
 // Reset User's Forgotten Password
-export const resetPassword = (email) => dispatch => {
+export const resetPassword = email => dispatch => {
   axios
     .post('/api/users/reset', email)
-    .then((res) => {
+    .then(res => {
       this.setState({
         messageFromServer: 'nice!'
-        })
+      });
     })
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data
       })
-  );
+    );
 };
-
