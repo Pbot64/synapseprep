@@ -75,7 +75,7 @@ class ResetPassword extends Component {
 
   componentDidMount() {
     axios
-      .get('/api/users/resetpassword', {
+      .get('/api/users/authenticateResetToken', {
         params: {
           resetPasswordToken: this.props.match.params.token
         }

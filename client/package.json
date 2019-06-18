@@ -71,11 +71,11 @@
     "workbox-webpack-plugin": "3.6.3"
   },
   "scripts": {
-    "start": "PORT=3006 node scripts/start.js",
+    "start": "PORT=3007 node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
-    "now-build": "node scripts/build.js && mv build dist",
-    "now-dev": "PORT=3006 node scripts/start.js"
+    "now-build": "node scripts/build.js",
+    "now-dev": "react-scripts start"
   },
   "proxy": "http://localhost:5005",
   "browserslist": [
@@ -123,10 +123,6 @@
       "web.jsx",
       "jsx",
       "node"
-    ],
-    "watchPlugins": [
-      "/Users/paulbarber/Desktop/synapse-prep-app/client/node_modules/jest-watch-typeahead/filename.js",
-      "/Users/paulbarber/Desktop/synapse-prep-app/client/node_modules/jest-watch-typeahead/testname.js"
     ]
   },
   "babel": {

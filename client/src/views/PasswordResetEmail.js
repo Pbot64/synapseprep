@@ -77,7 +77,7 @@ class PasswordResetEmail extends Component {
     };
     const resetPassword = emailData => {
       axios
-        .post('/api/users/reset', emailData)
+        .post('/api/users/emailResetToken', emailData)
         .then(res => {
           this.setState({
             messageFromServer: 'recovery email sent',

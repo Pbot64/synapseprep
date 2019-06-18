@@ -1,8 +1,8 @@
 // Node Modules
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { logoutUser } from '../actions/authActions'
+import { logoutUser } from '../actions/authActions';
 import { clearCurrentProfile } from '../actions/profileActions';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -21,69 +21,69 @@ import Typography from '@material-ui/core/Typography';
 import Popper from '@material-ui/core/Popper';
 
 // Local Components
-import MenuTest from '../components/Menu'
-import LinkCustom from '../assets/jss/components/LinkCustom'
-
+import MenuTest from '../components/Menu';
+import LinkCustom from '../assets/jss/components/LinkCustom';
 
 // Local Assets
-import wavePattern from '../assets/images/wavePattern.png'
-import * as colors from '../assets/jss/components/colors'
+import wavePattern from '../assets/images/wavePattern.png';
+import * as colors from '../assets/jss/components/colors';
 
-//  Style Overrides 
+//  Style Overrides
 const styles = theme => ({
   grow: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   menuButton: {
     marginLeft: -12,
     marginRight: 20,
     [theme.breakpoints.up('lg')]: {
-      display: 'none',
-    },
+      display: 'none'
+    }
   },
   container: {
     display: 'flex',
-    color: 'white',
+    color: 'white'
   },
   appBar: {
     position: 'fixed',
     ...colors.blueToGreen,
+    color: 'white'
   },
   notificationsIcon: {
     marginRight: '5px',
-    fontSize: '0px',
+    fontSize: '0px'
   },
   logo: {
     display: 'none',
     [theme.breakpoints.up('lg')]: {
-      display: 'flex',
-    },
+      display: 'flex'
+    }
   },
   link: {
-    textDecoration: 'none',
+    textDecoration: 'none'
   },
   badge: {
     padding: '6px',
     '&:hover': {
       borderRadius: '30px',
-      backgroundColor: 'rgba(0, 0, 0, 0.08)',
-    },
+      backgroundColor: 'rgba(0, 0, 0, 0.08)'
+    }
   },
   register: {
     paddingRight: '10px',
     color: 'white',
-    borderRight: '2px solid white',
+    borderRight: '2px solid white'
   },
   login: {
     color: 'white',
-    marginLeft: '10px',
-  },
-})
+    marginLeft: '10px'
+  }
+});
 
 const StyledIconButton = withStyles({
   label: {
-    display: 'block',
-  },
+    display: 'block'
+  }
 })(IconButton);
 
 class Navbar extends Component {
@@ -91,8 +91,6 @@ class Navbar extends Component {
     anchorEl: null,
     anchorElNotifications: null
   };
-
-
 
   handleMenuNotifications = e => {
     this.setState({ anchorElNotifications: e.currentTarget });
@@ -102,17 +100,16 @@ class Navbar extends Component {
     this.setState({ anchorElNotifications: null });
   };
 
-
   render() {
     const { classes, handleDrawerToggle } = this.props;
     const { isAuthenticated, user } = this.props.auth;
     const { anchorEl, anchorElNotifications } = this.state;
     const open = Boolean(anchorEl);
-    const openNotifications = Boolean(anchorElNotifications)
+    const openNotifications = Boolean(anchorElNotifications);
 
     const authLinks = (
       <div className={classes.container}>
-        { /* Notifications Icon */}
+        {/* Notifications Icon */}
         <StyledIconButton
           className={classes.notificationsIcon}
           aria-owns={open ? 'menu-appbar' : undefined}
@@ -120,21 +117,21 @@ class Navbar extends Component {
           onClick={this.handleMenuNotifications}
           color="inherit"
         >
-          <Badge badgeContent={11} color="secondary" >
+          <Badge badgeContent={11} color="secondary">
             <NotificationsIcon />
           </Badge>
         </StyledIconButton>
 
-        { /* Notifications Menu */}
+        {/* Notifications Menu */}
         <Menu
           anchorEl={anchorElNotifications}
           anchorOrigin={{
             vertical: 'bottom',
-            horizontal: 'center',
+            horizontal: 'center'
           }}
           transformOrigin={{
             vertical: 'bottom',
-            horizontal: 'center',
+            horizontal: 'center'
           }}
           open={openNotifications}
           onClose={this.handleMenuNotificationsClose}
@@ -142,10 +139,9 @@ class Navbar extends Component {
           <MenuItem onClick={this.handleMenuNotificationsClose}>Your notifications</MenuItem>
         </Menu>
 
-        { /* User Icon */}
+        {/* User Icon */}
 
-
-        { /* User Menu */}
+        {/* User Menu */}
 
         <MenuTest />
       </div>
@@ -153,13 +149,13 @@ class Navbar extends Component {
 
     const guestLinks = (
       <div className={classes.container}>
-        <LinkCustom to='./register' className = {classes.register}>
-          <Typography component="h1" variant="body1" color = "inherit">
+        <LinkCustom to="./register" className={classes.register}>
+          <Typography component="h1" variant="body1" color="inherit">
             Register
           </Typography>
         </LinkCustom>
-        <LinkCustom to='./login' className = {classes.login}>
-          <Typography component="h1" variant="body1" color = "inherit">
+        <LinkCustom to="./login" className={classes.login}>
+          <Typography component="h1" variant="body1" color="inherit">
             Login
           </Typography>
         </LinkCustom>
@@ -167,42 +163,44 @@ class Navbar extends Component {
     );
 
     return (
-      <div>
+      <React.Fragment>
         <AppBar className={classes.appBar} position="static">
           <Toolbar>
             <IconButton
               className={classes.menuButton}
-              color='inherit'
+              color="inherit"
               aria-label="Menu"
               onClick={handleDrawerToggle}
             >
               <MenuIcon />
             </IconButton>
             <Grid item className={classes.grow}>
-              <Typography variant="caption" color='inherit' className={classes.logo}>
+              <Typography variant="caption" color="inherit" className={classes.logo}>
                 Synapse Prep
               </Typography>
             </Grid>
-            <Grid item className='navlinks'>
+            <Grid item className="navlinks">
               {isAuthenticated ? authLinks : guestLinks}
             </Grid>
           </Toolbar>
         </AppBar>
-      </div>
-    )
+      </React.Fragment>
+    );
   }
-
-
 }
 
 Navbar.propTypes = {
   logoutUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired
 };
 
-const mapStatetoProps = (state) => ({
-  auth: state.auth,
+const mapStatetoProps = state => ({
+  auth: state.auth
 });
 
 export default withStyles(styles)(
-  connect(mapStatetoProps, { logoutUser, clearCurrentProfile })(Navbar));
+  connect(
+    mapStatetoProps,
+    { logoutUser, clearCurrentProfile }
+  )(Navbar)
+);

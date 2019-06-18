@@ -10,7 +10,6 @@ const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
-const keys = require('../../config/keys');
 
 // Load Input Validation
 const validateRegisterInput = require('../../validation/register');
@@ -106,7 +105,7 @@ router.post('/login', (req, res) => {
         // Sign Token
         jwt.sign(
           payload,
-          keys.secretOrKey,
+          process.env.SECRET_OR_KEY,
           {
             expiresIn: 36000
           },
@@ -146,7 +145,7 @@ router.get(
 // @desc Change Password
 // @access Private
 router.post(
-  '/changepass',
+  '/changePass',
   passport.authenticate('jwt', {
     session: false
   }),
@@ -185,10 +184,10 @@ router.post(
   }
 );
 
-// @route Get api/users/reset
+// @route Get api/users/emailRecoveryToken
 // @desc Send Email with Password Reset Token
 // @access Public
-router.post('/reset', (req, res) => {
+router.post('/emailResetToken', (req, res) => {
   const { errors, isValid } = validateResetInput(req.body);
 
   // Check validation
@@ -250,12 +249,12 @@ router.post('/reset', (req, res) => {
   });
 });
 
-// @route Get api/users/resetpassword
+// @route Get api/users/authenticateResetToken
 // @desc Authenticate password reset link
 // @access Public
-router.get('/resetpassword', (req, res) => {
+router.get('/authenticateResetToken', (req, res) => {
   console.log(req.query.resetPasswordToken);
-  const { errors, isValid } = validateChangePassInput(req.body);
+
   User.findOne({
     resetPasswordToken: req.query.resetPasswordToken
   })
