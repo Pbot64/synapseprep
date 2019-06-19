@@ -1,6 +1,10 @@
+import Problem from '../models/Problem';
+
 const problemController = {
   list(req, res) {
-    return res.send({ data: [{ id: 1 }, { id: 2 }, { id: 3 }] });
+    Problem.find({}).then(p => {
+      res.send(p);
+    });
   }
 };
 

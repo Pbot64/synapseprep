@@ -1,6 +1,5 @@
 // Load User model
 import User from '../../models/User';
-import { getConsoleOutput } from '@jest/console';
 import keys from '../../config/keys';
 
 const express = require('express');

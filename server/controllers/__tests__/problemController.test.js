@@ -1,6 +1,8 @@
 /* eslint-disable no-underscore-dangle */
 import httpMocks from 'node-mocks-http';
+import { problems as mockProblems } from './fixtures/problems.json';
 import problemController from '../problemController';
+import Problem from '../../models/Problem';
 
 describe('Problem api', () => {
   const mockRequest = httpMocks.createRequest({
@@ -14,10 +16,17 @@ describe('Problem api', () => {
   });
 
   it('can list practice problems', () => {
+    // Arrange
+    jest.mock('../../models/Problem', () => ({
+      find: Promise.resolve(mockProblems)
+    }));
+
+    // Act
     problemController.list(mockRequest, mockResponse);
     const actual = mockResponse._getData();
-    const expected = { data: [{ id: 1 }, { id: 2 }, { id: 3 }] };
+    const expected = mockProblems;
 
+    // Assert
     expect(actual).toEqual(expected);
   });
 
