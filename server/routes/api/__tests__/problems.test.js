@@ -19,11 +19,17 @@ describe('Problems routes', () => {
   });
 
   it('when request url is /problems then calls list on controller.', async () => {
+    // Arrange
+    //
     const app = express();
     app.use(problems);
+
+    // Act
     await request(app)
       .get('/list')
       .expect(200);
+
+    // Assert/Expect
     expect(problemController.list).toHaveBeenCalled();
   });
 });

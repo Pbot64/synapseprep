@@ -1,5 +1,7 @@
 // Load User model
 import User from '../../models/User';
+import { getConsoleOutput } from '@jest/console';
+import keys from '../../config/keys';
 
 const express = require('express');
 
@@ -10,7 +12,6 @@ const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
-const keys = require('../../config/keys');
 
 // Load Imput Validation
 const validateRegisterInput = require('../../validation/register');
@@ -104,6 +105,7 @@ router.post('/login', (req, res) => {
           avatar: user.avatar
         };
         // Sign Token
+        console.log({ keys });
         jwt.sign(
           payload,
           keys.secretOrKey,
@@ -153,7 +155,7 @@ router.post('/changepass', passport.authenticate('jwt', { session: false }), (re
     return new Promise((resolve, reject) => {
       bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(password, salt, (err, hash) => {
-          if (err) console.log(err);
+          if (err) console.out(err);
           resolve(hash);
         });
       });

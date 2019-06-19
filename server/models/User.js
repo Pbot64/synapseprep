@@ -1,8 +1,6 @@
 import mongoose from 'mongoose';
-console.log({ mongoose });
-const { Schema } = mongoose;
 
-console.log(Schema);
+const { Schema } = mongoose;
 
 // Creat Schema
 const UserSchema = new Schema({

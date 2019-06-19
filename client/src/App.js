@@ -4,45 +4,42 @@ import { withStyles } from '@material-ui/core/styles';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
-import { setCurrentUser, logoutUser } from './actions/authActions'
+import { setCurrentUser, logoutUser } from './actions/authActions';
 import { Provider } from 'react-redux';
 import store from './store';
-import PrivateRoute from './components/common/PrivateRoute'
-import { createBrowserHistory } from 'history';
+import PrivateRoute from './components/common/PrivateRoute';
 
 // Local Components
-import Dashboard from './layouts/Dashboard/@Dashboard'
-import Intro from './layouts/Intro'
-import Reading from './layouts/Reading'
-import QuestionFeedPage from './layouts/QuestionFeedPage'
+import Dashboard from './layouts/Dashboard/@Dashboard';
+import Intro from './layouts/Intro';
+import Reading from './layouts/Reading';
+import QuestionFeedPage from './layouts/QuestionFeedPage';
 import Login from './views/Login';
-import Register from './views/Register'
+import Register from './views/Register';
 import PasswordResetEmail from './views/PasswordResetEmail';
-import SiteWrapper from './layouts/Sitewrapper'
-import Profile from './layouts/Profile'
-import ResetPassword from './views/ResetPassword'
-import ScrollToTop from './components/common/ScrollToTop'
+import SiteWrapper from './layouts/Sitewrapper';
+import Profile from './layouts/Profile';
+import ResetPassword from './views/ResetPassword';
+import ScrollToTop from './components/common/ScrollToTop';
 
 // Material UI Components
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { clearCurrentProfile } from './actions/profileActions';
 
-
 // Local Assets
 
-//  Style Overrides 
-const styles = theme => ({
-
-});
+//  Style Overrides
+const styles = theme => ({});
 
 //Check for Token
-if (localStorage.jwtToken) {
+const jwtToken = localStorage.jwtToken;
+if (jwtToken !== 'Bearer undefined' && jwtToken !== null && jwtToken) {
   // Set auth token header auth
   setAuthToken(localStorage.jwtToken);
   // Decode token and get user info and exp
   const decoded = jwt_decode(localStorage.jwtToken);
   // Set user and isAuthenticated
-  store.dispatch(setCurrentUser(decoded))
+  store.dispatch(setCurrentUser(decoded));
 
   // Check for expired token
   const currentTime = Date.now() / 1000;
@@ -56,37 +53,34 @@ if (localStorage.jwtToken) {
   }
 }
 
-
 class App extends Component {
   state = {
-      data: [],
-    }
-  
+    data: []
+  };
+
   render() {
     return (
       <Provider store={store}>
         <Router>
-        <ScrollToTop>
-          <div>
-            <CssBaseline />
-            <SiteWrapper>
-             
-              <Switch>
-                <PrivateRoute exact path='/dashboard' component={Dashboard} />
-                <PrivateRoute exact path='/profile' component={Profile} />
-                <Route exact path="/resetpassword/:token" component={ResetPassword} />
-              </Switch>
-              <Route exact path='/question-feed' component={QuestionFeedPage}/>
-              <Route exact path='/reading' component={Reading} />
-              <Route exact path='/intro' component={Reading} />
-              <Route exact path='/login' component={Login} />
-              <Route exact path='/register' component={Register} />
-              <Route exact path='/passwordResetEmail' component={PasswordResetEmail} />
-            </SiteWrapper>
-          </div>
+          <ScrollToTop>
+            <div>
+              <CssBaseline />
+              <SiteWrapper>
+                <Switch>
+                  <PrivateRoute exact path="/dashboard" component={Dashboard} />
+                  <PrivateRoute exact path="/profile" component={Profile} />
+                  <Route exact path="/resetpassword/:token" component={ResetPassword} />
+                </Switch>
+                <Route exact path="/question-feed" component={QuestionFeedPage} />
+                <Route exact path="/reading" component={Reading} />
+                <Route exact path="/intro" component={Reading} />
+                <Route exact path="/login" component={Login} />
+                <Route exact path="/register" component={Register} />
+                <Route exact path="/passwordResetEmail" component={PasswordResetEmail} />
+              </SiteWrapper>
+            </div>
           </ScrollToTop>
         </Router>
-       
       </Provider>
     );
   }
