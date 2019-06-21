@@ -1,9 +1,10 @@
 {
   "problems": [
     {
+      "_id": "5d0c63de17624815372387f3",
+      "__v": 0,
       "question": {
         "content": "What is the best animal?\n\n[[☃ radio 1]]\n",
-        "images": {},
         "widgets": {
           "radio 1": {
             "type": "radio",
@@ -50,9 +51,10 @@
       "hints": []
     },
     {
+      "_id": "5d0c63f0696f5c1b9920e5f4",
+      "__v": 0,
       "question": {
         "content": "What kind of curve is this?\n[[☃ grapher 1]]\n\n[[☃ radio 1]]\n\n",
-        "images": {},
         "widgets": {
           "grapher 1": {
             "type": "grapher",

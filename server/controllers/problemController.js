@@ -1,10 +1,10 @@
 import Problem from '../models/Problem';
+import '@babel/polyfill';
 
 const problemController = {
-  list(req, res) {
-    Problem.find({}).then(p => {
-      res.send(p);
-    });
+  async list(req, res) {
+    const problems = await Problem.find({});
+    return res.send(problems);
   }
 };
 

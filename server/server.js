@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import keys from './config/keys';
+import problems from './routes/api/problems';
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -34,6 +35,7 @@ require('./config/passport')(passport);
 app.use('/api/users', users);
 app.use('/api/profile', profile);
 app.use('/api/posts', posts);
+app.use('/api/problems', problems);
 
 const port = process.env.PORT || 5005;
 

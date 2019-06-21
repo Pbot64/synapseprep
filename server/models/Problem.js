@@ -2,6 +2,6 @@ import mongoose from 'mongoose';
 
 const { Schema } = mongoose;
 
-const ProblemSchema = new Schema({ any: Schema.Types.Mixed });
+const ProblemSchema = new Schema({}, { strict: false });
 const Problem = mongoose.model('problems', ProblemSchema);
 export default Problem;
