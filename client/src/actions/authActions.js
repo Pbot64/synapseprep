@@ -70,7 +70,7 @@ export const clearErrors = () => {
 // Change Currently Loggedin User's Password
 export const changePassword = (passwordData, updated) => dispatch => {
   axios
-    .post('/api/users/changepass', passwordData)
+    .post('/api/users/changePass', passwordData)
     .then(() => {
       dispatch(clearErrors());
     })
@@ -85,7 +85,7 @@ export const changePassword = (passwordData, updated) => dispatch => {
 // Reset User's Forgotten Password
 export const resetPassword = email => dispatch => {
   axios
-    .post('/api/users/reset', email)
+    .post('/api/users/emailResetToken', email)
     .then(res => {
       this.setState({
         messageFromServer: 'nice!'

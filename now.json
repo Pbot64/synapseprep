@@ -1,0 +1,90 @@
+{
+  "version": 2,
+  "name": "my-react-app",
+  "alias": ["app.synapseprep.net"],
+  "builds": [
+    {
+      "src": "/client/package.json",
+      "use": "@now/static-build",
+      "config": {
+        "distDir": "build"
+      }
+    },
+    {
+      "src": "/server/lamdas/**/*.js",
+      "use": "@now/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/test",
+      "dest": "/server/lamdas/test.js"
+    },
+    {
+      "src": "/api/users/login",
+      "dest": "/server/lamdas/login.js"
+    },
+    {
+      "src": "/api/users/register",
+      "dest": "/server/lamdas/register.js"
+    },
+    {
+      "src": "/api/users/changePass",
+      "dest": "/server/lamdas/changePass.js"
+    },
+    {
+      "src": "/api/users/authenticateResetToken",
+      "dest": "/server/lamdas/authenticateResetToken.js"
+    },
+    {
+      "src": "/api/users/emailResetToken",
+      "dest": "/server/lamdas/emailResetToken.js"
+    },
+    {
+      "src": "/api/users/updatePasswordViaEmail",
+      "dest": "/server/lamdas/updatePasswordViaEmail.js"
+    },
+    {
+      "src": "/static/(.*)",
+      "headers": {
+        "cache-control": "s-maxage=31536000,immutable"
+      },
+      "dest": "/client/static/$1"
+    },
+    {
+      "src": "/favicon.ico",
+      "dest": "/client/favicon.ico"
+    },
+    {
+      "src": "/asset-manifest.json",
+      "dest": "/client/asset-manifest.json"
+    },
+    {
+      "src": "/manifest.json",
+      "dest": "/client/manifest.json"
+    },
+    {
+      "src": "/precache-manifest.(.*)",
+      "dest": "/client/precache-manifest.$1"
+    },
+    {
+      "src": "/service-worker.js",
+      "headers": {
+        "cache-control": "s-maxage=0"
+      },
+      "dest": "/client/service-worker.js"
+    },
+    {
+      "src": "/(.*)",
+      "headers": {
+        "cache-control": "s-maxage=0"
+      },
+      "dest": "/client/index.html"
+    }
+  ],
+  "env": {
+    "MONGODB_URI": "@mongodb-atlas-uri",
+    "SECRET_OR_KEY": "@secret-or-key",
+    "EMAIL_PASSWORD": "@email-password"
+  }
+}

@@ -123,10 +123,6 @@
       "web.jsx",
       "jsx",
       "node"
-    ],
-    "watchPlugins": [
-      "/Users/paulbarber/Desktop/synapse-prep-app/client/node_modules/jest-watch-typeahead/filename.js",
-      "/Users/paulbarber/Desktop/synapse-prep-app/client/node_modules/jest-watch-typeahead/testname.js"
     ]
   },
   "babel": {

@@ -10,6 +10,18 @@ import JssProvider from 'react-jss/lib/JssProvider';
 import { createGenerateClassName, jssPreset } from '@material-ui/core/styles';
 
 const theme = createMuiTheme({
+  palette: {
+    primary: {
+      light: '#00f08b',
+      main: '#00BF6F'
+    },
+    text: {
+      primary: '#343e4d',
+      secondary: '#7a92a5',
+      lightGrey: 'rgba(0, 0, 0, 0.3)'
+    }
+  },
+
   typography: {
     useNextVariants: true,
     caption: {
@@ -18,24 +30,19 @@ const theme = createMuiTheme({
       fontSize: 15,
       letterSpacing: 2
     },
-    body2: {
+    overline: {
       letterSpacing: '1.5px',
       textTransform: 'none',
       fontWeight: '500',
-      fontSize: '16px'
+      lineHeight: '1.4',
+      fontSize: '18px'
     },
+    body2: {},
     h5: {
       fontWeight: '300'
     },
     h6: {
       fontWeight: '300'
-    }
-  },
-  palette: {
-    primary: '#2980ba'[500],
-    text: {
-      primary: '#000000',
-      lightGrey: 'rgba(0, 0, 0, 0.3)'
     }
   }
 });
