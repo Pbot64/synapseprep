@@ -4,7 +4,7 @@ const app = express();
 
 app.get('*', (req, res) =>
   res.json({
-    msg: 'Users Works'
+    msg: 'GET test'
   })
 );
 

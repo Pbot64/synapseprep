@@ -9,7 +9,11 @@
     "server": "nodemon --exec babel-node server.js",
     "client": "npm start --prefix ../client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "test": "jest"
+    "test": "jest",
+    "now-dev-server": "now dev -p 4000",
+    "now-dev-client": "now dev -p 3000 ../client/",
+    "now-dev": "npm run now-dev-server & npm run now-dev-client",
+    "now-stop": "pkill now"
   },
   "jest": {
     "setupFiles": [
