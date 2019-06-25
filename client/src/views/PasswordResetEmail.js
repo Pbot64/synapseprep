@@ -5,14 +5,14 @@ import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { GET_ERRORS } from '../actions/types'
+import { GET_ERRORS } from '../actions/types';
 
 // Local Components
-import ButtonCustom from '../assets/jss/components/ButtonCustom'
-import * as colors from '../assets/jss/components/colors'
-import CardCustom from '../assets/jss/components/CardCustom'
-import LinkCustom from '../assets/jss/components/LinkCustom'
-import { resetPassword } from '../actions/authActions'
+import ButtonCustom from '../assets/jss/components/ButtonCustom';
+import * as colors from '../assets/jss/components/colors';
+import CardCustom from '../assets/jss/components/CardCustom';
+import LinkCustom from '../assets/jss/components/LinkCustom';
+import { resetPassword } from '../actions/authActions';
 import Button from '@material-ui/core/Button';
 
 // Material UI Components
@@ -22,47 +22,46 @@ import Typography from '@material-ui/core/Typography';
 
 // Local Assets
 
-//  Style Overrides 
+//  Style Overrides
 const styles = theme => ({
   progress: {
-    color: 'grey',
+    color: 'grey'
   },
-  textField: {
-  },
+  textField: {},
   label: {
-    color: 'grey',
+    color: 'grey'
   },
   root: {
-    color: 'grey',
+    color: 'grey'
   },
   submit: {
-    marginTop: theme.spacing.unit * 2,
+    marginTop: theme.spacing.unit * 2
   },
   progressContainer: {
-    height: '-webkit-fill-available',
+    height: '-webkit-fill-available'
   },
   buttonContainer: {
-    marginBottom: '20px',
+    marginBottom: '20px'
   },
   cardInner: {
-    padding: 20,
+    padding: 20
   },
   password: {
-    marginBottom: '20px',
+    marginBottom: '20px'
   },
   billing: {
-    marginTop: '40px',
+    marginTop: '40px'
   },
   form: {
-    marginTop: '20px',
-  },
+    marginTop: '20px'
+  }
 });
 
 class PasswordResetEmail extends Component {
   state = {
     email: '',
     errors: {},
-    messageFromServer: '',
+    messageFromServer: ''
   };
 
   componentWillReceiveProps(nextProps) {
@@ -74,22 +73,19 @@ class PasswordResetEmail extends Component {
   handleSubmit = e => {
     e.preventDefault();
     const emailData = {
-      email: this.state.email,
-    }
-    const resetPassword = (emailData) => {
+      email: this.state.email
+    };
+    const resetPassword = emailData => {
       axios
-        .post('/api/users/reset', emailData)
-        .then((res) => {
-          console.log(res)
+        .post('/api/users/emailResetToken', emailData)
+        .then(res => {
           this.setState({
             messageFromServer: 'recovery email sent',
             errors: {}
-          })
+          });
         })
-        .catch(err =>
-          this.props.getErrors(err)
-        );
-    }
+        .catch(err => this.props.getErrors(err));
+    };
     resetPassword(emailData);
   };
 
@@ -100,17 +96,17 @@ class PasswordResetEmail extends Component {
   render() {
     const { classes } = this.props;
     const { errors, messageFromServer } = this.state;
-    const { user } = this.props.auth;
     return (
       <React.Fragment>
         <Grid item xs={12} sm={5}>
-          <CardCustom title='Change Password' borderBottom>
-            <Grid container justify='center' direction = 'column' className={classes.cardInner}>
-              <Typography variant='body1' color='inherit'>
-                Enter your email address below and we'll send you an email with instructions to reset your password.
-                  </Typography>
+          <CardCustom title="Change Password" borderBottom>
+            <Grid container justify="center" direction="column" className={classes.cardInner}>
+              <Typography variant="body1" color="inherit">
+                Enter your email address below and we'll send you an email with instructions to
+                reset your password.
+              </Typography>
               <form onSubmit={this.handleSubmit} className={classes.form}>
-                <Grid container direction='column'>
+                <Grid container direction="column">
                   <TextField
                     error={Boolean(errors.email)}
                     id="outlined-adornment-email"
@@ -124,9 +120,14 @@ class PasswordResetEmail extends Component {
                     onChange={this.handleChange('email')}
                   />
 
-                  <Grid container justify="space-between" align = 'center' direction = 'column' className={classes.buttonContainer} >
+                  <Grid
+                    container
+                    justify="space-between"
+                    align="center"
+                    direction="column"
+                    className={classes.buttonContainer}
+                  >
                     <Grid item>
-
                       <ButtonCustom
                         type="submit"
                         fullWidth
@@ -134,43 +135,45 @@ class PasswordResetEmail extends Component {
                         className={classes.submit}
                       >
                         Send Email
-                        </ButtonCustom>
+                      </ButtonCustom>
                     </Grid>
                   </Grid>
                 </Grid>
               </form>
               {messageFromServer === 'recovery email sent' && (
-                <Typography variant='body1' color='inherit' align='center'>
+                <Typography variant="body1" color="inherit" align="center">
                   Password Recovery Email Sent
-                  </Typography>
+                </Typography>
               )}
             </Grid>
           </CardCustom>
         </Grid>
-      </React.Fragment >
-    )
+      </React.Fragment>
+    );
   }
 }
 
 PasswordResetEmail.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
 };
 
-const mapStatetoProps = (state) => ({
+const mapStatetoProps = state => ({
   auth: state.auth,
   errors: state.errors
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  getErrors:
-    (err) => {
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
-      })
-    },
-})
+const mapDispatchToProps = dispatch => ({
+  getErrors: err => {
+    dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data
+    });
+  }
+});
 
 export default withStyles(styles)(
-  connect(mapStatetoProps, mapDispatchToProps)(PasswordResetEmail));
-
+  connect(
+    mapStatetoProps,
+    mapDispatchToProps
+  )(PasswordResetEmail)
+);

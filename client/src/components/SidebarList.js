@@ -2,10 +2,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 // Material UI Components
-import LinearProgressBar from './LinearProgressBar'
+import LinearProgressBar from './LinearProgressBar';
 import Collapse from '@material-ui/core/Collapse';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import Divider from '@material-ui/core/Divider';
@@ -32,37 +32,36 @@ import { Toolbar } from '@material-ui/core';
 const styles = theme => ({
   nested: {
     paddingLeft: theme.spacing.unit * 4,
-    opacity: 0.8,
+    opacity: 0.8
   },
   center: {
     justifyContent: 'center',
     [theme.breakpoints.up('sm')]: {
       paddingLeft: 0,
-      paddingRight: 0,
-    },
+      paddingRight: 0
+    }
   },
   link: {
     color: 'inherit',
-    textDecoration: 'none',
-  },
-
-})
+    textDecoration: 'none'
+  }
+});
 
 const StyledListItem = withStyles({
   button: {
     '&:focus': {
-      backgroundColor: 'rgba(0,0,0,0.2)',
-    },
-  },
+      backgroundColor: 'rgba(0,0,0,0.2)'
+    }
+  }
 })(ListItem);
 
-const SidebarList = (props) => {
+const SidebarList = props => {
   const { classes } = props;
   return (
-    <div className = {classes.root}>
-      <Link to='./' className={classes.link}>
+    <div className={classes.root}>
+      <Link to="./" className={classes.link}>
         <Toolbar className={classes.center}>
-          <Typography variant="caption" color='inherit'>
+          <Typography variant="caption" color="inherit">
             Synapse Prep
           </Typography>
         </Toolbar>
@@ -70,47 +69,49 @@ const SidebarList = (props) => {
 
       <Divider />
       <List component="nav">
-        <Link to='./dashboard' className={classes.link}>
-          <StyledListItem button   >
+        <Link to="./dashboard" className={classes.link}>
+          <StyledListItem button>
             <ListItemIcon>
               <DashboardIcon />
             </ListItemIcon>
-            <ListItemText inset primary="Dashboard" />
+            <ListItemText primary="Dashboard" />
           </StyledListItem>
         </Link>
 
-        <StyledListItem button onClick={() => {props.handleClick('Lessons')}}>
+        <StyledListItem
+          button
+          onClick={() => {
+            props.handleClick('Lessons');
+          }}
+        >
           <ListItemIcon>
             <School />
           </ListItemIcon>
-          <ListItemText inset primary="Lessons" />
+          <ListItemText primary="Lessons" />
           {props.lessonsMenuOpen ? <ExpandLess /> : <ExpandMore />}
-        </StyledListItem >
-     
-            
+        </StyledListItem>
+
         <Collapse in={props.lessonsMenuOpen} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <Link to='./intro' className={classes.link}>
+            <Link to="./intro" className={classes.link}>
               <StyledListItem button className={classes.nested}>
                 <ListItemIcon>
                   <StarBorder />
                 </ListItemIcon>
-                <ListItemText inset primary="Intro" />
-               
-              </StyledListItem >
+                <ListItemText primary="Intro" />
+              </StyledListItem>
             </Link>
-          
           </List>
         </Collapse>
         <Collapse in={props.lessonsMenuOpen} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <Link to='./reading' className={classes.link}>
+            <Link to="./reading" className={classes.link}>
               <StyledListItem button className={classes.nested}>
                 <ListItemIcon>
                   <StarBorder />
                 </ListItemIcon>
-                <ListItemText inset primary="Reading" />
-              </StyledListItem >
+                <ListItemText primary="Reading" />
+              </StyledListItem>
             </Link>
           </List>
         </Collapse>
@@ -120,8 +121,8 @@ const SidebarList = (props) => {
               <ListItemIcon>
                 <StarBorder />
               </ListItemIcon>
-              <ListItemText inset primary="Writing" />
-            </StyledListItem >
+              <ListItemText primary="Writing" />
+            </StyledListItem>
           </List>
         </Collapse>
         <Collapse in={props.lessonsMenuOpen} timeout="auto" unmountOnExit>
@@ -130,8 +131,8 @@ const SidebarList = (props) => {
               <ListItemIcon>
                 <PieChart />
               </ListItemIcon>
-              <ListItemText inset primary="Math" />
-            </StyledListItem >
+              <ListItemText primary="Math" />
+            </StyledListItem>
           </List>
         </Collapse>
         <Collapse in={props.lessonsMenuOpen} timeout="auto" unmountOnExit>
@@ -140,18 +141,23 @@ const SidebarList = (props) => {
               <ListItemIcon>
                 <StarBorder />
               </ListItemIcon>
-              <ListItemText inset primary="Essay" />
-            </StyledListItem >
+              <ListItemText primary="Essay" />
+            </StyledListItem>
           </List>
         </Collapse>
 
-        <StyledListItem button onClick={() => {props.handleClick('Practice')}}>
+        <StyledListItem
+          button
+          onClick={() => {
+            props.handleClick('Practice');
+          }}
+        >
           <ListItemIcon>
             <School />
           </ListItemIcon>
-          <ListItemText inset primary="Practice" />
+          <ListItemText primary="Practice" />
           {props.practiceMenuOpen ? <ExpandLess /> : <ExpandMore />}
-        </StyledListItem >
+        </StyledListItem>
 
         <Collapse in={props.practiceMenuOpen} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
@@ -159,8 +165,8 @@ const SidebarList = (props) => {
               <ListItemIcon>
                 <PieChart />
               </ListItemIcon>
-              <ListItemText inset primary="Math" />
-            </StyledListItem >
+              <ListItemText primary="Math" />
+            </StyledListItem>
           </List>
         </Collapse>
         <Collapse in={props.practiceMenuOpen} timeout="auto" unmountOnExit>
@@ -169,8 +175,8 @@ const SidebarList = (props) => {
               <ListItemIcon>
                 <StarBorder />
               </ListItemIcon>
-              <ListItemText inset primary="Essay" />
-            </StyledListItem >
+              <ListItemText primary="Essay" />
+            </StyledListItem>
           </List>
         </Collapse>
 
@@ -178,16 +184,15 @@ const SidebarList = (props) => {
           <ListItemIcon>
             <Timer />
           </ListItemIcon>
-          <ListItemText inset primary="Full Tests" />
-        </StyledListItem >
-
+          <ListItemText primary="Full Tests" />
+        </StyledListItem>
 
         <StyledListItem button>
           <ListItemIcon>
             <StarBorder />
           </ListItemIcon>
-          <ListItemText inset primary="Review" />
-        </StyledListItem >
+          <ListItemText primary="Review" />
+        </StyledListItem>
       </List>
       <Divider />
 
@@ -196,11 +201,11 @@ const SidebarList = (props) => {
           <StyledListItem button key={text}>
             <ListItemIcon>{index % 2 === 0 ? <Settings /> : <MailIcon />}</ListItemIcon>
             <ListItemText primary={text} />
-          </StyledListItem >
+          </StyledListItem>
         ))}
       </List>
     </div>
-  )
+  );
 };
 
 export default withStyles(styles)(SidebarList);

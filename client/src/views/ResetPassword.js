@@ -5,14 +5,14 @@ import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { GET_ERRORS } from '../actions/types'
+import { GET_ERRORS } from '../actions/types';
 
 // Local Components
-import ButtonCustom from '../assets/jss/components/ButtonCustom'
-import * as colors from '../assets/jss/components/colors'
-import CardCustom from '../assets/jss/components/CardCustom'
-import LinkCustom from '../assets/jss/components/LinkCustom'
-import { resetPassword } from '../actions/authActions'
+import ButtonCustom from '../assets/jss/components/ButtonCustom';
+import * as colors from '../assets/jss/components/colors';
+import CardCustom from '../assets/jss/components/CardCustom';
+import LinkCustom from '../assets/jss/components/LinkCustom';
+import { resetPassword } from '../actions/authActions';
 import Button from '@material-ui/core/Button';
 
 // Material UI Components
@@ -24,39 +24,38 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 
-//  Style Overrides 
+//  Style Overrides
 const styles = theme => ({
   progress: {
-    color: 'grey',
+    color: 'grey'
   },
-  textField: {
-  },
+  textField: {},
   label: {
-    color: 'grey',
+    color: 'grey'
   },
   root: {
-    color: 'grey',
+    color: 'grey'
   },
   submit: {
     marginTop: theme.spacing.unit * 3,
     color: '#FFFFFF',
-    ...colors.blueToGreen,
+    ...colors.blueToGreen
   },
   progressContainer: {
-    height: '-webkit-fill-available',
+    height: '-webkit-fill-available'
   },
   buttonContainer: {
-    marginTop: '15px',
+    marginTop: '15px'
   },
   cardInner: {
-    padding: 20,
+    padding: 20
   },
   password: {
-    marginBottom: '20px',
+    marginBottom: '20px'
   },
   billing: {
     marginTop: '40px'
-  },
+  }
 });
 
 class ResetPassword extends Component {
@@ -70,33 +69,31 @@ class ResetPassword extends Component {
       isLoading: true,
       message: '',
       errors: {},
-      showPassword: false,
+      showPassword: false
     };
   }
 
-
   componentDidMount() {
     axios
-      .get('/api/users/resetpassword', {
+      .get('/api/users/authenticateResetToken', {
         params: {
-          resetPasswordToken: this.props.match.params.token,
-        },
+          resetPasswordToken: this.props.match.params.token
+        }
       })
       .then(res => {
         if (res.data.message === 'password reset link a-ok') {
           this.setState({
-            message: 'authenticated',
-          })
+            message: 'authenticated'
+          });
         }
-
-      }).catch(err => {
+      })
+      .catch(err => {
         this.setState({
           message: 'error'
-        })
-        this.props.getErrors(err)
-      })
+        });
+        this.props.getErrors(err);
+      });
   }
-
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
@@ -108,10 +105,9 @@ class ResetPassword extends Component {
     this.setState(state => ({ showPassword: !state.showPassword }));
   };
 
-
   handleChange = name => event => {
     this.setState({
-      [name]: event.target.value,
+      [name]: event.target.value
     });
   };
 
@@ -121,10 +117,9 @@ class ResetPassword extends Component {
       .put('/api/users/updatePasswordViaEmail', {
         password: this.state.password,
         password2: this.state.password2,
-        resetPasswordToken: this.props.match.params.token,
+        resetPasswordToken: this.props.match.params.token
       })
       .then(res => {
-        console.log(res.data);
         if (res.data.message === 'password updated') {
           this.setState({
             message: 'updated'
@@ -134,9 +129,9 @@ class ResetPassword extends Component {
       .catch(err => {
         this.setState({
           message: 'error'
-        })
-        this.props.getErrors(err)
-      })
+        });
+        this.props.getErrors(err);
+      });
   };
 
   render() {
@@ -144,7 +139,6 @@ class ResetPassword extends Component {
     const { classes } = this.props;
     return (
       <React.Fragment>
-
         {message === 'error' && (
           <div>
             <h4>Problem resetting password. Please send another reset link.</h4>
@@ -154,10 +148,10 @@ class ResetPassword extends Component {
         {message === 'authenticated' && (
           <Grid container justify="space-between">
             <Grid item xs={12} sm={5}>
-              <CardCustom title='Change Password' borderBottom>
-                <Grid container justify='center' className={classes.cardInner}>
+              <CardCustom title="Change Password" borderBottom>
+                <Grid container justify="center" className={classes.cardInner}>
                   <form onSubmit={this.updatePassword} className={classes.form}>
-                    <Grid container direction='column'>
+                    <Grid container direction="column">
                       <TextField
                         error={Boolean(errors.password)}
                         id="outlined-adornment-password"
@@ -178,7 +172,7 @@ class ResetPassword extends Component {
                                 {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
                               </IconButton>
                             </InputAdornment>
-                          ),
+                          )
                         }}
                       />
                       <TextField
@@ -194,15 +188,15 @@ class ResetPassword extends Component {
                         onChange={this.handleChange('password2')}
                       />
                     </Grid>
-                    <Grid container justify="center" className={classes.buttonContainer} >
-                      <Grid item  >
+                    <Grid container justify="center" className={classes.buttonContainer}>
+                      <Grid item>
                         <Button
                           type="submit"
                           fullWidth
                           variant="contained"
                           className={classes.submit}
                         >
-                          Save Changes
+                          Submit
                         </Button>
                       </Grid>
                     </Grid>
@@ -215,41 +209,40 @@ class ResetPassword extends Component {
 
         {message === 'updated' && (
           <div>
-            <p>
-              Your password has been successfully reset, please try logging in again.
-            </p>
+            <p>Your password has been successfully reset, please try logging in again.</p>
           </div>
         )}
       </React.Fragment>
-    )
+    );
   }
 }
-
 
 ResetPassword.propTypes = {
   // eslint-disable-next-line react/require-default-props
   match: PropTypes.shape({
     params: PropTypes.shape({
-      token: PropTypes.string.isRequired,
-    }),
-  }),
+      token: PropTypes.string.isRequired
+    })
+  })
 };
 
-const mapStatetoProps = (state) => ({
+const mapStatetoProps = state => ({
   auth: state.auth,
   errors: state.errors
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  getErrors:
-    (err) => {
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
-      })
-    },
-})
-
+const mapDispatchToProps = dispatch => ({
+  getErrors: err => {
+    dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data
+    });
+  }
+});
 
 export default withStyles(styles)(
-  connect(mapStatetoProps, mapDispatchToProps)(ResetPassword));
+  connect(
+    mapStatetoProps,
+    mapDispatchToProps
+  )(ResetPassword)
+);

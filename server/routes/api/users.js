@@ -10,12 +10,8 @@ const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
-const sequelize = require('sequelize');
-const keys = require('../../config/keys');
 
-const { Op } = sequelize;
-
-// Load Imput Validation
+// Load Input Validation
 const validateRegisterInput = require('../../validation/register');
 const validateLoginInput = require('../../validation/login');
 const validateChangePassInput = require('../../validation/change-pass');
@@ -109,7 +105,7 @@ router.post('/login', (req, res) => {
         // Sign Token
         jwt.sign(
           payload,
-          keys.secretOrKey,
+          process.env.SECRET_OR_KEY,
           {
             expiresIn: 36000
           },
@@ -131,55 +127,67 @@ router.post('/login', (req, res) => {
 // @route Get api/users/current
 // @desc Return current user
 // @access Private
-router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
-  res.json({
-    id: req.user.id,
-    name: req.user.name,
-    email: req.user.email
-  });
-});
+router.get(
+  '/current',
+  passport.authenticate('jwt', {
+    session: false
+  }),
+  (req, res) => {
+    res.json({
+      id: req.user.id,
+      name: req.user.name,
+      email: req.user.email
+    });
+  }
+);
 
 // @route Get api/users/changepass
 // @desc Change Password
 // @access Private
-router.post('/changepass', passport.authenticate('jwt', { session: false }), (req, res) => {
-  const { errors, isValid } = validateChangePassInput(req.body);
+router.post(
+  '/changePass',
+  passport.authenticate('jwt', {
+    session: false
+  }),
+  (req, res) => {
+    const { errors, isValid } = validateChangePassInput(req.body);
 
-  // Check validation
-  if (!isValid) {
-    return res.status(400).json(errors);
-  }
-  // Hash New Password
-  const { password } = req.body;
-  const { id } = req.user;
-  const hashPassword = () => {
-    return new Promise((resolve, reject) => {
-      bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(password, salt, (err, hash) => {
-          if (err) console.log(err);
-          resolve(hash);
+    // Check validation
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
+    // Hash New Password
+    const { password } = req.body;
+    const { id } = req.user;
+    const hashPassword = () => {
+      return new Promise((resolve, reject) => {
+        bcrypt.genSalt(10, (err, salt) => {
+          bcrypt.hash(password, salt, (err, hash) => {
+            if (err) console.log(err);
+            resolve(hash);
+          });
         });
       });
+    };
+    // Find and Update Password
+    hashPassword().then(hash => {
+      User.findByIdAndUpdate(id, {
+        password: hash
+      }).then(user => {
+        console.log(user);
+      });
+      res.json({
+        success: true,
+        hashedPassword: hash
+      });
     });
-  };
-  // Find and Update Password
-  hashPassword().then(hash => {
-    User.findByIdAndUpdate(id, {
-      password: hash
-    }).then(user => {
-      console.log(user);
-    });
-    res.json({
-      success: true,
-      hashedPassword: hash
-    });
-  });
-});
+  }
+);
 
-// @route Get api/users/reset
+// @route Get api/users/emailRecoveryToken
 // @desc Send Email with Password Reset Token
 // @access Public
-router.post('/reset', (req, res) => {
+router.post('/emailResetToken', (req, res) => {
   const { errors, isValid } = validateResetInput(req.body);
 
   // Check validation
@@ -199,7 +207,6 @@ router.post('/reset', (req, res) => {
       return res.status(404).json(errors);
     }
     const token = crypto.randomBytes(20).toString('hex');
-    res.json(token);
     user.resetPasswordToken = token;
     (user.resetPasswordExpires = Date.now() + 3600000),
       user.save(err => {
@@ -208,20 +215,18 @@ router.post('/reset', (req, res) => {
         }
       });
 
-    console.log({ email: keys.emailUser });
-    console.log({ password: keys.emailPassword });
     const transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
       port: 587,
       secure: false,
       requireTLS: true,
       auth: {
-        user: `${keys.emailUser}`,
-        pass: `${keys.emailPassword}`
+        user: `${process.env.EMAIL_ADDRESS}`,
+        pass: `${process.env.EMAIL_PASSWORD}`
       }
     });
     const mailOptions = {
-      from: 'caine316@gmail.com',
+      from: 'pbarb017@gmail.com',
       to: `${user.email}`,
       subject: 'Link To Reset Password',
       text:
@@ -244,12 +249,12 @@ router.post('/reset', (req, res) => {
   });
 });
 
-// @route Get api/users/resetpassword
+// @route Get api/users/authenticateResetToken
 // @desc Authenticate password reset link
 // @access Public
-router.get('/resetpassword', (req, res) => {
+router.get('/authenticateResetToken', (req, res) => {
   console.log(req.query.resetPasswordToken);
-  const { errors, isValid } = validateChangePassInput(req.body);
+
   User.findOne({
     resetPasswordToken: req.query.resetPasswordToken
   })
@@ -282,12 +287,10 @@ router.put('/updatePasswordViaEmail', (req, res) => {
     return res.status(400).json(errors);
   }
 
-  console.log(req.body.resetPasswordToken);
   User.findOne({
     resetPasswordToken: req.body.resetPasswordToken
   })
     .then(user => {
-      console.log(user);
       if (user == null) {
         console.error('password reset link is invalid');
         res.status(403).send('password reset link is invalid');
@@ -311,7 +314,9 @@ router.put('/updatePasswordViaEmail', (req, res) => {
           .catch(err => console.log(err))
           .then(() => {
             console.log('password updated');
-            res.status(200).send({ message: 'password updated' });
+            res.status(200).send({
+              message: 'password updated'
+            });
           })
           .catch(err => console.log(err));
       }

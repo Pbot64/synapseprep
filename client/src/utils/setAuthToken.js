@@ -1,7 +1,7 @@
-import axios from 'axios'
+import axios from 'axios';
 
 const setAuthToken = token => {
-  if(token) {
+  if (token) {
     // Apply to every request
     axios.defaults.headers.common['Authorization'] = token;
   } else {
@@ -10,4 +10,4 @@ const setAuthToken = token => {
   }
 };
 
-export default setAuthToken
+export default setAuthToken;
