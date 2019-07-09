@@ -8,7 +8,6 @@ import { setCurrentUser, logoutUser } from './actions/authActions';
 import { Provider } from 'react-redux';
 import store from './store';
 import PrivateRoute from './components/common/PrivateRoute';
-import { createBrowserHistory } from 'history';
 
 // Local Components
 import Dashboard from './layouts/Dashboard/@Dashboard';
@@ -17,7 +16,7 @@ import Login from './views/Login';
 import PasswordResetEmail from './views/PasswordResetEmail';
 import Profile from './layouts/Profile';
 import QuestionFeedPage from './layouts/QuestionFeedPage';
-import Reading from './layouts/Reading';
+import UnderConstruction from './layouts/UnderConstruction';
 import Register from './views/Register';
 import ResetPassword from './views/ResetPassword';
 import ScrollToTop from './components/common/ScrollToTop';
@@ -64,22 +63,22 @@ class App extends Component {
       <Provider store={store}>
         <Router>
           <ScrollToTop>
-            <div>
+            <React.Fragment>
               <CssBaseline />
               <SiteWrapper>
                 <Switch>
                   <PrivateRoute exact path="/dashboard" component={Dashboard} />
                   <PrivateRoute exact path="/profile" component={Profile} />
+                  <PrivateRoute exact path="/intro" component={Intro} />
+                  <PrivateRoute exact path="/underConstruction" component={UnderConstruction} />
                   <Route exact path="/resetpassword/:token" component={ResetPassword} />
+                  <Route exact path="/question-feed" component={QuestionFeedPage} />
+                  <Route exact path="/login" component={Login} />
+                  <Route exact path="/register" component={Register} />
+                  <Route exact path="/passwordResetEmail" component={PasswordResetEmail} />
                 </Switch>
-                <Route exact path="/question-feed" component={QuestionFeedPage} />
-                <Route exact path="/reading" component={Reading} />
-                <Route exact path="/intro" component={Reading} />
-                <Route exact path="/login" component={Login} />
-                <Route exact path="/register" component={Register} />
-                <Route exact path="/passwordResetEmail" component={PasswordResetEmail} />
               </SiteWrapper>
-            </div>
+            </React.Fragment>
           </ScrollToTop>
         </Router>
       </Provider>

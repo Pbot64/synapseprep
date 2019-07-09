@@ -1,8 +1,7 @@
 // Node Modules
-const express = require('express');
-const bodyParser = require('body-parser');
-
-const mongoose = require('../lib/mongoose');
+import express from 'express';
+import bodyParser from 'body-parser';
+import mongoose from '../lib/mongoose';
 
 // Load User model
 import User from '../models/User';

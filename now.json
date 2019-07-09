@@ -13,12 +13,20 @@
     {
       "src": "/server/lamdas/**/*.js",
       "use": "@now/node"
+    },
+    {
+      "src": "/server/images/**",
+      "use": "@now/static"
     }
   ],
   "routes": [
     {
       "src": "/api/test",
       "dest": "/server/lamdas/test.js"
+    },
+    {
+      "src": "/api/connect",
+      "dest": "/server/lamdas/connect.js"
     },
     {
       "src": "/api/users/login",
@@ -43,6 +51,26 @@
     {
       "src": "/api/users/updatePasswordViaEmail",
       "dest": "/server/lamdas/updatePasswordViaEmail.js"
+    },
+    {
+      "src": "/api/users/facebook/login",
+      "dest": "/server/lamdas/facebook.js"
+    },
+    {
+      "src": "/api/users/facebook/return",
+      "dest": "/server/lamdas/facebook.js"
+    },
+    {
+      "src": "/api/profile",
+      "dest": "/server/lamdas/profile.js"
+    },
+    {
+      "src": "/api/deleteAccount",
+      "dest": "/server/lamdas/deleteAccount.js"
+    },
+    {
+      "src": "/api/users/updateAccount",
+      "dest": "/server/lamdas/updateAccount.js"
     },
     {
       "src": "/static/(.*)",
@@ -85,6 +113,9 @@
   "env": {
     "MONGODB_URI": "@mongodb-atlas-uri",
     "SECRET_OR_KEY": "@secret-or-key",
-    "EMAIL_PASSWORD": "@email-password"
+    "EMAIL_PASSWORD": "@email-password",
+    "FACEBOOK_APP_ID": "@facebook-app-id",
+    "FACEBOOK_APP_SECRET": "@facebook-app-secret",
+    "FILESTACK_API_KEY": "@filestack-api-key"
   }
 }
