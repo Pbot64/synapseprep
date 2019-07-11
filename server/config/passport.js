@@ -1,17 +1,23 @@
-const JwtStrategy = require('passport-jwt').Strategy;
-const ExtractJwt = require('passport-jwt').ExtractJwt;
-const mongoose = require('mongoose');
-const User = mongoose.model('users');
+import { Strategy as JwtStrategy } from "passport-jwt";
+import { Strategy as FacebookStrategy } from "passport-facebook";
+import { ExtractJwt } from "passport-jwt";
+import User from "../models/User";
+import mongoose from "../lib/mongoose";
 
-const opts = {};
-opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-opts.secretOrKey = process.env.SECRET_OR_KEY;
+const configPassport = async passport => {
+  const opts = {};
+  opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+  opts.secretOrKey = process.env.SECRET_OR_KEY;
 
-module.exports = passport => {
+  console.log("your in passport config");
+
   passport.use(
-    new JwtStrategy(opts, (jwt_payload, done) => {
+    new JwtStrategy(opts, async (jwt_payload, done) => {
+      await mongoose();
+      console.log(jwt_payload);
       User.findById(jwt_payload.id)
         .then(user => {
+          console.log(user);
           if (user) {
             return done(null, user);
           }
@@ -20,4 +26,8 @@ module.exports = passport => {
         .catch(err => console.log(err));
     })
   );
+
+  
 };
+
+export default configPassport;

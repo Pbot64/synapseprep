@@ -1,13 +1,18 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const passport = require('passport');
-const path = require('path');
-require('dotenv').config();
+// Node Modules
+import express from "express";
+import passport from "passport";
+import mongoose from "mongoose";
+import bodyParser from "body-parser";
+import path from "path";
+require("dotenv").config();
+import configPassportModule from "./config/passport";
 
-const users = require('./routes/api/users');
-const profile = require('./routes/api/profile');
-const posts = require('./routes/api/posts');
+// import configPassport from './config/passport';
+
+// Import Routes
+import users from "./routes/api/users";
+import profile from "./routes/api/profile";
+import posts from "./routes/api/posts";
 
 const app = express();
 
@@ -15,27 +20,25 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-const db = process.env.MONGODB_URI;
-
 // DB Config
-console.log(db);
+const uri = process.env.MONGODB_URI;
 
 // Connect to mongoDB
 mongoose
-  .connect(db)
-  .then(() => console.log('MongoDB Connected'))
+  .connect(uri, { useNewUrlParser: true })
+  .then(() => console.log("MongoDB Connected"))
   .catch(err => console.log(err));
 
 // Passport middleware
 app.use(passport.initialize());
 
 // Passport config
-require('./config/passport')(passport);
+configPassportModule(passport);
 
 // Use Routes
-app.use('/api/users', users);
-app.use('/api/profile', profile);
-app.use('/api/posts', posts);
+app.use("/api/users", users);
+app.use("/api/profile", profile);
+app.use("/api/posts", posts);
 console.log(process.env.NODE.ENV);
 
 const port = process.env.PORT || 5005;

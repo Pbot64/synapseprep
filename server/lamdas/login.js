@@ -1,17 +1,19 @@
 // Node Modules
-const express = require('express');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const bodyParser = require('body-parser');
-const passport = require('passport');
+import express from "express";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import bodyParser from "body-parser";
+import passport from "passport";
 
-const mongoose = require('../lib/mongoose');
+import mongoose from "../lib/mongoose";
 
 // Load User model
-import User from '../models/User';
+import User from "../models/User";
+
+import configPassportModule from "../config/passport";
 
 // Load Input Validation
-const validateLoginInput = require('../validation/login');
+import validateLoginInput from "../validation/login";
 
 const app = express();
 
@@ -23,12 +25,13 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 
 // Passport config
-require('../config/passport')(passport);
+configPassportModule(passport);
 
 // @route Post api/users/login
 // @desc Login User / Returning JWT TOken
 // @access Public
-app.post('*', async (req, res) => {
+app.post("*", async (req, res) => {
+  console.log("req.body", req.body);
   const { errors, isValid } = validateLoginInput(req.body);
 
   // Check validation
@@ -44,9 +47,10 @@ app.post('*', async (req, res) => {
   User.findOne({
     email
   }).then(user => {
+    console.log(user);
     // Check for user
     if (!user) {
-      errors.email = 'User not found';
+      errors.email = "User not found";
       return res.status(404).json(errors);
     }
 
@@ -57,7 +61,8 @@ app.post('*', async (req, res) => {
         const payload = {
           id: user.id,
           name: user.name,
-          avatar: user.avatar
+          avatar: user.avatar,
+          email: user.email
         };
         // Sign Token
         jwt.sign(
@@ -74,28 +79,11 @@ app.post('*', async (req, res) => {
           }
         );
       } else {
-        errors.password = 'Password incorrect';
+        errors.password = "Password incorrect";
         return res.status(400).json(errors);
       }
     });
   });
 });
-
-// @route Get api/users/current
-// @desc Return current user
-// @access Private
-// router.get(
-//   '/current',
-//   passport.authenticate('jwt', {
-//     session: false
-//   }),
-//   (req, res) => {
-//     res.json({
-//       id: req.user.id,
-//       name: req.user.name,
-//       email: req.user.email
-//     });
-//   }
-// );
 
 export default app;

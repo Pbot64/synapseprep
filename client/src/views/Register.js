@@ -1,96 +1,100 @@
 // Node Modules
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 
-//Actions 
-import { registerUser } from '../actions/authActions'
+//Actions
+import { registerUser } from "../actions/authActions";
 
 // Material UI Components
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-
+import Avatar from "@material-ui/core/Avatar";
+import Checkbox from "@material-ui/core/Checkbox";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
+import CardCustom from "../assets/jss/components/CardCustom";
+import TextField from "@material-ui/core/TextField";
 
 // Local Components
+import LinkCustom from "../assets/jss/components/LinkCustom";
+import ButtonCustom from "../assets/jss/components/ButtonCustom";
 
 // Local Assets
 
 //  Style Overrides
 const styles = theme => ({
-  main: {
-    width: 'auto',
-    display: 'block', // Fix IE 11 issue.
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
-    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
-      width: 400,
-      marginLeft: 'auto',
-      marginRight: 'auto',
-    },
+  root: {
+    display: "block", // Fix IE 11 issue.
+    marginLeft: "auto",
+    marginRight: "auto",
+    maxWidth: 400
   },
   paper: {
-    marginTop: theme.spacing.unit * 8,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
+    marginTop: "20px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
+      .spacing.unit * 3}px`,
+    [theme.breakpoints.up("sm")]: {
+      marginTop: theme.spacing.unit * 5
+    }
   },
   avatar: {
     margin: theme.spacing.unit,
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.secondary.main
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing.unit,
+    width: "100%", // Fix IE 11 issue.
+    marginTop: theme.spacing.unit * 3
   },
   submit: {
-    marginTop: theme.spacing.unit * 3,
-    color: '#FFFFFF',
-    background:
-    'url(../assets/images/wavePattern.png), linear-gradient(45deg, #2980ba 10%, #238E9B 40%, #17ab5d 100%)',
-    backgroundBlendMode: 'color-burn'
+    marginTop: theme.spacing.unit * 2,
+    marginBottom: theme.spacing.unit * 2,
+    border: "none",
+    color: "#FFFFFF",
+    ...theme.palette.blueToGreen
   },
+  link: {
+    textDecoration: "underline",
+    color: "#2980ba"
+  },
+  checkbox: {
+    marginTop: "15px"
+  }
 });
 
 class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
-      email: '',
-      password: '',
-      password2: '',
+      name: "",
+      email: "",
+      password: "",
+      password2: "",
       errors: {}
-    }
+    };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.errors) {
-      this.setState({errors: nextProps.errors});
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
     }
   }
 
   componentDidMount() {
-    if(this.props.auth.isAuthenticated) {
-      this.props.history.push('./dashboard');
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push("./dashboard");
     }
   }
 
   handleChange(e) {
-    this.setState({[e.target.name]: e.target.value});
+    this.setState({ [e.target.name]: e.target.value });
   }
 
   handleSubmit(e) {
@@ -101,82 +105,113 @@ class Register extends Component {
       password: this.state.password,
       password2: this.state.password2
     };
-  this.props.registerUser(newUser, this.props.history);
+    this.props.registerUser(newUser, this.props.history);
   }
 
   render() {
     const { errors } = this.state;
     const { classes } = this.props;
     return (
-      <main className={classes.main}>
-        <Paper className={classes.paper}>
+      <div className={classes.root}>
+        <CardCustom className={classes.paper}>
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <form onSubmit = {this.handleSubmit} className={classes.form}>
-            <FormControl error = {errors.name} margin="normal" required fullWidth>
-              <InputLabel htmlFor="name">Name</InputLabel>
-              <Input
-                id="name"
-                name="name"
-                autoComplete="name"
-                autoFocus
-                value = {this.state.name}
-                onChange = {this.handleChange} />
-              <FormHelperText id="component-error-text">{errors.name}</FormHelperText>
-            </FormControl>
-            <FormControl error = {errors.email} margin="normal" required fullWidth>
-              <InputLabel htmlFor="email">Email Address</InputLabel>
-              <Input
-                id="email"
-                name="email"
-                autoComplete="email"
-                value = {this.state.email}
-                onChange = {this.handleChange} />
-              <FormHelperText id="component-error-text">{errors.email}</FormHelperText>
-            </FormControl>
-            <FormControl error = {errors.password} margin="normal" required fullWidth>
-              <InputLabel htmlFor="password">Password</InputLabel>
-              <Input
-                name="password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                value = {this.state.password}
-                onChange = {this.handleChange} />
-              <FormHelperText id="component-error-text">{errors.password}</FormHelperText>
-            </FormControl>
-            <FormControl error = {errors.password2} margin="normal" required fullWidth>
-            <InputLabel htmlFor="password2">Repeat Password</InputLabel>
-            <Input
-              id="password2"
-              type="password"
-              name="password2"
-              autoComplete="password2"
-              value = {this.state.password2}
-              onChange = {this.handleChange} />
-            <FormHelperText id="component-error-text">{errors.password2}</FormHelperText>
-          </FormControl>
-            <FormControlLabel
-              control={<Checkbox
-              value="remember"
-              color="primary" />}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              className={classes.submit}
-            >
-              Sign up
-            </Button>
+          <form
+            onSubmit={this.handleSubmit}
+            className={classes.form}
+            noValidate
+          >
+            <Grid container spacing={24}>
+              <Grid item xs={12}>
+                <TextField
+                  error={Boolean(errors.name)}
+                  helperText={errors.name}
+                  value={this.state.name || ""}
+                  onChange={this.handleChange}
+                  autoComplete="name"
+                  name="name"
+                  variant="outlined"
+                  fullWidth
+                  id="name"
+                  label="Name"
+                  autoFocus
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <TextField
+                  error={Boolean(errors.email)}
+                  helperText={errors.email}
+                  value={this.state.email || ""}
+                  onChange={this.handleChange}
+                  variant="outlined"
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  error={Boolean(errors.password)}
+                  helperText={errors.password}
+                  value={this.state.password || ""}
+                  onChange={this.handleChange}
+                  variant="outlined"
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  error={Boolean(errors.password2)}
+                  helperText={errors.password2}
+                  value={this.state.password2 || ""}
+                  onChange={this.handleChange}
+                  variant="outlined"
+                  fullWidth
+                  id="password2"
+                  type="password"
+                  label="Repeat Password"
+                  name="password2"
+                />
+                <Grid item xs={12} className={classes.checkbox}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox value="allowExtraEmails" color="primary" />
+                    }
+                    label="Send me tips, updates, freebies, and offers."
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
+            <ButtonCustom type="submit" fullWidth className={classes.submit}>
+              Sign Up
+            </ButtonCustom>
+            <Grid container justify="flex-end">
+              <Grid item>
+                <LinkCustom to="/login">
+                  <Typography
+                    className={classes.link}
+                    component="p"
+                    variant="body2"
+                  >
+                    Already have an account? Sign in
+                  </Typography>
+                </LinkCustom>
+              </Grid>
+            </Grid>
           </form>
-        </Paper>
-      </main>
+        </CardCustom>
+      </div>
     );
   }
 }
@@ -188,11 +223,14 @@ Register.propTypes = {
   errors: PropTypes.object.isRequired
 };
 
-const mapStatetoProps = (state) => ({
+const mapStatetoProps = state => ({
   auth: state.auth,
   errors: state.errors
 });
 
 export default withStyles(styles)(
-  connect(mapStatetoProps, { registerUser })(withRouter(Register))
+  connect(
+    mapStatetoProps,
+    { registerUser }
+  )(withRouter(Register))
 );

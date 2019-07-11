@@ -1,34 +1,32 @@
 // Node Modules
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles';
-
+import React from "react";
+import { withStyles } from "@material-ui/core/styles";
 
 // Material UI Components
-import Grid from '@material-ui/core/Grid';
+import Grid from "@material-ui/core/Grid";
 
 // Local Components
-import QuestionFeed from './QuestionFeed'
-import ContinueLesson from './ContinueLesson';
-import EstimatedScores from './EstimatedScores';
+import QuestionFeed from "./QuestionFeed";
+import ContinueLesson from "./ContinueLesson";
+import EstimatedScores from "./EstimatedScores";
+import Alert from "../../components/Alert";
 
 // Local Assets
 
-//  Style Overrides 
-const styles = theme => ({
-})
+//  Style Overrides
+const styles = theme => ({});
 
-const Dashboard = (props) => {
-  const { classes } = props;
+const Dashboard = props => {
   return (
     <React.Fragment>
-      <Grid container spacing={24} justify='space-between'>
+      <Alert />
+      <Grid container spacing={24} justify="space-between">
         <QuestionFeed />
         <ContinueLesson />
       </Grid>
       <EstimatedScores />
     </React.Fragment>
-  )
-}
+  );
+};
 
 export default withStyles(styles)(Dashboard);

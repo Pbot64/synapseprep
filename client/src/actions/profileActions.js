@@ -1,36 +1,39 @@
-import axios from 'axios';
+import axios from "axios";
 
 import {
   GET_PROFILE,
   PROFILE_LOADING,
   CLEAR_CURRENT_PROFILE,
-  GET_ERRORS
-} from './types';
+  GET_ERRORS,
+  SET_ALERTED
+} from "./types";
 
 // Get current profile
 export const getCurrentProfile = () => dispatch => {
   dispatch(setProfileLoading());
   axios
-    .get('/api/profile')
-    .then(res =>
+    .get("/api/profile")
+    .then(res => {
+      console.log(res);
       dispatch({
         type: GET_PROFILE,
         payload: res.data
-      })
-    )
-    .catch(err =>
+      });
+    })
+    .catch(err => {
+      console.log(err);
       dispatch({
         type: GET_PROFILE,
         payload: {}
-      })
-    );
+      });
+    });
 };
 
-// Create Profile
+// Create profile
 export const createProfile = (profileData, history) => dispatch => {
   axios
-    .post('/api/profile', profileData)
-    .then(res => history.push('/dashboard'))
+    .post("/api/profile", profileData)
+    .then(res => history.push("/dashboard"))
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
@@ -50,5 +53,12 @@ export const setProfileLoading = () => {
 export const clearCurrentProfile = () => {
   return {
     type: CLEAR_CURRENT_PROFILE
+  };
+};
+
+// Clear alert
+export const setAlerted = () => {
+  return {
+    type: SET_ALERTED
   };
 };

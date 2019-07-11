@@ -1,15 +1,14 @@
 // Node Modules
-const express = require('express');
-const bcrypt = require('bcryptjs');
-const bodyParser = require('body-parser');
-
-const mongoose = require('../lib/mongoose');
+import express from 'express';
+import bcrypt from 'bcryptjs';
+import bodyParser from 'body-parser';
+import mongoose from '../lib/mongoose';
 
 // Load User model
 import User from '../models/User';
 
 // Load Input Validation
-const validateChangePassInput = require('../validation/change-pass');
+import validateChangePassInput from '../validation/change-pass';
 
 const app = express();
 
@@ -47,19 +46,16 @@ app.put('*', async (req, res) => {
             user.password = hashedPassword;
             user.resetPasswordToken = null;
             user.resetPasswordExpires = null;
-            user.save(function(err) {
-              if (err) {
-                console.error(err);
-              }
-              console.log(user);
-            });
-          })
-          .catch(err => console.log(err))
-          .then(() => {
-            console.log('password updated');
-            res.status(200).send({
-              message: 'password updated'
-            });
+            user
+              .save(err => {
+                if (err) {
+                  console.error(err);
+                }
+                res.status(200).send({
+                  message: 'password updated'
+                });
+              })
+              .catch(err => console.log(err));
           })
           .catch(err => console.log(err));
       }

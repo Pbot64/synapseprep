@@ -20,7 +20,14 @@ const styles = theme => ({
     backgroundColor: '#f6f9fc',
     flexGrow: 1,
     maxWidth: '1500px',
-    padding: '100px 4%',
+    padding: '75px 0px',
+    'padding-left': '16px',
+    'padding-right': '16px',
+    [theme.breakpoints.up('sm')]: {
+      padding: '90px 0px',
+      'padding-left': '24px',
+      'padding-right': '24px'
+    },
     width: '100%'
   }
 });

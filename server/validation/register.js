@@ -1,8 +1,10 @@
-const Validator = require('validator');
-const isEmpty = require('./is-empty');
+import Validator from 'validator';
+import isEmpty from './is-empty';
 
-module.exports = function validateRegisterInput(data) {
+export default function validateRegisterInput(data) {
   let errors = {};
+
+  console.log(data);
 
   data.name = !isEmpty(data.name) ? data.name : '';
   data.email = !isEmpty(data.email) ? data.email : '';
@@ -41,12 +43,8 @@ module.exports = function validateRegisterInput(data) {
     errors.password2 = 'Passwords must match';
   }
 
-  if (Validator.isEmpty(data.time)) {
-    errors.name = 'Time field is required';
-  }
-
   return {
     errors,
     isValid: isEmpty(errors)
   };
-};
+}
