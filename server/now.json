@@ -8,8 +8,8 @@
   ],
   "routes": [
     {
-      "src": "/api/test",
-      "dest": "/lamdas/test.js"
+      "src": "/api/ping",
+      "dest": "/lamdas/ping.js"
     },
     {
       "src": "/api/users/login",
