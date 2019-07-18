@@ -16,11 +16,11 @@ import Login from './views/Login';
 import PasswordResetEmail from './views/PasswordResetEmail';
 import Profile from './layouts/Profile';
 import QuestionFeedPage from './layouts/QuestionFeedPage';
-import UnderConstruction from './layouts/UnderConstruction';
 import Register from './views/Register';
+import SiteWrapper from './layouts/Sitewrapper';
 import ResetPassword from './views/ResetPassword';
 import ScrollToTop from './components/common/ScrollToTop';
-import SiteWrapper from './layouts/Sitewrapper';
+import UnderConstruction from './layouts/UnderConstruction';
 
 // Material UI Components
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -29,11 +29,11 @@ import { clearCurrentProfile } from './actions/profileActions';
 // Local Assets
 
 //  Style Overrides
-const styles = theme => ({});
+const styles = () => ({});
 
 //Check for Token
-const jwtToken = localStorage.getItem('jwtToken');
-if (jwtToken !== 'undefined' && jwtToken !== null) {
+const jwtToken = localStorage.jwtToken;
+if (jwtToken !== 'Bearer undefined' && jwtToken !== null && jwtToken) {
   // Set auth token header auth
   setAuthToken(jwtToken);
   // Decode token and get user info and exp
