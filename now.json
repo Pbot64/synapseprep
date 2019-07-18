@@ -21,8 +21,8 @@
   ],
   "routes": [
     {
-      "src": "/api/test",
-      "dest": "/server/lamdas/test.js"
+      "src": "/api/ping",
+      "dest": "/server/lamdas/ping.js"
     },
     {
       "src": "/api/connect",
