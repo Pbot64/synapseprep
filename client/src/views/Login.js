@@ -1,46 +1,45 @@
 // Node Modules
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-import axios from "axios";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import axios from 'axios';
+import { connect } from 'react-redux';
 
 //Actions
-import { loginUser } from "../actions/authActions";
+import { loginUser } from '../actions/authActions';
 
 // Local Components
-import LinkCustom from "../assets/jss/components/LinkCustom";
-import ButtonCustom from "../assets/jss/components/ButtonCustom";
+import LinkCustom from '../assets/jss/components/LinkCustom';
+import ButtonCustom from '../assets/jss/components/ButtonCustom';
 
 // Material UI Components
-import Avatar from "@material-ui/core/Avatar";
-import Checkbox from "@material-ui/core/Checkbox";
-import Grid from "@material-ui/core/Grid";
-import CardCustom from "../assets/jss/components/CardCustom";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
+import Avatar from '@material-ui/core/Avatar';
+import Checkbox from '@material-ui/core/Checkbox';
+import Grid from '@material-ui/core/Grid';
+import CardCustom from '../assets/jss/components/CardCustom';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
 
 // Local Assets
-import * as colors from "../assets/jss/components/colors";
+import * as colors from '../assets/jss/components/colors';
 
 //  Style Overrides
 const styles = theme => ({
   root: {
-    maxWidth: "400px",
-    display: "block", // Fix IE 11 issue.
-    marginLeft: "auto",
-    marginRight: "auto"
+    maxWidth: '400px',
+    display: 'block', // Fix IE 11 issue.
+    marginLeft: 'auto',
+    marginRight: 'auto'
   },
   paper: {
-    marginTop: "20px",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
-      .spacing.unit * 3}px`,
-    [theme.breakpoints.up("sm")]: {
+    marginTop: '20px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
+    [theme.breakpoints.up('sm')]: {
       marginTop: theme.spacing.unit * 5
     }
   },
@@ -49,23 +48,23 @@ const styles = theme => ({
     backgroundColor: theme.palette.primary.main
   },
   form: {
-    width: "100%", // Fix IE 11 issue.
+    width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing.unit
   },
   submit: {
-    margin: "20px 0px",
-    border: "none",
-    color: "#FFFFFF",
+    margin: '20px 0px',
+    border: 'none',
+    color: '#FFFFFF',
     ...colors.blueToGreen
   },
   link: {
-    textDecoration: "underline",
-    color: "#2980ba",
-    paddingRight: "10px"
+    textDecoration: 'underline',
+    color: '#2980ba',
+    paddingRight: '10px'
   },
   link2: {
-    textDecoration: "underline",
-    color: "#2980ba"
+    textDecoration: 'underline',
+    color: '#2980ba'
   }
 });
 
@@ -73,8 +72,8 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
       errors: {}
     };
     this.handleChange = this.handleChange.bind(this);
@@ -84,7 +83,7 @@ class Login extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated) {
-      this.props.history.push("/dashboard");
+      this.props.history.push('/dashboard');
     }
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
@@ -93,10 +92,10 @@ class Login extends Component {
 
   componentDidMount() {
     if (this.props.auth.isAuthenticated) {
-      this.props.history.push("./dashboard");
+      this.props.history.push('./dashboard');
     }
     axios
-      .get("/api/connect")
+      .get('/api/connect')
       .then(res => console.log(res))
       .catch(err => {
         console.log(err);
@@ -132,15 +131,11 @@ class Login extends Component {
           <Typography component="h1" variant="h5">
             Login
           </Typography>
-          <form
-            onSubmit={this.handleSubmit}
-            className={classes.form}
-            noValidate
-          >
+          <form onSubmit={this.handleSubmit} className={classes.form} noValidate>
             <TextField
               error={Boolean(errors.email)}
               helperText={errors.email}
-              value={this.state.email || ""}
+              value={this.state.email || ''}
               onChange={this.handleChange}
               variant="outlined"
               margin="normal"
@@ -148,13 +143,14 @@ class Login extends Component {
               fullWidth
               id="email"
               label="Email Address"
+              autoComplete="email"
               name="email"
               autoFocus
             />
             <TextField
               error={Boolean(errors.password)}
               helperText={errors.password}
-              value={this.state.password || ""}
+              value={this.state.password || ''}
               onChange={this.handleChange}
               variant="outlined"
               margin="normal"
@@ -163,6 +159,7 @@ class Login extends Component {
               id="password"
               name="password"
               label="Password"
+              autoComplete="current-password"
               type="password"
             />
             <FormControlLabel
@@ -175,22 +172,14 @@ class Login extends Component {
             <Grid container>
               <Grid item xs>
                 <LinkCustom to="/passwordResetEmail">
-                  <Typography
-                    className={classes.link}
-                    component="p"
-                    variant="body2"
-                  >
+                  <Typography className={classes.link} component="p" variant="body2">
                     Forgot password?
                   </Typography>
                 </LinkCustom>
               </Grid>
               <Grid item>
                 <LinkCustom to="/register">
-                  <Typography
-                    className={classes.link2}
-                    component="p"
-                    variant="body2"
-                  >
+                  <Typography className={classes.link2} component="p" variant="body2">
                     Don't have an account? Sign Up
                   </Typography>
                 </LinkCustom>
