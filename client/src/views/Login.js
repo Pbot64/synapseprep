@@ -1,84 +1,90 @@
 // Node Modules
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+import axios from "axios";
+import { connect } from "react-redux";
 
 //Actions
-import { loginUser } from '../actions/authActions'
+import { loginUser } from "../actions/authActions";
 
 // Local Components
-import LinkCustom from '../assets/jss/components/LinkCustom'
-
+import LinkCustom from "../assets/jss/components/LinkCustom";
+import ButtonCustom from "../assets/jss/components/ButtonCustom";
 
 // Material UI Components
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
+import Avatar from "@material-ui/core/Avatar";
+import Checkbox from "@material-ui/core/Checkbox";
+import Grid from "@material-ui/core/Grid";
+import CardCustom from "../assets/jss/components/CardCustom";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
 
 // Local Assets
-import * as colors from '../assets/jss/components/colors'
+import * as colors from "../assets/jss/components/colors";
 
-//  Style Overrides 
+//  Style Overrides
 const styles = theme => ({
-  main: {
-    width: 'auto',
-    display: 'block', // Fix IE 11 issue.
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
-    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
-      width: 400,
-      marginLeft: 'auto',
-      marginRight: 'auto',
-    },
+  root: {
+    maxWidth: "400px",
+    display: "block", // Fix IE 11 issue.
+    marginLeft: "auto",
+    marginRight: "auto"
   },
   paper: {
-    marginTop: theme.spacing.unit * 8,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
+    marginTop: "20px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
+      .spacing.unit * 3}px`,
+    [theme.breakpoints.up("sm")]: {
+      marginTop: theme.spacing.unit * 5
+    }
   },
   avatar: {
     margin: theme.spacing.unit,
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.primary.main
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing.unit,
+    width: "100%", // Fix IE 11 issue.
+    marginTop: theme.spacing.unit
   },
   submit: {
-    marginTop: theme.spacing.unit * 3,
-    color: '#FFFFFF',
+    margin: "20px 0px",
+    border: "none",
+    color: "#FFFFFF",
     ...colors.blueToGreen
   },
- 
+  link: {
+    textDecoration: "underline",
+    color: "#2980ba",
+    paddingRight: "10px"
+  },
+  link2: {
+    textDecoration: "underline",
+    color: "#2980ba"
+  }
 });
 
 class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
       errors: {}
-    }
+    };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    // this.handleFacebook = this.handleFacebook.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated) {
-
-      this.props.history.push('/dashboard')
+      this.props.history.push("/dashboard");
     }
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
@@ -87,8 +93,14 @@ class Login extends Component {
 
   componentDidMount() {
     if (this.props.auth.isAuthenticated) {
-      this.props.history.push('./dashboard');
+      this.props.history.push("./dashboard");
     }
+    axios
+      .get("/api/connect")
+      .then(res => console.log(res))
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   handleChange(e) {
@@ -104,62 +116,101 @@ class Login extends Component {
     this.props.loginUser(userData);
   }
 
+  // handleFacebook() {
+  //   axios.get("/api/users/auth/facebook").then(res => console.log(res));
+  // }
+
   render() {
     const { errors } = this.state;
     const { classes } = this.props;
-    console.log('hello')
     return (
-      <main className={classes.main}>
-        <Paper className={classes.paper}>
+      <div className={classes.root}>
+        <CardCustom className={classes.paper}>
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             Login
           </Typography>
-          <form onSubmit={this.handleSubmit} className={classes.form}>
-            <FormControl error={errors.email} margin="normal" required fullWidth>
-              <InputLabel htmlFor="email" className = {classes.label}>Email Address</InputLabel>
-              <Input
-                id="email"
-                name="email"
-                autoComplete="email"
-                autoFocus
-                value={this.state.email}
-                onChange={this.handleChange} />
-              <FormHelperText id="component-error-text">{errors.email}</FormHelperText>
-            </FormControl>
-            <FormControl error={errors.password} margin="normal" required fullWidth>
-              <InputLabel htmlFor="password" >Password</InputLabel>
-              <Input
-                name="password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                value={this.state.password}
-                onChange={this.handleChange} />
-              <FormHelperText id="component-error-text">{errors.password}</FormHelperText>
-            </FormControl>
-            <FormControlLabel
-            control={<Checkbox value="remember"  color="primary"  />}
-            label="Remember me"
-          />
-          <LinkCustom to = './passwordResetEmail'>
-          <Typography component="h1" variant="body1" align ='right'>
-            Forgot Password?
-          </Typography>
-          </LinkCustom>
-            <Button
-              type="submit"
+          <form
+            onSubmit={this.handleSubmit}
+            className={classes.form}
+            noValidate
+          >
+            <TextField
+              error={Boolean(errors.email)}
+              helperText={errors.email}
+              value={this.state.email || ""}
+              onChange={this.handleChange}
+              variant="outlined"
+              margin="normal"
+              required
               fullWidth
-              variant="contained"
-              className={classes.submit}
-            >
+              id="email"
+              label="Email Address"
+              name="email"
+              autoFocus
+            />
+            <TextField
+              error={Boolean(errors.password)}
+              helperText={errors.password}
+              value={this.state.password || ""}
+              onChange={this.handleChange}
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="password"
+              name="password"
+              label="Password"
+              type="password"
+            />
+            <FormControlLabel
+              control={<Checkbox checked value="remember" color="primary" />}
+              label={<Typography variant="body1">Remember me</Typography>}
+            />
+            <ButtonCustom type="submit" fullWidth className={classes.submit}>
               Login
-            </Button>
+            </ButtonCustom>
+            <Grid container>
+              <Grid item xs>
+                <LinkCustom to="/passwordResetEmail">
+                  <Typography
+                    className={classes.link}
+                    component="p"
+                    variant="body2"
+                  >
+                    Forgot password?
+                  </Typography>
+                </LinkCustom>
+              </Grid>
+              <Grid item>
+                <LinkCustom to="/register">
+                  <Typography
+                    className={classes.link2}
+                    component="p"
+                    variant="body2"
+                  >
+                    Don't have an account? Sign Up
+                  </Typography>
+                </LinkCustom>
+              </Grid>
+            </Grid>
           </form>
-        </Paper>
-      </main>
+          {/* <p onClick={this.handleFacebook}>Login with Facebook</p>
+          <div
+            class="fb-login-button"
+            data-width=""
+            data-size="large"
+            data-button-type="continue_with"
+            data-auto-logout-link="false"
+            data-use-continue-as="false"
+          />
+          <a href="http://localhost:5005/api/users/auth/facebook">
+            Facebook Button 2
+          </a> */}
+        </CardCustom>
+      </div>
     );
   }
 }
@@ -171,10 +222,14 @@ Login.propTypes = {
   errors: PropTypes.object.isRequired
 };
 
-const mapStatetoProps = (state) => ({
+const mapStatetoProps = state => ({
   auth: state.auth,
   errors: state.errors
 });
 
 export default withStyles(styles)(
-  connect(mapStatetoProps, { loginUser })(Login));
+  connect(
+    mapStatetoProps,
+    { loginUser }
+  )(Login)
+);

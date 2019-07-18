@@ -1,0 +1,121 @@
+{
+  "version": 2,
+  "name": "my-react-app",
+  "alias": ["app.synapseprep.net"],
+  "builds": [
+    {
+      "src": "/client/package.json",
+      "use": "@now/static-build",
+      "config": {
+        "distDir": "build"
+      }
+    },
+    {
+      "src": "/server/lamdas/**/*.js",
+      "use": "@now/node"
+    },
+    {
+      "src": "/server/images/**",
+      "use": "@now/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/test",
+      "dest": "/server/lamdas/test.js"
+    },
+    {
+      "src": "/api/connect",
+      "dest": "/server/lamdas/connect.js"
+    },
+    {
+      "src": "/api/users/login",
+      "dest": "/server/lamdas/login.js"
+    },
+    {
+      "src": "/api/users/register",
+      "dest": "/server/lamdas/register.js"
+    },
+    {
+      "src": "/api/users/changePass",
+      "dest": "/server/lamdas/changePass.js"
+    },
+    {
+      "src": "/api/users/authenticateResetToken",
+      "dest": "/server/lamdas/authenticateResetToken.js"
+    },
+    {
+      "src": "/api/users/emailResetToken",
+      "dest": "/server/lamdas/emailResetToken.js"
+    },
+    {
+      "src": "/api/users/updatePasswordViaEmail",
+      "dest": "/server/lamdas/updatePasswordViaEmail.js"
+    },
+    {
+      "src": "/api/users/facebook/login",
+      "dest": "/server/lamdas/facebook.js"
+    },
+    {
+      "src": "/api/users/facebook/return",
+      "dest": "/server/lamdas/facebook.js"
+    },
+    {
+      "src": "/api/profile",
+      "dest": "/server/lamdas/profile.js"
+    },
+    {
+      "src": "/api/deleteAccount",
+      "dest": "/server/lamdas/deleteAccount.js"
+    },
+    {
+      "src": "/api/users/updateAccount",
+      "dest": "/server/lamdas/updateAccount.js"
+    },
+    {
+      "src": "/static/(.*)",
+      "headers": {
+        "cache-control": "s-maxage=31536000,immutable"
+      },
+      "dest": "/client/static/$1"
+    },
+    {
+      "src": "/favicon.ico",
+      "dest": "/client/favicon.ico"
+    },
+    {
+      "src": "/asset-manifest.json",
+      "dest": "/client/asset-manifest.json"
+    },
+    {
+      "src": "/manifest.json",
+      "dest": "/client/manifest.json"
+    },
+    {
+      "src": "/precache-manifest.(.*)",
+      "dest": "/client/precache-manifest.$1"
+    },
+    {
+      "src": "/service-worker.js",
+      "headers": {
+        "cache-control": "s-maxage=0"
+      },
+      "dest": "/client/service-worker.js"
+    },
+    {
+      "src": "/(.*)",
+      "headers": {
+        "cache-control": "s-maxage=0"
+      },
+      "dest": "/client/index.html"
+    }
+  ],
+  "env": {
+    "MONGODB_URI": "@mongodb-atlas-uri",
+    "SECRET_OR_KEY": "@secret-or-key",
+    "EMAIL_PASSWORD": "@email-password",
+    "FACEBOOK_APP_ID": "@facebook-app-id",
+    "FACEBOOK_APP_SECRET": "@facebook-app-secret",
+    "FILESTACK_API_KEY": "@filestack-api-key"
+  }
+}

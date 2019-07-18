@@ -12,15 +12,15 @@ import PrivateRoute from './components/common/PrivateRoute';
 // Local Components
 import Dashboard from './layouts/Dashboard/@Dashboard';
 import Intro from './layouts/Intro';
-import Reading from './layouts/Reading';
-import QuestionFeedPage from './layouts/QuestionFeedPage';
 import Login from './views/Login';
-import Register from './views/Register';
 import PasswordResetEmail from './views/PasswordResetEmail';
-import SiteWrapper from './layouts/Sitewrapper';
 import Profile from './layouts/Profile';
+import QuestionFeedPage from './layouts/QuestionFeedPage';
+import Register from './views/Register';
+import SiteWrapper from './layouts/Sitewrapper';
 import ResetPassword from './views/ResetPassword';
 import ScrollToTop from './components/common/ScrollToTop';
+import UnderConstruction from './layouts/UnderConstruction';
 
 // Material UI Components
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -29,15 +29,15 @@ import { clearCurrentProfile } from './actions/profileActions';
 // Local Assets
 
 //  Style Overrides
-const styles = theme => ({});
+const styles = () => ({});
 
 //Check for Token
 const jwtToken = localStorage.jwtToken;
 if (jwtToken !== 'Bearer undefined' && jwtToken !== null && jwtToken) {
   // Set auth token header auth
-  setAuthToken(localStorage.jwtToken);
+  setAuthToken(jwtToken);
   // Decode token and get user info and exp
-  const decoded = jwt_decode(localStorage.jwtToken);
+  const decoded = jwt_decode(jwtToken);
   // Set user and isAuthenticated
   store.dispatch(setCurrentUser(decoded));
 
@@ -63,22 +63,22 @@ class App extends Component {
       <Provider store={store}>
         <Router>
           <ScrollToTop>
-            <div>
+            <React.Fragment>
               <CssBaseline />
               <SiteWrapper>
                 <Switch>
                   <PrivateRoute exact path="/dashboard" component={Dashboard} />
                   <PrivateRoute exact path="/profile" component={Profile} />
+                  <PrivateRoute exact path="/intro" component={Intro} />
+                  <PrivateRoute exact path="/underConstruction" component={UnderConstruction} />
                   <Route exact path="/resetpassword/:token" component={ResetPassword} />
+                  <Route exact path="/question-feed" component={QuestionFeedPage} />
+                  <Route exact path="/login" component={Login} />
+                  <Route exact path="/register" component={Register} />
+                  <Route exact path="/passwordResetEmail" component={PasswordResetEmail} />
                 </Switch>
-                <Route exact path="/question-feed" component={QuestionFeedPage} />
-                <Route exact path="/reading" component={Reading} />
-                <Route exact path="/intro" component={Reading} />
-                <Route exact path="/login" component={Login} />
-                <Route exact path="/register" component={Register} />
-                <Route exact path="/passwordResetEmail" component={PasswordResetEmail} />
               </SiteWrapper>
-            </div>
+            </React.Fragment>
           </ScrollToTop>
         </Router>
       </Provider>
