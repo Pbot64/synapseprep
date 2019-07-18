@@ -14,7 +14,6 @@ const configPassport = async passport => {
   passport.use(
     new JwtStrategy(opts, async (jwt_payload, done) => {
       await mongoose();
-      console.log(jwt_payload);
       User.findById(jwt_payload.id)
         .then(user => {
           console.log(user);
@@ -26,8 +25,6 @@ const configPassport = async passport => {
         .catch(err => console.log(err));
     })
   );
-
-  
 };
 
 export default configPassport;

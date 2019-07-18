@@ -150,6 +150,7 @@ router.post("/login", (req, res) => {
           avatar: user.avatar
         };
         // Sign Token
+        console.log({ keys });
         jwt.sign(
           payload,
           process.env.SECRET_OR_KEY,
