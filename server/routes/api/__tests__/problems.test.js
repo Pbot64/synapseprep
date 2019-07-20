@@ -3,7 +3,6 @@ import request from 'supertest';
 import express from 'express';
 import problemController from '../../../controllers/problemController';
 import problems from '../problems';
-import '@babel/polyfill';
 
 jest.mock('../../../controllers/problemController');
 
