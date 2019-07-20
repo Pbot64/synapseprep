@@ -4,7 +4,6 @@ import passport from 'passport';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import path from 'path';
-require('dotenv').config();
 import configPassportModule from './config/passport';
 
 // import configPassport from './config/passport';
@@ -13,6 +12,9 @@ import configPassportModule from './config/passport';
 import users from './routes/api/users';
 import profile from './routes/api/profile';
 import posts from './routes/api/posts';
+import problems from './routes/api/problems';
+
+require('dotenv').config();
 
 const app = express();
 
@@ -39,7 +41,7 @@ configPassportModule(passport);
 app.use('/api/users', users);
 app.use('/api/profile', profile);
 app.use('/api/posts', posts);
-console.log(process.env.NODE.ENV);
+app.use('/api/problems', problems);
 
 const port = process.env.PORT || 5005;
 
