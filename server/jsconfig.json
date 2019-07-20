@@ -1,5 +1,6 @@
 {
   "typeAcquisition": {
-    "include": ["jest"]
+    "include": ["jest"],
+    "exclude": ["babel-types", "@types/babel-types"]
   }
 }

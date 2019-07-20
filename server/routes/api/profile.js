@@ -10,19 +10,16 @@ import validateEducationInput from '../../validation/education';
 
 // Load Profile Model
 import Profile from '../../models/Profile';
+import { ping } from '../../lamdas/profile/ping';
 
 const router = express.Router();
 
 mongoose.set('useFindAndModify', false);
 
-// @route GET api/profile/test
-// @desc Tests profile route
+// @route GET api/profile/ping
+// @desc Ping profile route
 // @access Public
-router.get('/test', (req, res) =>
-  res.json({
-    msg: 'Profile Works'
-  })
-);
+router.get('/ping', ping);
 
 // @route Get api/profile
 // @desc Gets current user profile
