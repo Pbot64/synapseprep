@@ -11,65 +11,26 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "test": "jest"
   },
-  "jest": {
-    "transform": {
-      "^.+\\.js$": "babel-jest",
-      "^.+\\.jsx$": "babel-jest"
-    },
-    "coveragePathIgnorePatterns": [
-      "test"
-    ]
-  },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@babel/polyfill": "^7.4.4",
     "bcryptjs": "^2.4.3",
-    "body-parser": "^1.19.0",
-    "concurrently": "^4.1.0",
-    "dotenv": "^6.2.0",
-    "email-templates": "^5.1.0",
+    "dotenv": "^8.0.0",
+    "email-templates": "^6.0.0",
     "express": "^4.17.1",
-    "express-session": "^1.16.2",
     "gravatar": "^1.8.0",
-    "jest": "^24.8.0",
-    "jsonwebtoken": "^8.4.0",
-    "jss-extend": "^6.2.0",
-    "mongo-uri-builder": "^2.0.0",
-    "mongoose": "^5.6.0",
-    "mongoose-findorcreate": "^3.0.0",
-    "nodemailer": "^6.2.1",
+    "mongoose": "^5.6.5",
+    "nodemailer": "^6.3.0",
     "passport": "^0.4.0",
     "passport-facebook": "^3.0.0",
-    "passport-facebook-token": "^3.3.0",
     "passport-jwt": "^4.0.0",
-    "path": "^0.12.7",
-    "pug": "^2.0.4",
-    "regenerator-runtime": "^0.13.1",
-    "sequelize": "^5.8.9",
-    "validator": "^9.4.1"
+    "validator": "^11.1.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.4.4",
-    "@babel/core": "^7.4.5",
-    "@babel/node": "^7.4.5",
-    "@babel/preset-env": "^7.4.5",
-    "@babel/register": "^7.4.4",
-    "babel-jest": "^24.8.0",
-    "babel-polyfill": "^6.26.0",
-    "eslint": "^5.3.0",
-    "eslint-config-airbnb": "^17.1.0",
-    "eslint-config-prettier": "^4.3.0",
-    "eslint-plugin-import": "^2.17.3",
-    "eslint-plugin-jest": "^22.6.4",
-    "eslint-plugin-jsx-a11y": "^6.2.1",
-    "eslint-plugin-prettier": "^3.1.0",
-    "eslint-plugin-react": "^7.13.0",
-    "mocked-env": "^1.3.1",
-    "mongodb-memory-server": "^5.1.5",
-    "node-mocks-http": "^1.7.6",
-    "nodemon": "^1.19.1",
-    "prettier": "^1.18.2",
-    "supertest": "^4.0.2"
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/node": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@types/jest": "^24.0.15"
   }
 }
