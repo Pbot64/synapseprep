@@ -36,7 +36,7 @@ async function emailResetToken(req, res) {
 
   // Find user by email
   User.findOne({ email })
-    .then(user => {
+    .then((user) => {
       // Check for user
       if (!user) {
         errors.email = 'User not found';
@@ -45,7 +45,7 @@ async function emailResetToken(req, res) {
       const token = crypto.randomBytes(20).toString('hex');
       user.resetPasswordToken = token;
       user.resetPasswordExpires = Date.now() + 3600000;
-      user.save(err => {
+      user.save((err) => {
         if (err) {
           console.error(err);
         }
@@ -58,35 +58,35 @@ async function emailResetToken(req, res) {
         requireTLS: true,
         auth: {
           user: 'synapseprep@gmail.com',
-          pass: `${process.env.EMAIL_PASSWORD}`
-        }
+          pass: `${process.env.EMAIL_PASSWORD}`,
+        },
       });
 
       const email = new Email({
         transport: transporter,
         message: {
-          from: 'support@synapseprep.net'
+          from: 'support@synapseprep.net',
         },
         // uncomment below to send emails in development/test env:
-        send: true
+        send: true,
       });
 
       email
         .send({
           template: path.join(__dirname, '..', 'emails'),
           message: {
-            to: `${user.email}`
+            to: `${user.email}`,
           },
           locals: {
             title: 'Password Reset Request',
             message:
-              'We just got a request to reset your password.\n\n' +
-              'Please click the button below, or paste this url into your browser to complete the process:\n\n' +
-              `https://app.synapseprep.net/resetpassword/${token}`,
+              'We just got a request to reset your password.\n\n'
+              + 'Please click the button below, or paste this url into your browser to complete the process:\n\n'
+              + `https://app.synapseprep.net/resetpassword/${token}`,
             buttonText: 'Reset Password',
             buttonLink: `https://app.synapseprep.net/resetpassword/${token}`,
-            subject: 'Synapse Prep Password Reset Request'
-          }
+            subject: 'Synapse Prep Password Reset Request',
+          },
         })
         .then(() => {
           res.status(200).json({ emailSent: true });

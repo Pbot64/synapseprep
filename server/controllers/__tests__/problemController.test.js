@@ -16,7 +16,7 @@ beforeAll(async () => {
   mongoServer = new MongoMemoryServer();
   const mongoUri = await mongoServer.getConnectionString();
   const opts = { useNewUrlParser: true };
-  await mongoose.connect(mongoUri, opts, err => {
+  await mongoose.connect(mongoUri, opts, (err) => {
     if (err) throw new Error(`connection failed: ${err}`);
   });
   await Problem.deleteMany({});
@@ -31,7 +31,7 @@ afterAll(async () => {
 describe('Problem api', () => {
   const mockRequest = httpMocks.createRequest({
     method: 'GET',
-    url: '/problems/'
+    url: '/problems/',
   });
   const mockResponse = httpMocks.createResponse();
 

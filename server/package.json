@@ -11,6 +11,13 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "test": "jest"
   },
+  "jest": {
+    "testEnvironment": "node",
+    "transform": {
+      "^.+\\.js$": "babel-jest",
+      "^.+\\.jsx$": "babel-jest"
+    }
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -31,6 +38,15 @@
     "@babel/core": "^7.5.5",
     "@babel/node": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
-    "@types/jest": "^24.0.15"
+    "@types/jest": "^24.0.15",
+    "@types/mongoose": "^5.5.8",
+    "babel-jest": "^24.8.0",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.2.0",
+    "eslint-plugin-import": "^2.18.2",
+    "jest": "^24.8.0",
+    "mongodb-memory-server": "^5.1.5",
+    "prettier": "^1.18.2",
+    "supertest": "^4.0.2"
   }
 }
