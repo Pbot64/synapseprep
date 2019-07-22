@@ -49,7 +49,7 @@ async function emailResetToken(req, res) {
   const now = Date.now();
   user.resetPasswordExpires = now + 3600000;
   try {
-    user.save();
+    await user.save();
   } catch (err) {
     console.error(err);
   }
