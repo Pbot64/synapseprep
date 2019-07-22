@@ -21,7 +21,6 @@ beforeAll(async () => {
   });
   await Problem.deleteMany({});
   await Problem.create(mockProblems);
-  mongoose.disconnect();
 });
 
 afterAll(async () => {
