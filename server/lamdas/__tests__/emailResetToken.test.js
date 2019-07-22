@@ -75,6 +75,8 @@ describe('Reset email token', () => {
   });
 
   it("should update user's token.", async () => {
+    // Arrange
+    //
     validateResetInput.mockImplementation(validateResetTrue);
 
     const randomBytes = jest.spyOn(crypto, 'randomBytes');
@@ -83,10 +85,14 @@ describe('Reset email token', () => {
     const now = jest.spyOn(Date, 'now');
     now.mockReturnValue(mockDateNow);
 
+    // Act
+    //
     await request(app)
       .post('/')
       .send({ email });
     const user = await User.findOne({ email }).exec();
+
+    // Expectation/Assert
     expect(user.resetPasswordToken).toEqual(mockToken);
     expect(user.resetPasswordExpires.getTime()).toEqual(expires);
 
