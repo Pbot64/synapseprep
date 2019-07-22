@@ -93,4 +93,8 @@ describe('Reset email token', () => {
     randomBytes.mockClear();
     now.mockClear();
   });
+
+  xit('should send email to user', () => {
+    throw new Error('not implemented');
+  });
 });
