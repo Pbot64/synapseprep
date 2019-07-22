@@ -36,7 +36,7 @@ describe('Reset email token', () => {
       if (err) throw new Error(`connection failed: ${err}`);
     });
     await User.deleteMany({});
-    await User.create({ email: 'asdf@asdf.com' });
+    await User.create({ email });
   });
 
   beforeEach(() => {
@@ -61,7 +61,7 @@ describe('Reset email token', () => {
 
     const response = await request(app)
       .post('/')
-      .send({ email: 'asdfasdf@asdf.com' });
+      .send({ email: 'BADEMAIL@asdf.com' });
     expect(response.statusCode).toBe(404);
   });
 
