@@ -82,11 +82,15 @@ describe('Reset email token', () => {
 
     const now = jest.spyOn(Date, 'now');
     now.mockReturnValue(mockDateNow);
+
     await request(app)
       .post('/')
       .send({ email });
     const user = await User.findOne({ email }).exec();
     expect(user.resetPasswordToken).toEqual(mockToken);
     expect(user.resetPasswordExpires.getTime()).toEqual(expires);
+
+    randomBytes.mockClear();
+    now.mockClear();
   });
 });

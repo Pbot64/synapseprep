@@ -48,6 +48,7 @@ async function emailResetToken(req, res) {
   user.resetPasswordToken = token;
   const now = Date.now();
   user.resetPasswordExpires = now + 3600000;
+
   try {
     await user.save();
   } catch (err) {
