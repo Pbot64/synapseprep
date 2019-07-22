@@ -2,7 +2,6 @@
 import httpMocks from 'node-mocks-http';
 import mongoose from 'mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
-import '@babel/polyfill';
 import { problems as mockProblems } from './fixtures/problems.json';
 import problemController from '../problemController';
 import Problem from '../../models/Problem';
