@@ -15,8 +15,5 @@ steps:
 
 - task: Npm@1
   inputs:
+    workingDir: $(System.DefaultWorkingDirectory)/client
     command: 'install'
-
-- task: CmdLine@2
-  inputs:
-    script: 'npm run now-build'
