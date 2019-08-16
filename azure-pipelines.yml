@@ -15,4 +15,5 @@ steps:
 
 - task: CmdLine@2
   inputs:
+    workingDirectory: ${workingDirectory}
     script: 'npm run now-build'
