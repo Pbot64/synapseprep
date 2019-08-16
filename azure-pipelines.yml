@@ -23,3 +23,14 @@ steps:
     command: 'custom'
     workingDir: '$(System.DefaultWorkingDirectory)/client'
     customCommand: 'run now-build'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(System.DefaultWorkingDirectory)/client/build'
+    Contents: '**'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: $(Build.ArtifactStagingDirectory)
+    artifactName: synapse-prep-app-client
