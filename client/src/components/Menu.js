@@ -1,30 +1,29 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { logoutUser } from "../actions/authActions";
-import { clearCurrentProfile } from "../actions/profileActions";
-import LinkCustom from "../assets/jss/components/LinkCustom";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { logoutUser } from '../actions/authActions';
+import LinkCustom from '../assets/jss/components/LinkCustom';
 
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import Grow from "@material-ui/core/Grow";
-import Paper from "@material-ui/core/Paper";
-import Popper from "@material-ui/core/Popper";
-import MenuItem from "@material-ui/core/MenuItem";
-import MenuList from "@material-ui/core/MenuList";
-import { withStyles } from "@material-ui/core/styles";
-import IconButton from "@material-ui/core/IconButton";
-import Avatar from "@material-ui/core/Avatar";
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Grow from '@material-ui/core/Grow';
+import Paper from '@material-ui/core/Paper';
+import Popper from '@material-ui/core/Popper';
+import MenuItem from '@material-ui/core/MenuItem';
+import MenuList from '@material-ui/core/MenuList';
+import { withStyles } from '@material-ui/core/styles';
+import IconButton from '@material-ui/core/IconButton';
+import Avatar from '@material-ui/core/Avatar';
 
 const styles = theme => ({
   root: {
-    display: "flex"
+    display: 'flex'
   },
   paper: {
     marginRight: theme.spacing.unit * 2
   },
   avatar: {
-    width: "25px",
-    height: "25px"
+    width: '25px',
+    height: '25px'
   }
 });
 
@@ -46,7 +45,6 @@ class MenuTest extends React.Component {
 
   handleLogout = e => {
     e.preventDefault();
-    this.props.clearCurrentProfile();
     this.handleClose(e);
     this.props.logoutUser();
   };
@@ -59,7 +57,7 @@ class MenuTest extends React.Component {
     return (
       <div className={classes.root}>
         <IconButton
-          aria-owns={open ? "menu-list-grow" : undefined}
+          aria-owns={open ? 'menu-list-grow' : undefined}
           aria-haspopup="true"
           buttonRef={node => {
             this.anchorEl = node;
@@ -81,8 +79,7 @@ class MenuTest extends React.Component {
               {...TransitionProps}
               id="menu-list-grow"
               style={{
-                transformOrigin:
-                  placement === "bottom" ? "center top" : "center bottom"
+                transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom'
               }}
             >
               <Paper>
@@ -91,9 +88,7 @@ class MenuTest extends React.Component {
                     <LinkCustom to="/profile">
                       <MenuItem onClick={this.handleClose}>Profile</MenuItem>
                     </LinkCustom>
-                    <MenuItem onClick={this.handleClose}>
-                      Get Paid to Rep
-                    </MenuItem>
+                    <MenuItem onClick={this.handleClose}>Get Paid to Rep</MenuItem>
                     <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
                   </MenuList>
                 </ClickAwayListener>
@@ -119,6 +114,6 @@ const mapStatetoProps = state => ({
 export default withStyles(styles)(
   connect(
     mapStatetoProps,
-    { logoutUser, clearCurrentProfile }
+    { logoutUser }
   )(MenuTest)
 );

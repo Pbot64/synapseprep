@@ -6,8 +6,9 @@ import jwt_decode from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
 import { setCurrentUser, logoutUser } from './actions/authActions';
 import { Provider } from 'react-redux';
-import store from './store';
+import { persistor, store } from './store';
 import PrivateRoute from './components/common/PrivateRoute';
+import { PersistGate } from 'redux-persist/lib/integration/react';
 
 // Local Components
 import Dashboard from './layouts/Dashboard/@Dashboard';
@@ -21,10 +22,11 @@ import SiteWrapper from './layouts/Sitewrapper';
 import ResetPassword from './views/ResetPassword';
 import ScrollToTop from './components/common/ScrollToTop';
 import UnderConstruction from './layouts/UnderConstruction';
+import Review from './layouts/Review';
 
 // Material UI Components
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { clearCurrentProfile } from './actions/profileActions';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 // Local Assets
 
@@ -46,8 +48,6 @@ if (jwtToken !== 'Bearer undefined' && jwtToken !== null && jwtToken) {
   if (decoded.exp < currentTime) {
     // Logout user
     store.dispatch(logoutUser());
-    // TODO: Clear current Profile
-    store.dispatch(clearCurrentProfile());
     // Redirect to login
     window.location.href = '/login';
   }
@@ -61,26 +61,29 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <Router>
-          <ScrollToTop>
-            <React.Fragment>
-              <CssBaseline />
-              <SiteWrapper>
-                <Switch>
-                  <PrivateRoute exact path="/dashboard" component={Dashboard} />
-                  <PrivateRoute exact path="/profile" component={Profile} />
-                  <PrivateRoute exact path="/intro" component={Intro} />
-                  <PrivateRoute exact path="/underConstruction" component={UnderConstruction} />
-                  <Route exact path="/resetpassword/:token" component={ResetPassword} />
-                  <Route exact path="/question-feed" component={QuestionFeedPage} />
-                  <Route exact path="/login" component={Login} />
-                  <Route exact path="/register" component={Register} />
-                  <Route exact path="/passwordResetEmail" component={PasswordResetEmail} />
-                </Switch>
-              </SiteWrapper>
-            </React.Fragment>
-          </ScrollToTop>
-        </Router>
+        <PersistGate loading={<CircularProgress />} persistor={persistor}>
+          <Router>
+            <ScrollToTop>
+              <React.Fragment>
+                <CssBaseline />
+                <SiteWrapper>
+                  <Switch>
+                    <PrivateRoute exact path="/dashboard" component={Dashboard} />
+                    <PrivateRoute exact path="/profile" component={Profile} />
+                    <PrivateRoute exact path="/intro" component={Intro} />
+                    <PrivateRoute exact path="/underConstruction" component={UnderConstruction} />
+                    <PrivateRoute exact path="/question-feed" component={QuestionFeedPage} />
+                    <PrivateRoute exact path="/review" component={Review} />
+                    <Route exact path="/resetpassword/:token" component={ResetPassword} />
+                    <Route exact path="/login" component={Login} />
+                    <Route exact path="/register" component={Register} />
+                    <Route exact path="/passwordResetEmail" component={PasswordResetEmail} />
+                  </Switch>
+                </SiteWrapper>
+              </React.Fragment>
+            </ScrollToTop>
+          </Router>
+        </PersistGate>
       </Provider>
     );
   }

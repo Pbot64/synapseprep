@@ -1,27 +1,27 @@
 // Node Modules
-import React from "react";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-import { Link } from "react-router-dom";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
 
 // Material UI Components
-import Collapse from "@material-ui/core/Collapse";
-import DashboardIcon from "@material-ui/icons/Dashboard";
-import Divider from "@material-ui/core/Divider";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import MailIcon from "@material-ui/icons/Mail";
-import School from "@material-ui/icons/School";
-import Settings from "@material-ui/icons/Settings";
-import AssessmentIcon from "@material-ui/icons/Assessment";
-import StarBorder from "@material-ui/icons/StarBorder";
-import Timer from "@material-ui/icons/Timer";
-import Typography from "@material-ui/core/Typography";
-import { Toolbar } from "@material-ui/core";
+import Collapse from '@material-ui/core/Collapse';
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import Divider from '@material-ui/core/Divider';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import MailIcon from '@material-ui/icons/Mail';
+import School from '@material-ui/icons/School';
+import Settings from '@material-ui/icons/Settings';
+import AssessmentIcon from '@material-ui/icons/Assessment';
+import StarBorder from '@material-ui/icons/StarBorder';
+import Timer from '@material-ui/icons/Timer';
+import Typography from '@material-ui/core/Typography';
+import { Toolbar } from '@material-ui/core';
 
 // Local Components
 
@@ -34,31 +34,31 @@ const styles = theme => ({
     opacity: 0.8
   },
   center: {
-    justifyContent: "center",
-    [theme.breakpoints.up("sm")]: {
+    justifyContent: 'center',
+    [theme.breakpoints.up('sm')]: {
       paddingLeft: 0,
       paddingRight: 0
     }
   },
   link: {
-    color: "inherit",
-    textDecoration: "none"
+    color: 'inherit',
+    textDecoration: 'none'
   },
   logoLink: {
-    color: "inherit",
-    textDecoration: "none"
+    color: 'inherit',
+    textDecoration: 'none'
   },
   logo: {
-    "&:hover": {
-      opacity: "0.6"
+    '&:hover': {
+      opacity: '0.6'
     }
   }
 });
 
 const StyledListItem = withStyles({
   button: {
-    "&:focus": {
-      backgroundColor: "rgba(0,0,0,0.2)"
+    '&:focus': {
+      backgroundColor: 'rgba(0,0,0,0.2)'
     }
   }
 })(ListItem);
@@ -69,11 +69,7 @@ const SidebarList = props => {
     <div className={classes.root}>
       <a href="https://synapseprep.net" className={classes.logoLink}>
         <Toolbar className={classes.center}>
-          <Typography
-            className={classes.logo}
-            variant="caption"
-            color="inherit"
-          >
+          <Typography className={classes.logo} variant="caption" color="inherit">
             Synapse Prep
           </Typography>
         </Toolbar>
@@ -81,11 +77,7 @@ const SidebarList = props => {
 
       <Divider />
       <List component="nav">
-        <Link
-          onClick={props.handleDrawerToggle}
-          to="/dashboard"
-          className={classes.link}
-        >
+        <Link onClick={props.handleDrawerToggle} to="/dashboard" className={classes.link}>
           <StyledListItem button>
             <ListItemIcon>
               <DashboardIcon />
@@ -97,7 +89,7 @@ const SidebarList = props => {
         <StyledListItem
           button
           onClick={() => {
-            props.handleClick("Lessons");
+            props.handleClick('Lessons');
           }}
         >
           <ListItemIcon>
@@ -109,11 +101,7 @@ const SidebarList = props => {
 
         <Collapse in={props.lessonsMenuOpen} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <Link
-              onClick={props.handleDrawerToggle}
-              to="/intro"
-              className={classes.link}
-            >
+            <Link onClick={props.handleDrawerToggle} to="/intro" className={classes.link}>
               <StyledListItem button className={classes.nested}>
                 <ListItemIcon />
                 <ListItemText primary="Intro" />
@@ -161,7 +149,7 @@ const SidebarList = props => {
         <StyledListItem
           button
           onClick={() => {
-            props.handleClick("Practice");
+            props.handleClick('Practice');
           }}
         >
           <ListItemIcon>
@@ -195,17 +183,19 @@ const SidebarList = props => {
           <ListItemText primary="Full Tests" />
         </StyledListItem>
 
-        <StyledListItem button>
-          <ListItemIcon>
-            <AssessmentIcon />
-          </ListItemIcon>
-          <ListItemText primary="Review" />
-        </StyledListItem>
+        <Link onClick={props.handleDrawerToggle} to="/review" className={classes.link}>
+          <StyledListItem button>
+            <ListItemIcon>
+              <AssessmentIcon />
+            </ListItemIcon>
+            <ListItemText primary="Review" />
+          </StyledListItem>
+        </Link>
       </List>
       <Divider />
 
       <List>
-        <Link to="/profile" className={classes.link}>
+        <Link onClick={props.handleDrawerToggle} to="/profile" className={classes.link}>
           <StyledListItem button>
             <ListItemIcon>
               <Settings />

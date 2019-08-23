@@ -1,14 +1,15 @@
 // Node Modules
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 
 // Material UI Components
-import Drawer from "@material-ui/core/Drawer";
-import Hidden from "@material-ui/core/Hidden";
-import { withStyles } from "@material-ui/core/styles";
+import Drawer from '@material-ui/core/Drawer';
+import Hidden from '@material-ui/core/Hidden';
+import { withStyles } from '@material-ui/core/styles';
 
 // Local Components
-import SidebarList from "../components/SidebarList";
+import SidebarList from '../components/SidebarList';
 
 // Local Assets
 
@@ -16,20 +17,23 @@ import SidebarList from "../components/SidebarList";
 const drawerWidth = 220;
 const styles = theme => ({
   root: {
-    display: "flex"
+    display: 'flex'
   },
   drawer: {
-    display: "none",
-    [theme.breakpoints.up("lg")]: {
+    display: 'none',
+    [theme.breakpoints.up('lg')]: {
       width: drawerWidth,
       flexShrink: 0,
-      display: "flex"
+      display: 'flex'
     }
+  },
+  noDrawer: {
+    display: 'none'
   },
   menuButton: {
     marginRight: 20,
-    [theme.breakpoints.up("lg")]: {
-      display: "none"
+    [theme.breakpoints.up('lg')]: {
+      display: 'none'
     }
   },
   drawerPaper: {
@@ -40,9 +44,9 @@ const styles = theme => ({
     maxWidth: 600
   },
   bullet: {
-    display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)"
+    display: 'inline-block',
+    margin: '0 2px',
+    transform: 'scale(0.8)'
   }
 });
 
@@ -54,10 +58,10 @@ class Sidebar extends Component {
 
   handleClick = menu => {
     switch (menu) {
-      case "Practice":
+      case 'Practice':
         this.setState(state => ({ practiceMenuOpen: !state.practiceMenuOpen }));
         break;
-      case "Lessons":
+      case 'Lessons':
         this.setState(state => ({ lessonsMenuOpen: !state.lessonsMenuOpen }));
         break;
       default:
@@ -69,13 +73,19 @@ class Sidebar extends Component {
     const { classes, theme } = this.props;
     return (
       <div className={classes.root}>
-        <nav className={classes.drawer}>
+        <nav
+          className={
+            this.props.history.location.pathname === '/question-feed'
+              ? classes.noDrawer
+              : classes.drawer
+          }
+        >
           {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
           <Hidden smUp implementation="css">
             <Drawer
               container={this.props.container}
               variant="temporary"
-              anchor={theme.direction === "rtl" ? "right" : "left"}
+              anchor={theme.direction === 'rtl' ? 'right' : 'left'}
               open={this.props.mobileOpen}
               onClose={this.props.handleDrawerToggle}
               classes={{
@@ -119,4 +129,4 @@ Sidebar.propTypes = {
   theme: PropTypes.object.isRequired
 };
 
-export default withStyles(styles, { withTheme: true })(Sidebar);
+export default withStyles(styles, { withTheme: true })(withRouter(Sidebar));

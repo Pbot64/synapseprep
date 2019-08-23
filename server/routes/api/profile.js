@@ -9,7 +9,7 @@ import validateExperienceInput from '../../validation/experience';
 import validateEducationInput from '../../validation/education';
 
 // Load Profile Model
-import Profile from '../../models/Profile';
+import Profile from '../../models/Practice';
 
 const router = express.Router();
 

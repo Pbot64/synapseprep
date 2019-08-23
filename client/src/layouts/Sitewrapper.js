@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import { withRouter } from 'react-router-dom';
 
 // Material UI Components
 import Grid from '@material-ui/core/Grid';
@@ -42,10 +43,18 @@ class SiteWrapper extends Component {
   };
 
   render() {
+    // let sideBar;
+    // if (this.props.history.location.pathname == '/question-feed') {
+    //   this.setState({ mobileOpen: false });
+    // }
+
     const { classes } = this.props;
     return (
       <React.Fragment>
-        <Navbar handleDrawerToggle={this.handleDrawerToggle} />
+        <Navbar
+          path={this.props.history.location.pathname}
+          handleDrawerToggle={this.handleDrawerToggle}
+        />
         <Grid container wrap="nowrap">
           <Sidebar
             handleDrawerToggle={this.handleDrawerToggle}
@@ -62,4 +71,4 @@ SiteWrapper.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(SiteWrapper);
+export default withStyles(styles)(withRouter(SiteWrapper));

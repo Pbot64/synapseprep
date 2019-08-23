@@ -1,34 +1,85 @@
-import { GET_PROFILE, PROFILE_LOADING, CLEAR_CURRENT_PROFILE, SET_ALERTED } from '../actions/types';
+import {
+  SET_PRACTICE,
+  PRACTICE_LOADING,
+  SET_ALERTED,
+  SET_ASSIGNMENT,
+  UPDATE_SELECTED,
+  UPDATE_COMPLETED
+} from '../actions/types';
 
 const initialState = {
-  profile: null,
-  profiles: null,
+  practice: null,
   loading: false,
-  alerted: false
+  alerted: false,
+  assignment: 1
 };
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case PROFILE_LOADING:
+    case PRACTICE_LOADING:
       return {
         ...state,
         loading: true
       };
-    case GET_PROFILE:
+    case SET_PRACTICE:
       return {
         ...state,
-        profile: action.payload,
+        practice: action.payload,
         loading: false
-      };
-    case CLEAR_CURRENT_PROFILE:
-      return {
-        ...state,
-        profile: null
       };
     case SET_ALERTED:
       return {
         ...state,
         alerted: true
+      };
+    case SET_ASSIGNMENT:
+      return {
+        ...state,
+        assignment: action.payload
+      };
+    case UPDATE_SELECTED:
+      const { selected } = action.payload;
+      return {
+        ...state,
+        practice: {
+          ...state.practice,
+          questions: state.practice.questions.map((questionSet, index) => {
+            if (index !== action.payload.assignment) {
+              return questionSet;
+            }
+            return questionSet.map((question, index) => {
+              if (action.payload.pageNumber !== index) {
+                return question;
+              }
+              return {
+                ...question,
+                selected
+              };
+            });
+          })
+        }
+      };
+    case UPDATE_COMPLETED:
+      const { completed } = action.payload;
+      return {
+        ...state,
+        practice: {
+          ...state.practice,
+          questions: state.practice.questions.map((questionSet, index) => {
+            if (index !== action.payload.assignment) {
+              return questionSet;
+            }
+            return questionSet.map((question, index) => {
+              if (action.payload.pageNumber !== index) {
+                return question;
+              }
+              return {
+                ...question,
+                completed
+              };
+            });
+          })
+        }
       };
     default:
       return state;

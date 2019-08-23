@@ -9,7 +9,7 @@ import axios from 'axios';
 
 // Redux actions
 import { GET_ERRORS } from '../actions/types';
-import { getCurrentProfile } from '../actions/profileActions';
+// import { getCurrentProfile } from '../actions/profileActions';
 import { clearErrors, deleteAccount, updateAccount } from '../actions/authActions';
 
 // Local components
@@ -118,7 +118,7 @@ class Profile extends Component {
   };
 
   componentDidMount() {
-    this.props.getCurrentProfile();
+    // this.props.getCurrentProfile();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -201,173 +201,167 @@ class Profile extends Component {
         </Grid>
       );
     } else {
-      //Check if logged in user has profile data
-      if (Object.keys(profile).length > 0) {
-        profileContent = <h4>TODO Display Profile</h4>;
-      } else {
-        // User is logged in but has no profile
-        profileContent = (
-          <React.Fragment>
-            <Grid container spacing={24} justify="space-around">
-              <Grid className={classes.changePassCardContainer} item xs={12} sm={6} md={5}>
-                <CardCustom padding title="Change Password" borderBottom>
-                  <Grid container justify="center">
-                    <form onSubmit={this.handleSubmit} className={classes.form}>
-                      <Grid container direction="column">
-                        <TextField
-                          error={Boolean(errors.password)}
-                          id="outlined-adornment-password"
-                          className={classes.topTextFeild}
-                          variant="outlined"
-                          type={this.state.showPassword ? 'text' : 'password'}
-                          label="New Password"
-                          helperText={errors.password}
-                          value={this.state.password}
-                          onChange={this.handleChange('password')}
-                          InputProps={{
-                            endAdornment: (
-                              <InputAdornment position="end">
-                                <IconButton
-                                  aria-label="Toggle password visibility"
-                                  onClick={this.handleClickShowPassword}
-                                >
-                                  {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
-                                </IconButton>
-                              </InputAdornment>
-                            )
-                          }}
-                        />
-                        <TextField
-                          error={Boolean(errors.password2)}
-                          id="outlined-adornment-password2"
-                          classes={{ root: classes.root }}
-                          className={classNames(classes.margin, classes.textField)}
-                          variant="outlined"
-                          type={this.state.showPassword ? 'text' : 'password'}
-                          label="Confirm New Password"
-                          value={this.state.password2}
-                          helperText={errors.password2}
-                          onChange={this.handleChange('password2')}
-                        />
-                      </Grid>
-                      <Grid container justify="center" className={classes.saveChangesButton}>
-                        {!updated && (
-                          <Grid item>
-                            <ButtonCustom type="submit" fullWidth className={classes.submit}>
-                              Save Changes
-                            </ButtonCustom>
-                          </Grid>
-                        )}
-                      </Grid>
-                      {updated && (
-                        <Typography variant="body1" align="center" color="textPrimary">
-                          Your password has been changed.
-                        </Typography>
+      // User is logged in but has no profile
+      profileContent = (
+        <React.Fragment>
+          <Grid container spacing={24} justify="space-around">
+            <Grid className={classes.changePassCardContainer} item xs={12} sm={6} md={5}>
+              <CardCustom padding title="Change Password" borderBottom>
+                <Grid container justify="center">
+                  <form onSubmit={this.handleSubmit} className={classes.form}>
+                    <Grid container direction="column">
+                      <TextField
+                        error={Boolean(errors.password)}
+                        id="outlined-adornment-password"
+                        className={classes.topTextFeild}
+                        variant="outlined"
+                        type={this.state.showPassword ? 'text' : 'password'}
+                        label="New Password"
+                        helperText={errors.password}
+                        value={this.state.password}
+                        onChange={this.handleChange('password')}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <IconButton
+                                aria-label="Toggle password visibility"
+                                onClick={this.handleClickShowPassword}
+                              >
+                                {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                              </IconButton>
+                            </InputAdornment>
+                          )
+                        }}
+                      />
+                      <TextField
+                        error={Boolean(errors.password2)}
+                        id="outlined-adornment-password2"
+                        classes={{ root: classes.root }}
+                        className={classNames(classes.margin, classes.textField)}
+                        variant="outlined"
+                        type={this.state.showPassword ? 'text' : 'password'}
+                        label="Confirm New Password"
+                        value={this.state.password2}
+                        helperText={errors.password2}
+                        onChange={this.handleChange('password2')}
+                      />
+                    </Grid>
+                    <Grid container justify="center" className={classes.saveChangesButton}>
+                      {!updated && (
+                        <Grid item>
+                          <ButtonCustom type="submit" fullWidth className={classes.submit}>
+                            Save Changes
+                          </ButtonCustom>
+                        </Grid>
                       )}
-                    </form>
-                  </Grid>
-                </CardCustom>
-              </Grid>
-
-              <Grid item xs={12} sm={6} md={5} className={classes.profileCardContainer}>
-                <CardCustom padding title="Profile" borderBottom>
-                  <Grid container alignItems="center">
-                    <Grid item>
-                      <Grid container alignItems="center" direction="column">
-                        <img src={avatar} alt="User avatar" className={classes.avatar} />
-                        <Button className={classes.changeAvatarButton}>
-                          <ReactFilestack
-                            apikey={'AovPr36fbS4W9jPnBUTosz'}
-                            componentDisplayMode={{
-                              type: 'link',
-                              customText: 'Change Avatar',
-                              customClass: 'some-custom-class'
-                            }}
-                            actionOptions={{ transformations: { force: true } }}
-                            buttonText="Upload Photo"
-                            buttonClass="ui medium button gray"
-                            // options={basicOptions}
-                            onSuccess={this.onSuccess}
-                            onError={this.onError}
-                          />
-                        </Button>
-                      </Grid>
                     </Grid>
-                    <Grid item className={classes.welcomeContainer}>
-                      <Typography component="p" variant="subtitle1">
-                        Welcome!
+                    {updated && (
+                      <Typography variant="body1" align="center" color="textPrimary">
+                        Your password has been changed.
                       </Typography>
-                      <Typography
-                        className={classes.profileName}
-                        component="p"
-                        variant="h5"
-                        gutterBottom
-                      >
-                        {name}
-                      </Typography>
-                    </Grid>
-                  </Grid>
-
-                  <Divider />
-                  <Grid container justify="center" className={classes.accountInfoContainer}>
-                    <TextField
-                      error={Boolean(errors.email)}
-                      id="outlined-email"
-                      classes={{ root: classes.textFieldRoot }}
-                      className={classes.topTextFeild}
-                      variant="outlined"
-                      type={'email'}
-                      label="Email"
-                      value={email}
-                      helperText={errors.email}
-                      fullWidth={true}
-                      onChange={this.handleChange('email')}
-                    />
-                    <TextField
-                      error={Boolean(errors.name)}
-                      id="outlined-name"
-                      classes={{ root: classes.textFieldRoot }}
-                      variant="outlined"
-                      type="name"
-                      label="Name"
-                      value={name}
-                      helperText={errors.name}
-                      fullWidth={true}
-                      onChange={this.handleChange('name')}
-                    />
-                    <ButtonCustom
-                      className={classes.saveChangesButton}
-                      onClick={this.handleUpdateAccount}
-                    >
-                      Save Changes
-                    </ButtonCustom>
-                  </Grid>
-                  <Grid container justify="flex-end">
-                    <Button onClick={this.onDeleteClick} className={classes.deleteButton}>
-                      Delete My Account
-                    </Button>
-                  </Grid>
-                </CardCustom>
-              </Grid>
-            </Grid>
-
-            <Grid item xs={12} sm={10} className={classes.billingContainer}>
-              <CardCustom padding title="Billing" borderBottom className={classes.billing}>
-                <Typography component="h1" variant="body1">
-                  Subscription Status: Free
-                </Typography>
+                    )}
+                  </form>
+                </Grid>
               </CardCustom>
             </Grid>
-          </React.Fragment>
-        );
-      }
+
+            <Grid item xs={12} sm={6} md={5} className={classes.profileCardContainer}>
+              <CardCustom padding title="Profile" borderBottom>
+                <Grid container alignItems="center">
+                  <Grid item>
+                    <Grid container alignItems="center" direction="column">
+                      <img src={avatar} alt="User avatar" className={classes.avatar} />
+                      <Button className={classes.changeAvatarButton}>
+                        <ReactFilestack
+                          apikey={'AovPr36fbS4W9jPnBUTosz'}
+                          componentDisplayMode={{
+                            type: 'link',
+                            customText: 'Change Avatar',
+                            customClass: 'some-custom-class'
+                          }}
+                          actionOptions={{ transformations: { force: true } }}
+                          buttonText="Upload Photo"
+                          buttonClass="ui medium button gray"
+                          // options={basicOptions}
+                          onSuccess={this.onSuccess}
+                          onError={this.onError}
+                        />
+                      </Button>
+                    </Grid>
+                  </Grid>
+                  <Grid item className={classes.welcomeContainer}>
+                    <Typography component="p" variant="subtitle1">
+                      Welcome!
+                    </Typography>
+                    <Typography
+                      className={classes.profileName}
+                      component="p"
+                      variant="h5"
+                      gutterBottom
+                    >
+                      {name}
+                    </Typography>
+                  </Grid>
+                </Grid>
+
+                <Divider />
+                <Grid container justify="center" className={classes.accountInfoContainer}>
+                  <TextField
+                    error={Boolean(errors.email)}
+                    id="outlined-email"
+                    classes={{ root: classes.textFieldRoot }}
+                    className={classes.topTextFeild}
+                    variant="outlined"
+                    type={'email'}
+                    label="Email"
+                    value={email}
+                    helperText={errors.email}
+                    fullWidth={true}
+                    onChange={this.handleChange('email')}
+                  />
+                  <TextField
+                    error={Boolean(errors.name)}
+                    id="outlined-name"
+                    classes={{ root: classes.textFieldRoot }}
+                    variant="outlined"
+                    type="name"
+                    label="Name"
+                    value={name}
+                    helperText={errors.name}
+                    fullWidth={true}
+                    onChange={this.handleChange('name')}
+                  />
+                  <ButtonCustom
+                    className={classes.saveChangesButton}
+                    onClick={this.handleUpdateAccount}
+                  >
+                    Save Changes
+                  </ButtonCustom>
+                </Grid>
+                <Grid container justify="flex-end">
+                  <Button onClick={this.onDeleteClick} className={classes.deleteButton}>
+                    Delete My Account
+                  </Button>
+                </Grid>
+              </CardCustom>
+            </Grid>
+          </Grid>
+
+          <Grid item xs={12} sm={10} className={classes.billingContainer}>
+            <CardCustom padding title="Billing" borderBottom className={classes.billing}>
+              <Typography component="h1" variant="body1">
+                Subscription Status: Free
+              </Typography>
+            </CardCustom>
+          </Grid>
+        </React.Fragment>
+      );
     }
     return <React.Fragment>{profileContent}</React.Fragment>;
   }
 }
 
 Profile.propTypes = {
-  getCurrentProfile: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired
 };
@@ -388,9 +382,9 @@ const mapDispatchToProps = dispatch => ({
   clearErrors: () => {
     dispatch(clearErrors());
   },
-  getCurrentProfile: () => {
-    dispatch(getCurrentProfile());
-  },
+  // getCurrentProfile: () => {
+  //   dispatch(getCurrentProfile());
+  // },
   deleteAccount: () => {
     dispatch(deleteAccount());
   },

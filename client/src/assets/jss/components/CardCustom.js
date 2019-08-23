@@ -16,12 +16,10 @@ const styles = theme => ({
     borderRadius: 10
   },
   title: {
-    paddingBottom: 10,
-    fontSize: '1.3rem',
-    fontWeight: '300'
+    paddingBottom: 5
   },
   borderBottom: {
-    marginBottom: 18,
+    marginBottom: 13,
     borderBottom: `1px solid black`
   },
   padding: {
@@ -46,8 +44,8 @@ const CardCustom = props => {
     <React.Fragment>
       {title && (
         <Typography
-          component="h5"
-          variant="h5"
+          component="h6"
+          variant="h6"
           className={classNames(classes.title, {
             [classes.borderBottom]: borderBottom
           })}

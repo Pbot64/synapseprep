@@ -1,26 +1,33 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import classNames from 'classnames';
 
-import wavePattern from '../assets/images/wavePattern.png'
+import wavePattern from '../assets/images/wavePattern.png';
 
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    width: '80%',
+    width: '80%'
   },
   colorPrimary: {
-    background: 'url(' + wavePattern + '), linear-gradient(224deg, #ee5087, #ef5186 1%, #f05784 7%, #ffbe5f 100%)',
+    background:
+      'url(' +
+      wavePattern +
+      '), linear-gradient(224deg, #ee5087, #ef5186 1%, #f05784 7%, #ffbe5f 100%)'
   },
   barColorPrimary: {
-    background: 'url(' + wavePattern + '), linear-gradient(224deg, #ee5087, #ef5186 1%, #f05784 7%, #ffbe5f 100%)',
-    backgroundBlendMode: 'color-burn',
+    background:
+      'url(' +
+      wavePattern +
+      '), linear-gradient(224deg, #ee5087, #ef5186 1%, #f05784 7%, #ffbe5f 100%)',
+    backgroundBlendMode: 'color-burn'
   }
 });
 
 function LinearProgressBar(props) {
-  const { classes } = props
+  const { classes } = props;
   const [completed, setCompleted] = React.useState(0);
 
   function progress() {
@@ -41,12 +48,14 @@ function LinearProgressBar(props) {
 
   return (
     <div className={classes.root}>
-      <LinearProgress classes={{
-        colorPrimary: classes.colorPrimary,
-        barColorPrimary: classes.barColorPrimary,
-      }} variant="determinate" value={completed} />
-
-
+      <LinearProgress
+        classes={{
+          colorPrimary: classes.colorPrimary,
+          barColorPrimary: classes.barColorPrimary
+        }}
+        variant="determinate"
+        value={completed}
+      />
     </div>
   );
 }

@@ -2,15 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import axios from 'axios';
 import { connect } from 'react-redux';
-
-//Actions
-import { loginUser } from '../actions/authActions';
-
-// Local Components
-import LinkCustom from '../assets/jss/components/LinkCustom';
-import ButtonCustom from '../assets/jss/components/ButtonCustom';
 
 // Material UI Components
 import Avatar from '@material-ui/core/Avatar';
@@ -22,8 +14,15 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
+// Local Components
+import LinkCustom from '../assets/jss/components/LinkCustom';
+import ButtonCustom from '../assets/jss/components/ButtonCustom';
+
 // Local Assets
 import * as colors from '../assets/jss/components/colors';
+
+//Actions
+import { loginUser } from '../actions/authActions';
 
 //  Style Overrides
 const styles = theme => ({
@@ -60,11 +59,13 @@ const styles = theme => ({
   link: {
     textDecoration: 'underline',
     color: '#2980ba',
-    paddingRight: '10px'
+    paddingRight: '10px',
+    fontSize: '0.9rem'
   },
   link2: {
     textDecoration: 'underline',
-    color: '#2980ba'
+    color: '#2980ba',
+    fontSize: '0.9rem'
   }
 });
 
@@ -94,12 +95,6 @@ class Login extends Component {
     if (this.props.auth.isAuthenticated) {
       this.props.history.push('./dashboard');
     }
-    axios
-      .get('/api/connect')
-      .then(res => console.log(res))
-      .catch(err => {
-        console.log(err);
-      });
   }
 
   handleChange(e) {

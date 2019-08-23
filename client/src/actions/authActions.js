@@ -1,17 +1,16 @@
-import axios from "axios";
-import setAuthToken from "../utils/setAuthToken";
-import jwt_decode from "jwt-decode";
+import axios from 'axios';
+import setAuthToken from '../utils/setAuthToken';
+import jwt_decode from 'jwt-decode';
 
-import { GET_ERRORS, CLEAR_ERRORS, SET_CURRENT_USER } from "./types";
+import { GET_ERRORS, CLEAR_ERRORS, SET_CURRENT_USER } from './types';
 
 // Register User
 export const registerUser = (userData, history) => dispatch => {
-  console.log(userData, history);
   axios
-    .post("/api/users/register", userData)
+    .post('/api/users/register', userData)
     .then(() => {
       dispatch(clearErrors());
-      history.push("/login");
+      history.push('/login');
     })
     .catch(err =>
       dispatch({
@@ -24,12 +23,12 @@ export const registerUser = (userData, history) => dispatch => {
 // Login - Get User Token
 export const loginUser = userData => dispatch => {
   axios
-    .post("/api/users/login", userData)
+    .post('/api/users/login', userData)
     .then(res => {
       // Save to localStorage
       const { token } = res.data;
       // Set token to LS
-      localStorage.setItem("jwtToken", token);
+      localStorage.setItem('jwtToken', token);
       // Set token to Auth header
       setAuthToken(token);
       //Decode token to get user data
@@ -57,7 +56,7 @@ export const setCurrentUser = decoded => {
 // Logout user
 export const logoutUser = () => dispatch => {
   // Remove token from localStorage
-  localStorage.removeItem("jwtToken");
+  localStorage.removeItem('jwtToken');
   // Remove auth header for future requests
   setAuthToken(false);
   // Set current user to {} which will also set isAuthenticated to false
@@ -74,7 +73,7 @@ export const clearErrors = () => {
 // Change Currently Loggedin User's Password
 export const changePassword = (passwordData, updated) => dispatch => {
   axios
-    .post("/api/users/changePass", passwordData)
+    .post('/api/users/changePass', passwordData)
     .then(() => {
       dispatch(clearErrors());
     })
@@ -89,10 +88,10 @@ export const changePassword = (passwordData, updated) => dispatch => {
 // Reset User's Forgotten Password
 export const resetPassword = email => dispatch => {
   axios
-    .post("/api/users/emailResetToken", email)
+    .post('/api/users/emailResetToken', email)
     .then(res => {
       this.setState({
-        messageFromServer: "nice!"
+        messageFromServer: 'nice!'
       });
     })
     .catch(err =>
@@ -105,9 +104,9 @@ export const resetPassword = email => dispatch => {
 
 // Delete account & profile
 export const deleteAccount = () => dispatch => {
-  if (window.confirm("Are you sure? This can NOT be undone!")) {
+  if (window.confirm('Are you sure? This can NOT be undone!')) {
     axios
-      .delete("/api/deleteAccount")
+      .delete('/api/deleteAccount')
       .then(() => dispatch(logoutUser()))
       .catch(err =>
         dispatch({
@@ -121,12 +120,12 @@ export const deleteAccount = () => dispatch => {
 export const updateAccount = updatedUser => dispatch => {
   console.log(updatedUser);
   axios
-    .post("/api/users/updateAccount", updatedUser)
+    .post('/api/users/updateAccount', updatedUser)
     .then(res => {
       // Save to localStorage
       const { token } = res.data;
       // Set token to LS
-      localStorage.setItem("jwtToken", token);
+      localStorage.setItem('jwtToken', token);
       // Set token to Auth header
       setAuthToken(token);
       //Decode token to get user data

@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 // import findOrCreate from "mongoose-findorcreate";
 
 const { Schema } = mongoose;
@@ -30,5 +30,5 @@ const UserSchema = new Schema({
   }
 });
 // UserSchema.plugin(findOrCreate);
-const User = mongoose.model("users", UserSchema);
+const User = mongoose.model('users', UserSchema);
 export default User;
