@@ -15,7 +15,14 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { setAlerted } from '../actions/profileActions';
 
 //  Style Overrides
-const styles = theme => ({});
+const styles = theme => ({
+  dialog: {
+    margin: '16px',
+    [theme.breakpoints.up('sm')]: {
+      margin: '24px'
+    }
+  }
+});
 
 class Alert extends React.Component {
   state = {
@@ -32,13 +39,13 @@ class Alert extends React.Component {
   };
 
   render() {
+    const { classes } = this.props;
     return (
       <div>
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
+          classes={{ paper: classes.dialog }}
         >
           <DialogTitle id="alert-dialog-title">{'This App is Under Construction'}</DialogTitle>
           <DialogContent>

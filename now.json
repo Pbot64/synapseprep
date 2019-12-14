@@ -25,6 +25,10 @@
       "dest": "/server/lamdas/ping.js"
     },
     {
+      "src": "/api/testing",
+      "dest": "/server/lamdas/testing.js"
+    },
+    {
       "src": "/api/connect",
       "dest": "/server/lamdas/connect.js"
     },

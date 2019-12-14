@@ -19,19 +19,9 @@ import ButtonCustom from '../../assets/jss/components/ButtonCustom';
 import Category from '../../components/Category';
 import LinkCustom from '../../assets/jss/components/LinkCustom';
 import { setAssignment } from '../../actions/profileActions';
-import { getQuestions } from '../../actions/questionActions';
 
 // Local Assets
 import chevronRight from '../../assets/images/chevron-right.svg';
-// import line from '../../assets/images/Icon-Line.svg';
-// import inequality from '../../assets/images/Icon-Inequality.svg';
-// import parabola from '../../assets/images/Icon-Parabola.svg';
-import social from '../../assets/images/Icon-Social.svg';
-import clock from '../../assets/images/Icon-Clock.svg';
-// import considering from '../../assets/images/Icon-Considering.svg';
-// import handshake from '../../assets/images/Icon-HandShake.svg';
-// import fist from '../../assets/images/Icon-Fist.svg';
-// import flasks from '../../assets/images/Icon-Flasks.svg';
 
 //  Style Overrides
 const styles = theme => ({
@@ -145,8 +135,23 @@ TabContainer.propTypes = {
 
 class QuestionFeedTabs extends Component {
   state = {
-    value: 0
+    value: 0,
+    image: []
   };
+
+  componentDidMount() {
+    const { value } = this.state;
+    const { tasks } = this.props.profile.practice;
+    this.loadImage([tasks[value][0].img, tasks[value][1].img, tasks[value][2].img]);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { value } = this.state;
+    const { tasks } = this.props.profile.practice;
+    if (prevState.value !== this.state.value) {
+      this.loadImage([tasks[value][0].img, tasks[value][1].img, tasks[value][2].img]);
+    }
+  }
 
   handleChange = (event, value) => {
     this.setState({ value });
@@ -158,6 +163,19 @@ class QuestionFeedTabs extends Component {
 
   setAssignment = async () => {
     await this.props.setAssignment(this.state.value);
+  };
+
+  loadImage = imageNames => {
+    const imagesArray = imageNames.map(imageName => {
+      return import(`../../assets/images/${imageName}.svg`).then(image => {
+        return image.default;
+      });
+    });
+    Promise.all(imagesArray).then(res => {
+      this.setState({
+        image: res
+      });
+    });
   };
 
   render() {
@@ -224,13 +242,13 @@ class QuestionFeedTabs extends Component {
         >
           <TabContainer dir={theme.direction}>
             <Grid container justify={'space-between'} className={classes.topicMainContainer}>
-              {tasks[value].map(task => {
-                return <Category src={task.img}>{task.title}</Category>;
+              {tasks[0].map((task, i) => {
+                return (
+                  <Category key={task.title} src={this.state.image[i]}>
+                    {task.title}
+                  </Category>
+                );
               })}
-              {/* {<img src = {require(task[0][0].img)} />} */}
-              {/* <Category src={line}>{tasks[0].title}</Category>
-              <Category src={inequality}>Inequalities</Category>
-              <Category src={parabola}>Graphing Parabolas</Category> */}
             </Grid>
             {tasks[0].length === 0 && (
               <Typography variant="h5" className={classes.bottomText}>
@@ -243,14 +261,11 @@ class QuestionFeedTabs extends Component {
             <Grid container justify={'space-between'} className={classes.topicMainContainer}>
               {tasks[1].map((task, i) => {
                 return (
-                  <Category key={i} src={social}>
+                  <Category key={task.title} src={this.state.image[i]}>
                     {task.title}
                   </Category>
                 );
               })}
-              {/* <Category src={social}>Social Science</Category>
-              <Category src={fist}>Great Global Conversation</Category>
-              <Category src={flasks}>Physical Science</Category> */}
               {tasks[1].length === 0 && (
                 <Typography variant="h5" className={classes.bottomText}>
                   You've completed all the reading tasks, but we're currently making more, so come
@@ -263,14 +278,11 @@ class QuestionFeedTabs extends Component {
             <Grid container justify={'space-between'} className={classes.topicMainContainer}>
               {tasks[2].map((task, i) => {
                 return (
-                  <Category key={i} src={clock}>
+                  <Category key={task.title} src={this.state.image[i]}>
                     {task.title}
                   </Category>
                 );
               })}
-              {/* <Category src={clock}>Tense</Category>
-              <Category src={handshake}>Subject-Verb Agreement</Category>
-              <Category src={considering}>Author is Considering...</Category> */}
               {tasks[2].length === 0 && (
                 <Typography variant="h5" className={classes.bottomText}>
                   You've completed all the writing tasks, but we're currently making more, so come
@@ -280,7 +292,6 @@ class QuestionFeedTabs extends Component {
             </Grid>
           </TabContainer>
         </SwipeableViews>
-
         {fabs.map((fab, index) => (
           <LinkCustom
             key={fab.color}
@@ -321,6 +332,6 @@ const mapStatetoProps = state => ({
 export default withStyles(styles, { withTheme: true })(
   connect(
     mapStatetoProps,
-    { setAssignment, getQuestions }
+    { setAssignment }
   )(QuestionFeedTabs)
 );

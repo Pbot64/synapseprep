@@ -23,7 +23,7 @@ import Typography from '@material-ui/core/Typography';
 import { updateQuestions } from '../actions/profileActions';
 
 // Local Components
-import UserMenu from '../components/Menu';
+import UserMenu from '../components/UserMenu';
 import LinkCustom from '../assets/jss/components/LinkCustom';
 import ButtonCustom from '../assets/jss/components/ButtonCustom';
 

@@ -69,7 +69,7 @@ app.post(
         { $push: { completedTasks: currentMathTasks } }
       );
 
-      // Get next group of math tasks
+      // Get next group of tasks
       const newMathTasks = await Task.find({ groupId: currentGroup + 1, subject: 'Math' });
       currentMathTasks = newMathTasks;
     }

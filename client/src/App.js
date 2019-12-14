@@ -23,6 +23,7 @@ import ResetPassword from './views/ResetPassword';
 import ScrollToTop from './components/common/ScrollToTop';
 import UnderConstruction from './layouts/UnderConstruction';
 import Review from './layouts/Review';
+import Testing from './layouts/Testing';
 
 // Material UI Components
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -31,7 +32,19 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 // Local Assets
 
 //  Style Overrides
-const styles = () => ({});
+const styles = () => ({
+  '@global': {
+    html: {
+      minHeight: '100vh'
+    },
+    body: {
+      minHeight: '100vh'
+    },
+    '#root': {
+      minHeight: '100vh'
+    }
+  }
+});
 
 //Check for Token
 const jwtToken = localStorage.jwtToken;
@@ -76,6 +89,7 @@ class App extends Component {
                     <PrivateRoute exact path="/review" component={Review} />
                     <Route exact path="/resetpassword/:token" component={ResetPassword} />
                     <Route exact path="/login" component={Login} />
+                    <Route exact path="/testing" component={Testing} />
                     <Route exact path="/register" component={Register} />
                     <Route exact path="/passwordResetEmail" component={PasswordResetEmail} />
                   </Switch>

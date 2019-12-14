@@ -17,6 +17,10 @@ const QuestionSchema = new Schema({
   title: {
     type: String
   },
+  passage: {
+    type: Schema.Types.ObjectId,
+    ref: 'passages'
+  },
   img: {
     type: String
   },

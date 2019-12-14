@@ -4,6 +4,9 @@ import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
+import 'katex/dist/katex.min.css';
+import TeX from '@matejmazur/react-katex';
+import JsxParser from 'react-jsx-parser';
 
 // Material UI Components
 import Grid from '@material-ui/core/Grid';
@@ -12,6 +15,8 @@ import ButtonCustom from '../assets/jss/components/ButtonCustom';
 import RootRef from '@material-ui/core/RootRef';
 
 // Local Components
+import E from './Equation';
+import T from './Text';
 
 // Local Assets
 
@@ -21,7 +26,7 @@ const styles = theme => ({
     marginTop: '20px'
   },
   choicesWrapper: {
-    marginTop: '40px'
+    marginTop: '30px'
   },
   choiceButtonRoot: {
     marginLeft: '5px',
@@ -132,9 +137,15 @@ const styles = theme => ({
       transform: 'scale(1.0)',
       boxShadow: '0px 5px 10px rgba(0,0,0,0)'
     }
+  },
+  questionTitleContainer: {
+    marginLeft: '5px'
+  },
+  choiceText: {
+    width: '0px',
+    flexGrow: '1'
   }
 });
-
 const Question = props => {
   const questionChoice = useRef();
   const {
@@ -157,18 +168,12 @@ const Question = props => {
   });
 
   const handleClick = (e, selection) => {
-    console.log(questionRef.current);
-    console.log('selection', selection);
-    console.log(e.target);
-    console.log('completed in question', completed);
-    console.log('notcompleted', !completed);
-
     if (!completed && questionChoice.current.contains(e.target)) {
       setSelected(selection);
       return;
     }
     if (!completed && questionRef.current.contains(e.target)) {
-      setSelected('');
+      setSelected('null');
     }
   };
 
@@ -176,8 +181,10 @@ const Question = props => {
     <div>
       <Grid container className={classes.root}>
         <Grid item container xs={12} className={classes.questionBody}>
-          <Grid item container justify="center">
-            <Typography variant="body2">{currentQuestion.title}</Typography>
+          <Grid item container justify="center" className={classes.questionTitleContainer}>
+            <Typography variant="body2" component="div">
+              <JsxParser components={{ TeX, Grid, Typography, E, T }} jsx={currentQuestion.title} />
+            </Typography>
           </Grid>
           <RootRef rootRef={questionChoice}>
             <Grid item xs className={classes.choicesWrapper}>
@@ -212,7 +219,9 @@ const Question = props => {
                 >
                   A
                 </ButtonCustom>
-                <Typography variant="body2">{currentQuestion.choices[0]}</Typography>
+                <Typography variant="body2" className={classes.choiceText}>
+                  {currentQuestion.choices[0]}
+                </Typography>
               </Grid>
 
               <Grid
@@ -244,7 +253,9 @@ const Question = props => {
                 >
                   B
                 </ButtonCustom>
-                <Typography variant="body2">{currentQuestion.choices[1]}</Typography>
+                <Typography variant="body2" className={classes.choiceText}>
+                  {currentQuestion.choices[1]}
+                </Typography>
               </Grid>
               <Grid
                 item
@@ -275,7 +286,9 @@ const Question = props => {
                 >
                   C
                 </ButtonCustom>
-                <Typography variant="body2">{currentQuestion.choices[2]}</Typography>
+                <Typography variant="body2" className={classes.choiceText}>
+                  {currentQuestion.choices[2]}
+                </Typography>
               </Grid>
               <Grid
                 item
@@ -306,7 +319,9 @@ const Question = props => {
                 >
                   D
                 </ButtonCustom>
-                <Typography variant="body2">{currentQuestion.choices[3]}</Typography>
+                <Typography variant="body2" className={classes.choiceText}>
+                  {currentQuestion.choices[3]}
+                </Typography>
               </Grid>
             </Grid>
           </RootRef>

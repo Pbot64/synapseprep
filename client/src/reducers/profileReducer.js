@@ -11,7 +11,7 @@ const initialState = {
   practice: null,
   loading: false,
   alerted: false,
-  assignment: 1
+  assignment: 0
 };
 
 export default function(state = initialState, action) {

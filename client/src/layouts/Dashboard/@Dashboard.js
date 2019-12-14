@@ -22,7 +22,7 @@ const styles = theme => ({
     color: 'grey'
   },
   progressContainer: {
-    height: '-webkit-fill-available'
+    minHeight: '100%'
   }
 });
 

@@ -2,6 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
 
 // Material UI Components
 import Grid from '@material-ui/core/Grid';
@@ -10,8 +11,13 @@ import Typography from '@material-ui/core/Typography';
 // Local Components
 import CardCustom from '../assets/jss/components/CardCustom';
 import Accordion from '../components/Accordion';
+import LinkCustom from '../assets/jss/components/LinkCustom';
+import ButtonCustom from '../assets/jss/components/ButtonCustom';
 
 // Local Assets
+
+// Actions
+import { setAssignment } from '../actions/profileActions';
 
 // Style Overrides
 const styles = theme => ({
@@ -34,26 +40,37 @@ const styles = theme => ({
   bottomText: {
     color: `${theme.palette.text.lightGrey}`
   },
-  topCardInner: {
-    padding: '20px'
+  bottomContainer: {
+    marginTop: '40px'
   }
 });
 
 const Review = props => {
-  const { classes } = props;
+  const { classes, profile } = props;
   return (
     <React.Fragment>
       <Grid container className={classes.root}>
-        <Grid item xs={12} sm={12} md={10}>
-          <CardCustom title="Completed Tasks" borderBottom className={classes.topCardContainer}>
+        <Grid item xs={12} sm={10} md={8}>
+          <CardCustom
+            padding
+            title="Completed Tasks"
+            borderBottom
+            className={classes.topCardContainer}
+          >
             <Grid container justify="center" className={classes.topCardInner}>
-              <Accordion />
+              <Accordion profile={profile} />
+            </Grid>
+
+            <Grid container item justify="flex-end" className={classes.bottomContainer}>
+              <LinkCustom to="/review">
+                <ButtonCustom hasArrowRight>Start Task</ButtonCustom>
+              </LinkCustom>
             </Grid>
           </CardCustom>
           <div className={classes.bottomCardContainer}>
             <Grid container align="center" direction="column">
               <Typography variant="subtitle2" className={classes.bottomText}>
-                Review questions you've previously attempted
+                Review questions you've previously attempted (feature UNDER CONSTRUCTION).
               </Typography>
             </Grid>
           </div>
@@ -67,4 +84,14 @@ Review.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Review);
+const mapStatetoProps = state => ({
+  profile: state.profile,
+  errors: state.errors
+});
+
+export default withStyles(styles, { withTheme: true })(
+  connect(
+    mapStatetoProps,
+    { setAssignment }
+  )(Review)
+);

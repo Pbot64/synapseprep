@@ -78,7 +78,8 @@ class Register extends Component {
       email: '',
       password: '',
       password2: '',
-      errors: {}
+      errors: {},
+      disabled: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -86,7 +87,7 @@ class Register extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
+      this.setState({ errors: nextProps.errors, disabled: false });
     }
   }
 
@@ -109,10 +110,18 @@ class Register extends Component {
       password2: this.state.password2
     };
     this.props.registerUser(newUser, this.props.history);
+    this.setState({
+      disabled: true
+    });
+    setTimeout(() => {
+      this.setState({
+        disabled: false
+      });
+    }, 5000);
   }
 
   render() {
-    const { errors } = this.state;
+    const { errors, disabled } = this.state;
     const { classes } = this.props;
     return (
       <div className={classes.root}>
@@ -191,7 +200,7 @@ class Register extends Component {
                 </Grid>
               </Grid>
             </Grid>
-            <ButtonCustom type="submit" fullWidth className={classes.submit}>
+            <ButtonCustom type="submit" disabled={disabled} fullWidth className={classes.submit}>
               Sign Up
             </ButtonCustom>
             <Grid container justify="flex-end">
@@ -222,9 +231,4 @@ const mapStatetoProps = state => ({
   errors: state.errors
 });
 
-export default withStyles(styles)(
-  connect(
-    mapStatetoProps,
-    { registerUser }
-  )(withRouter(Register))
-);
+export default withStyles(styles)(connect(mapStatetoProps, { registerUser })(withRouter(Register)));

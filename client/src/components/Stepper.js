@@ -61,7 +61,7 @@ const ProgressMobileStepper = props => {
 
     const currentQuestion = currentQuestions[pageNumber];
     // if current question has a "selected" value then
-    if (currentQuestion.selected !== '') {
+    if (currentQuestion.selected !== 'null') {
       setCompleted(true);
       currentQuestion.completed = true;
     }
@@ -111,9 +111,9 @@ const ProgressMobileStepper = props => {
         }}
         nextButton={
           <ButtonCustom
-            color={selected !== '' ? 'green' : null}
-            hasArrowRightWhite={selected === '' ? false : true}
-            hasArrowRight={selected === '' ? true : false}
+            color={selected !== 'null' ? 'green' : null}
+            hasArrowRightWhite={selected === 'null' ? false : true}
+            hasArrowRight={selected === 'null' ? true : false}
             size="small"
             onClick={
               pageNumber === currentQuestions.length - 1 && completed ? handleSubmit : handleNext
@@ -122,7 +122,7 @@ const ProgressMobileStepper = props => {
           >
             {pageNumber === currentQuestions.length - 1 && completed
               ? 'Submit'
-              : selected === '' || completed
+              : selected === 'null' || completed
               ? 'Next'
               : 'Check'}
           </ButtonCustom>

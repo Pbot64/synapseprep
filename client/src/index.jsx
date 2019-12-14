@@ -25,6 +25,11 @@ const theme = createMuiTheme({
       secondary: '#7a92a5',
       lightGrey: 'rgba(0, 0, 0, 0.3)'
     },
+    lightBlue: '#e8f5ff',
+    pink: '#ee5087',
+    purple: '#cf6cc9',
+    blue: '#2980ba',
+    green: '#00BF6F',
     pinkToYellow: {
       ...colors.pinkToYellow
     },
@@ -42,8 +47,7 @@ const theme = createMuiTheme({
     },
     blueToTurquoise: {
       ...colors.blueToTurquoise
-    },
-    lightBlue: '#e8f5ff'
+    }
   },
   typography: {
     useNextVariants: true,
@@ -73,13 +77,17 @@ const theme = createMuiTheme({
       }
     },
     h5: {
-      fontWeight: '300'
+      fontWeight: '300',
+      fontSize: '1.2rem',
+      [breakpoints.up('sm')]: {
+        fontSize: '1.5rem'
+      }
     },
     h6: {
-      fontSize: '1.1rem',
+      fontSize: '1rem',
       fontWeight: '300',
       [breakpoints.up('sm')]: {
-        fontSize: '1.3rem'
+        fontSize: '1.2rem'
       }
     }
   }

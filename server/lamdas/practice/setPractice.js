@@ -11,6 +11,7 @@ import User from '../../models/User';
 import Practice from '../../models/Practice';
 import Task from '../../models/Task';
 import Question from '../../models/Question';
+import Passage from '../../models/Passage';
 
 const app = express();
 
@@ -58,7 +59,8 @@ app.get(
     if (hasPractice) {
       // Send back the user's practice
       const practice = await Practice.findOne({ user: id }).populate('user');
-      console.log('found practice and sent to client ');
+
+      console.log('found practice and sent to client');
       res.json(practice);
     } else {
       // Find 9 initial tasks
@@ -75,20 +77,53 @@ app.get(
       const initialTasks = [initialMathTasks, initialReadingTasks, initialWritingTasks];
 
       // Find initial questions
-      const allInitialQuestions = await Question.find({
-        $or: [{ questionId: 1 }, { questionId: 2 }, { questionId: 3 }]
-      });
+      const initialQuestions = await Question.aggregate([
+        {
+          $lookup: {
+            from: 'passages',
+            let: { questionId: '$questionId', subject: '$subject' },
+            pipeline: [
+              {
+                $match: {
+                  $expr: {
+                    $and: [
+                      { $eq: ['$passageId', '$$questionId'] },
+                      { $eq: ['$subject', '$$subject'] }
+                    ]
+                  }
+                }
+              },
+              {
+                $project: { _id: 0 }
+              }
+            ],
+            as: 'passage'
+          }
+        },
+        {
+          $match: {
+            $or: [{ questionId: 1 }, { questionId: 2 }, { questionId: 3 }]
+          }
+        },
+        {
+          $project: { _id: 0 }
+        },
+        {
+          $unwind: { path: '$passage', preserveNullAndEmptyArrays: true }
+        }
+      ]);
 
-      const initialMathQuestions = allInitialQuestions.filter(
-        initialQuestion => initialQuestion.subject === 'Math'
+      const initialMathQuestions = initialQuestions.filter(question => question.subject === 'Math');
+
+      const initialReadingQuestions = initialQuestions.filter(
+        question => question.subject === 'Reading'
       );
-      const initialReadingQuestions = allInitialQuestions.filter(
-        initialQuestion => initialQuestion.subject === 'Reading'
+
+      const initialWritingQuestions = initialQuestions.filter(
+        question => question.subject === 'Writing'
       );
-      const initialWritingQuestions = allInitialQuestions.filter(
-        initialQuestion => initialQuestion.subject === 'Writing'
-      );
-      const initialQuestions = [
+
+      const initialQuestionsGrouped = [
         initialMathQuestions,
         initialReadingQuestions,
         initialWritingQuestions
@@ -98,7 +133,7 @@ app.get(
       new Practice({
         user: id,
         tasks: initialTasks,
-        questions: initialQuestions,
+        questions: initialQuestionsGrouped,
         completedQuestions: [[], [], []]
       })
         .populate('user')

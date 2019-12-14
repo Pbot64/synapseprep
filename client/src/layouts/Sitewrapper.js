@@ -30,6 +30,9 @@ const styles = theme => ({
       'padding-right': '24px'
     },
     width: '100%'
+  },
+  dashboardWrapper: {
+    minHeight: '100vh'
   }
 });
 
@@ -55,7 +58,7 @@ class SiteWrapper extends Component {
           path={this.props.history.location.pathname}
           handleDrawerToggle={this.handleDrawerToggle}
         />
-        <Grid container wrap="nowrap">
+        <Grid item container wrap="nowrap" className={classes.dashboardWrapper}>
           <Sidebar
             handleDrawerToggle={this.handleDrawerToggle}
             mobileOpen={this.state.mobileOpen}
