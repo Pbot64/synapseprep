@@ -1,7 +1,6 @@
 {
   "version": 2,
-  "name": "my-react-app",
-  "alias": ["app.synapseprep.net"],
+  "name": "synapse-prep-app",
   "builds": [
     {
       "src": "/client/package.json",
@@ -23,6 +22,22 @@
     {
       "src": "/api/ping",
       "dest": "/server/lamdas/ping.js"
+    },
+    {
+      "src": "/api/testing",
+      "dest": "/server/lamdas/practice/testing.js"
+    },
+    {
+      "src": "/api/profile/getProfile",
+      "dest": "/server/lamdas/profile/getProfile.js"
+    },
+    {
+      "src": "/api/profile/updateTasks",
+      "dest": "/server/lamdas/profile/updateTasks.js"
+    },
+    {
+      "src": "/api/profile/updateQuestions",
+      "dest": "/server/lamdas/profile/updateQuestions.js"
     },
     {
       "src": "/api/connect",
@@ -71,6 +86,10 @@
     {
       "src": "/api/practice/setTasks",
       "dest": "/server/lamdas/practice/setTasks.js"
+    },
+    {
+      "src": "/api/practice/setTasksTesting",
+      "dest": "/server/lamdas/practice/setTasksTesting.js"
     },
     {
       "src": "/api/profile/updateProfileTasks",

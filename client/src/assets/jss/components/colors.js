@@ -12,11 +12,10 @@ export const blueToPurple = {
 };
 
 export const blueToGreen = {
-  background:
-    'url(' + wavePattern + '), linear-gradient(45deg, #2980ba 0%, #238E9B 50%, #00BF6F 100%)',
+  background: 'url(' + wavePattern + '), linear-gradient(45deg, #4fa3eb 0%, #2db56d 100%)',
   backgroundBlendMode: 'color-burn',
   '@media (max-width: 600px)': {
-    background: 'linear-gradient(45deg, #2980ba 0%, #238E9B 50%, #00BF6F 100%)'
+    background: 'linear-gradient(45deg, #4fa3eb 0%, #2db56d 100%)'
   }
 };
 

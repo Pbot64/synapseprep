@@ -69,7 +69,7 @@ app.post(
         { $push: { completedTasks: currentMathTasks } }
       );
 
-      // Get next group of math tasks
+      // Get next group of tasks
       const newMathTasks = await Task.find({ groupId: currentGroup + 1, subject: 'Math' });
       currentMathTasks = newMathTasks;
     }
@@ -99,3 +99,31 @@ app.post(
 );
 
 export default app;
+
+const subjects = ['Math', 'Reading', 'Writing'];
+let currentMathTasks = currentTasks[0];
+let currentReadingTasks = currentTasks[1];
+let currentWritingTasks = currentTasks[2];
+
+// Recieve 9 tasks from client, detect which 3 are marked as completed,
+// replace them, update practice, and send it back to client.
+
+// Save completed tasks
+await Practice.findOneAndUpdate(
+  { user: id },
+  { $push: { completedTasks: currentTasks[assignment] } }
+);
+
+// Get next group of tasks
+const newTasks = await Task.find({ groupId: currentGroup + 1, subject: subjects[assignment] });
+
+const updatedTasksArray = [currentMathTasks, currentReadingTasks, currentWritingTasks];
+
+console.log('updatedTasksArray', updatedTasksArray);
+
+// Update Practice 'tasks' array
+const updatedPractice = await Practice.findOneAndUpdate(
+  { user: id },
+  { tasks: updatedTasksArray },
+  { new: true }
+).populate('user');

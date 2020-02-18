@@ -117,13 +117,9 @@ class Profile extends Component {
     updated: false
   };
 
-  componentDidMount() {
-    // this.props.getCurrentProfile();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
+  componentDidUpdate(prevProps) {
+    if (this.props.errors !== prevProps.errors) {
+      this.setState({ errors: this.props.errors });
     }
   }
 
@@ -190,11 +186,11 @@ class Profile extends Component {
     console.log(this.props);
     const { classes } = this.props;
     const { errors, updated, name, email, avatar } = this.state;
-    const { profile, loading } = this.props.profile;
+    const { user, loading } = this.props.auth;
 
     let profileContent;
 
-    if (profile === null || loading) {
+    if (user === null || loading) {
       profileContent = (
         <Grid container justify="center" alignItems="center" className={classes.progressContainer}>
           <CircularProgress className={classes.progress} />
@@ -362,12 +358,10 @@ class Profile extends Component {
 }
 
 Profile.propTypes = {
-  auth: PropTypes.object.isRequired,
-  profile: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired
 };
 
 const mapStatetoProps = state => ({
-  profile: state.profile,
   auth: state.auth,
   errors: state.errors
 });
@@ -382,9 +376,6 @@ const mapDispatchToProps = dispatch => ({
   clearErrors: () => {
     dispatch(clearErrors());
   },
-  // getCurrentProfile: () => {
-  //   dispatch(getCurrentProfile());
-  // },
   deleteAccount: () => {
     dispatch(deleteAccount());
   },
@@ -393,9 +384,4 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default withStyles(styles)(
-  connect(
-    mapStatetoProps,
-    mapDispatchToProps
-  )(Profile)
-);
+export default withStyles(styles)(connect(mapStatetoProps, mapDispatchToProps)(Profile));

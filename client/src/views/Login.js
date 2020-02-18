@@ -75,19 +75,20 @@ class Login extends Component {
     this.state = {
       email: '',
       password: '',
-      errors: {}
+      errors: {},
+      disabled: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     // this.handleFacebook = this.handleFacebook.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.auth.isAuthenticated) {
+  componentDidUpdate(prevProps) {
+    if (this.props.auth.isAuthenticated !== prevProps.auth.isAuthenticated) {
       this.props.history.push('/dashboard');
     }
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
+    if (this.props.errors !== prevProps.errors) {
+      this.setState({ errors: this.props.errors, disabled: false });
     }
   }
 
@@ -108,6 +109,14 @@ class Login extends Component {
       password: this.state.password
     };
     this.props.loginUser(userData);
+    this.setState({
+      disabled: true
+    });
+    setTimeout(() => {
+      this.setState({
+        disabled: false
+      });
+    }, 5000);
   }
 
   // handleFacebook() {
@@ -115,7 +124,7 @@ class Login extends Component {
   // }
 
   render() {
-    const { errors } = this.state;
+    const { errors, disabled } = this.state;
     const { classes } = this.props;
     return (
       <div className={classes.root}>
@@ -161,7 +170,7 @@ class Login extends Component {
               control={<Checkbox checked value="remember" color="primary" />}
               label={<Typography variant="body1">Remember me</Typography>}
             />
-            <ButtonCustom type="submit" fullWidth className={classes.submit}>
+            <ButtonCustom type="submit" fullWidth disabled={disabled} className={classes.submit}>
               Login
             </ButtonCustom>
             <Grid container>
@@ -190,9 +199,7 @@ class Login extends Component {
             data-auto-logout-link="false"
             data-use-continue-as="false"
           />
-          <a href="http://localhost:5005/api/users/auth/facebook">
-            Facebook Button 2
-          </a> */}
+          <a href="http://localhost:5005/api/users/auth/facebook">Facebook Button 2</a> */}
         </CardCustom>
       </div>
     );
@@ -211,9 +218,4 @@ const mapStatetoProps = state => ({
   errors: state.errors
 });
 
-export default withStyles(styles)(
-  connect(
-    mapStatetoProps,
-    { loginUser }
-  )(Login)
-);
+export default withStyles(styles)(connect(mapStatetoProps, { loginUser })(Login));

@@ -1,20 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Checkbox from '@material-ui/core/Checkbox';
+import Typography from '@material-ui/core/Typography';
 
 const CustomTableCell = withStyles(theme => ({
   head: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white
+    padding: '0px',
+    color: theme.palette.text.lightGrey,
+    height: '48px',
+    [theme.breakpoints.up('sm')]: {
+      padding: '5px 0px'
+    }
   },
   body: {
     fontSize: 14,
-    paddingLeft: '80px'
+    padding: '0px',
+    [theme.breakpoints.up('sm')]: {
+      padding: '5px 0px'
+    }
   }
 }))(TableCell);
 
@@ -24,12 +34,17 @@ const styles = theme => ({
     overflowX: 'auto',
     boxShadow: 'none'
   },
-  table: {
-    minWidth: 700
-  },
   row: {
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.background.default
+    '&:hover': {
+      backgroundColor: 'rgba(0, 0, 0, 0.04)',
+      cursor: 'pointer'
+    }
+  },
+  head: {
+    height: '48px',
+
+    [theme.breakpoints.up('sm')]: {
+      height: '56px'
     }
   }
 });
@@ -41,36 +56,78 @@ function createData(name, calories, fat, carbs, protein) {
 }
 
 const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9)
+  createData('y = 2x + 5', '4/5', 'Low'),
+  createData('y - 5 = 2x + 5 - 5', '2/5', 'High'),
+  createData('Inequalities', '3/5', 'Medium'),
+  createData('Right Angles', '5/5', 'Defeated'),
+  createData('Graphing Lines', '5/5', 'Defeated')
 ];
 
-function CustomizedTable(props) {
-  const { classes } = props;
+const CustomizedTable = props => {
+  const { classes, profile } = props;
+  // State Declarations
+  // const [checked, setChecked] = useState(false);
+  const [selected, setSelected] = useState('');
+  console.log({ selected: selected });
+  console.log('profile', profile);
 
+  const handleClick = name => {
+    if (selected === name) {
+      setSelected('');
+    } else {
+      setSelected(name);
+    }
+  };
   return (
     <Paper className={classes.root}>
       <Table className={classes.table}>
+        <TableHead>
+          <TableRow classes={{ head: classes.head }}>
+            <TableCell padding="checkbox" />
+            <CustomTableCell>
+              <Typography variant="body1" color="inherit">
+                Task Name
+              </Typography>
+            </CustomTableCell>
+            <CustomTableCell align="right">
+              <Typography variant="body1" color="inherit">
+                Score
+              </Typography>
+            </CustomTableCell>
+            <CustomTableCell align="right">
+              <Typography variant="body1" color="inherit">
+                Priority
+              </Typography>
+            </CustomTableCell>
+          </TableRow>
+        </TableHead>
         <TableBody>
           {rows.map(row => (
-            <TableRow className={classes.row} key={row.id}>
+            <TableRow
+              selected={row.id === selected}
+              onClick={() => {
+                handleClick(row.id);
+              }}
+              className={classes.row}
+              classes={{ selected: classes.selected }}
+              key={row.id}
+            >
+              {console.log('row.id', row.id)}
+              <CustomTableCell>
+                <Checkbox color="primary" checked={row.id === selected} />
+              </CustomTableCell>
               <CustomTableCell component="th" scope="row">
                 {row.name}
               </CustomTableCell>
               <CustomTableCell align="right">{row.calories}</CustomTableCell>
               <CustomTableCell align="right">{row.fat}</CustomTableCell>
-              <CustomTableCell align="right">{row.carbs}</CustomTableCell>
-              <CustomTableCell align="right">{row.protein}</CustomTableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
     </Paper>
   );
-}
+};
 
 CustomizedTable.propTypes = {
   classes: PropTypes.object.isRequired

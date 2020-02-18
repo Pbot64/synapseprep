@@ -41,7 +41,7 @@ passport.use(
   })
 );
 
-//* @route   POST api/updateQuestions
+//* @route   POST api/practice/updateQuestions
 //* @desc    Returns current questions updated with store values or a new question set if current questions are complete.
 //* @access  Private
 app.post(
@@ -52,18 +52,31 @@ app.post(
   async (req, res) => {
     const { id } = req.user;
     const { assignment, tasks, currentQuestions } = req.body;
+
     await mongoose();
     console.log('currentQuestions', currentQuestions);
     console.log('assignment', assignment);
     console.log('tasks', tasks);
     console.log('currentQuestions[assignment]', currentQuestions[assignment]);
 
+    console.log(
+      'test',
+      currentQuestions[assignment][currentQuestions[assignment].length - 1].completed
+    );
+
     // If the last question is completed then...
-    if (currentQuestions[assignment][currentQuestions[assignment].length - 1].completed === true) {
+    if (currentQuestions[assignment][currentQuestions[assignment].length - 1].completed) {
       console.log(
         'currentQuestions[assignment].length -1',
         currentQuestions[assignment].length - 1
       );
+
+      // // Save completed questions
+      // // ! Should push to currrentQuestions[assignment], but I can't get the syntax to work.
+      // await Practice.findOneAndUpdate(
+      //   { user: id },
+      //   { $push: { currentQuestions: { $each: currentQuestions[assignment] } } }
+      // );
 
       let MathQuestions = [];
       let ReadingQuestions = [];
@@ -78,104 +91,74 @@ app.post(
       if (currentQuestions[2].length !== 0) {
         WritingQuestions = currentQuestions[2];
       }
-      // ! Should push to currrentQuestions[assignment], but I can't get the syntax to work.
-      await Practice.findOneAndUpdate(
-        { user: id },
-        { $push: { currentQuestions: { $each: currentQuestions[assignment] } } }
-      );
-      // Filter 15 questions based on assignment #
+
+      const currentTasks = tasks[assignment];
+
+      const currentTasksIds = currentTasks.map(currentTask => currentTask.taskId);
+
+      const newQuestions = await Question.aggregate([
+        {
+          $lookup: {
+            from: 'passages',
+            let: { questionId: '$questionId', subject: '$subject' },
+            pipeline: [
+              {
+                $match: {
+                  $expr: {
+                    $and: [
+                      { $eq: ['$passageId', '$$questionId'] },
+                      { $eq: ['$subject', '$$subject'] }
+                    ]
+                  }
+                }
+              },
+              { $project: { _id: 0 } }
+            ],
+            as: 'passage'
+          }
+        },
+        {
+          $match: {
+            questionId: { $in: currentTasksIds }
+          }
+        }
+      ]);
+
+      // Filter new questions based on assignment #
       if (assignment === 0) {
-        // Save completed questions
-
-        const mathTasks = tasks[0];
-
-        console.log('mathTasks', mathTasks);
-        console.log('mathTasks[0].taskId', mathTasks[0].taskId);
-
-        const mathTask1Id = mathTasks[0].taskId;
-        const mathTask2Id = mathTasks[1].taskId;
-        const mathTask3Id = mathTasks[2].taskId;
-
-        const initialQuestions = await Question.find({
-          $or: [
-            { questionId: mathTask1Id },
-            { questionId: mathTask2Id },
-            { questionId: mathTask3Id }
-          ]
-        });
-
-        const initialMathQuestions = initialQuestions.filter(
-          initialQuestion => initialQuestion.subject === 'Math'
+        const newMathQuestions = newQuestions.filter(newQuestion => newQuestion.subject === 'Math');
+        MathQuestions = newMathQuestions;
+      } else if (assignment === 1) {
+        const newReadingQuestions = newQuestions.filter(
+          newQuestion => newQuestion.subject === 'Reading'
         );
-        MathQuestions = initialMathQuestions;
-
-        console.log('MathQuestions', MathQuestions);
-      }
-      if (assignment === 1) {
-        const readingTasks = tasks[1];
-
-        console.log('readingTasks', readingTasks);
-        console.log('firstReadingTaskId', readingTasks[0].taskId);
-
-        const readingTask1Id = readingTasks[0].taskId;
-        const readingTask2Id = readingTasks[1].taskId;
-        const readingTask3Id = readingTasks[2].taskId;
-
-        const initialQuestions = await Question.find({
-          $or: [
-            { questionId: readingTask1Id },
-            { questionId: readingTask2Id },
-            { questionId: readingTask3Id }
-          ]
-        });
-
-        const initialReadingQuestions = initialQuestions.filter(
-          initialQuestion => initialQuestion.subject === 'Reading'
+        ReadingQuestions = newReadingQuestions;
+      } else if (assignment === 2) {
+        const newWritingQuestions = newQuestions.filter(
+          newQuestion => newQuestion.subject === 'Writing'
         );
-        ReadingQuestions = initialReadingQuestions;
-
-        console.log('ReadingQuestions', ReadingQuestions);
-      }
-      if (assignment === 2) {
-        const writingTasks = tasks[2];
-        const writingTask1Id = writingTasks[0].taskId;
-        const writingTask2Id = writingTasks[1].taskId;
-        const writingTask3Id = writingTasks[2].taskId;
-
-        const initialQuestions = await Question.find({
-          $or: [
-            { questionId: writingTask1Id },
-            { questionId: writingTask2Id },
-            { questionId: writingTask3Id }
-          ]
-        });
-
-        const initialWritingQuestions = initialQuestions.filter(
-          initialQuestion => initialQuestion.subject === 'Writing'
-        );
-        WritingQuestions = initialWritingQuestions;
+        WritingQuestions = newWritingQuestions;
       }
 
-      const initialQuestions = [MathQuestions, ReadingQuestions, WritingQuestions];
-      console.log('initialQuestions', initialQuestions);
+      const newQuestionsGrouped = [MathQuestions, ReadingQuestions, WritingQuestions];
 
-      // Find practice and create questions
-      const newQuestions = await Practice.findOneAndUpdate(
+      // Assignment Complete: find practice and replace current questions with new questions
+      const practiceWithNewQuestions = await Practice.findOneAndUpdate(
         { user: id },
-        { questions: initialQuestions },
+        { questions: newQuestionsGrouped },
         { new: true }
       ).populate('user');
-      console.log('new questions', newQuestions);
-      res.json(newQuestions);
+      console.log('new questions', practiceWithNewQuestions);
+      res.json(practiceWithNewQuestions);
     } else {
-      // Find Practice and update questions
-      const updatedQuestions = await Practice.findOneAndUpdate(
+      // Assignment In-progress: find practice and update current questions when user presses 'Save and Quit'
+      const practiceWithUpdatedQuestions = await Practice.findOneAndUpdate(
         { user: id },
         { questions: currentQuestions },
         { new: true }
       ).populate('user');
-      console.log('updated questions', updatedQuestions);
-      res.json(updatedQuestions);
+      console.log('updated questions', practiceWithUpdatedQuestions);
+      res.json(practiceWithUpdatedQuestions);
     }
   }
 );

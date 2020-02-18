@@ -1,57 +1,57 @@
 // Node Modules
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-import classNames from "classnames";
-import { connect } from "react-redux";
-import axios from "axios";
-import { GET_ERRORS } from "../actions/types";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import classNames from 'classnames';
+import { connect } from 'react-redux';
+import axios from 'axios';
+import { GET_ERRORS } from '../actions/types';
 
 // Local Components
-import * as colors from "../assets/jss/components/colors";
-import CardCustom from "../assets/jss/components/CardCustom";
-import Button from "@material-ui/core/Button";
+import * as colors from '../assets/jss/components/colors';
+import CardCustom from '../assets/jss/components/CardCustom';
+import Button from '@material-ui/core/Button';
 
 // Material UI Components
-import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
 //import Typography from '@material-ui/core/Typography';
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import IconButton from "@material-ui/core/IconButton";
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import IconButton from '@material-ui/core/IconButton';
 
 //  Style Overrides
 const styles = theme => ({
   progress: {
-    color: "grey"
+    color: 'grey'
   },
   textField: {},
   label: {
-    color: "grey"
+    color: 'grey'
   },
   root: {
-    color: "grey"
+    color: 'grey'
   },
   submit: {
     marginTop: theme.spacing.unit * 3,
-    color: "#FFFFFF",
+    color: '#FFFFFF',
     ...colors.blueToGreen
   },
   progressContainer: {
-    height: "-webkit-fill-available"
+    height: '-webkit-fill-available'
   },
   buttonContainer: {
-    marginTop: "15px"
+    marginTop: '15px'
   },
   cardInner: {
     padding: 20
   },
   password: {
-    marginBottom: "20px"
+    marginBottom: '20px'
   },
   billing: {
-    marginTop: "40px"
+    marginTop: '40px'
   }
 });
 
@@ -60,11 +60,11 @@ class ResetPassword extends Component {
     super();
 
     this.state = {
-      password: "",
-      password2: "",
+      password: '',
+      password2: '',
       updated: false,
       isLoading: true,
-      message: "",
+      message: '',
       errors: {},
       showPassword: false
     };
@@ -72,31 +72,31 @@ class ResetPassword extends Component {
 
   componentDidMount() {
     axios
-      .get("/api/users/authenticateResetToken", {
+      .get('/api/users/authenticateResetToken', {
         params: {
           resetPasswordToken: this.props.match.params.token
         }
       })
       .then(res => {
-        if (res.data.message === "password reset link a-ok") {
+        if (res.data.message === 'password reset link a-ok') {
           this.setState({
-            message: "authenticated"
+            message: 'authenticated'
           });
         }
       })
       .catch(err => {
         console.log(err);
-        console.log("hello");
+        console.log('hello');
         this.setState({
-          message: "error"
+          message: 'error'
         });
         this.props.getErrors(err);
       });
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
+  componentDidUpdate(prevProps) {
+    if (this.props.errors !== prevProps.errors) {
+      this.setState({ errors: this.props.errors });
     }
   }
 
@@ -113,15 +113,15 @@ class ResetPassword extends Component {
   updatePassword = e => {
     e.preventDefault();
     axios
-      .put("/api/users/updatePasswordViaEmail", {
+      .put('/api/users/updatePasswordViaEmail', {
         password: this.state.password,
         password2: this.state.password2,
         resetPasswordToken: this.props.match.params.token
       })
       .then(res => {
-        if (res.data.message === "password updated") {
+        if (res.data.message === 'password updated') {
           this.setState({
-            message: "updated"
+            message: 'updated'
           });
         }
       })
@@ -130,7 +130,7 @@ class ResetPassword extends Component {
           this.props.getErrors(err);
         } else {
           this.setState({
-            message: "error"
+            message: 'error'
           });
         }
       });
@@ -139,16 +139,16 @@ class ResetPassword extends Component {
   render() {
     const { errors, message } = this.state;
     const { classes } = this.props;
-    console.log(this.props)
+    console.log(this.props);
     return (
       <React.Fragment>
-        {message === "error" && (
+        {message === 'error' && (
           <div>
             <h4>Problem resetting password. Please send another reset link to your email.</h4>
           </div>
         )}
 
-        {message === "authenticated" && (
+        {message === 'authenticated' && (
           <Grid container justify="space-between">
             <Grid item xs={12} sm={5}>
               <CardCustom title="Change Password" borderBottom>
@@ -160,11 +160,11 @@ class ResetPassword extends Component {
                         id="outlined-adornment-password"
                         className={classes.password}
                         variant="outlined"
-                        type={this.state.showPassword ? "text" : "password"}
+                        type={this.state.showPassword ? 'text' : 'password'}
                         label="New Password"
                         helperText={errors.password}
                         value={this.state.password}
-                        onChange={this.handleChange("password")}
+                        onChange={this.handleChange('password')}
                         InputProps={{
                           endAdornment: (
                             <InputAdornment position="end">
@@ -172,11 +172,7 @@ class ResetPassword extends Component {
                                 aria-label="Toggle password visibility"
                                 onClick={this.handleClickShowPassword}
                               >
-                                {this.state.showPassword ? (
-                                  <VisibilityOff />
-                                ) : (
-                                  <Visibility />
-                                )}
+                                {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
                               </IconButton>
                             </InputAdornment>
                           )
@@ -186,23 +182,16 @@ class ResetPassword extends Component {
                         error={Boolean(errors.password2)}
                         id="outlined-adornment-password2"
                         classes={{ root: classes.root }}
-                        className={classNames(
-                          classes.margin,
-                          classes.textField
-                        )}
+                        className={classNames(classes.margin, classes.textField)}
                         variant="outlined"
-                        type={this.state.showPassword ? "text" : "password"}
+                        type={this.state.showPassword ? 'text' : 'password'}
                         label="Confirm New Password"
                         value={this.state.password2}
                         helperText={errors.password2}
-                        onChange={this.handleChange("password2")}
+                        onChange={this.handleChange('password2')}
                       />
                     </Grid>
-                    <Grid
-                      container
-                      justify="center"
-                      className={classes.buttonContainer}
-                    >
+                    <Grid container justify="center" className={classes.buttonContainer}>
                       <Grid item>
                         <Button
                           type="submit"
@@ -221,12 +210,9 @@ class ResetPassword extends Component {
           </Grid>
         )}
 
-        {message === "updated" && (
+        {message === 'updated' && (
           <div>
-            <p>
-              Your password has been successfully reset, please try logging in
-              again.
-            </p>
+            <p>Your password has been successfully reset, please try logging in again.</p>
           </div>
         )}
       </React.Fragment>
@@ -257,9 +243,4 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default withStyles(styles)(
-  connect(
-    mapStatetoProps,
-    mapDispatchToProps
-  )(ResetPassword)
-);
+export default withStyles(styles)(connect(mapStatetoProps, mapDispatchToProps)(ResetPassword));

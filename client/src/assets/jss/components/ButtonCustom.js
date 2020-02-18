@@ -40,12 +40,12 @@ const styles = theme => ({
       background: `url(${chevronRight}) no-repeat`,
       content: '""',
       height: '14px',
-      marginLeft: '10px',
+      marginLeft: '6px',
       transition: 'transform 0.5s',
       width: '14px'
     },
     '&:hover:after': {
-      transform: 'translateX(5px)'
+      transform: 'translateX(2px)'
     }
   },
   hasArrowRightWhite: {
@@ -53,12 +53,12 @@ const styles = theme => ({
       background: `url(${chevronRightWhite}) no-repeat`,
       content: '""',
       height: '14px',
-      marginLeft: '10px',
+      marginLeft: '6px',
       transition: 'transform 0.5s',
       width: '14px'
     },
     '&:hover:after': {
-      transform: 'translateX(5px)'
+      transform: 'translateX(2px)'
     }
   },
   hasArrowLeft: {
@@ -66,12 +66,12 @@ const styles = theme => ({
       background: `url(${chevronLeft}) no-repeat`,
       content: '""',
       height: '14px',
-      marginRight: '10px',
+      marginRight: '6px',
       transition: '0.5s',
       width: '14px'
     },
     '&:hover:before': {
-      transform: 'translateX(-5px)'
+      transform: 'translateX(-2px)'
     }
   },
   backgroundColorWhite: {

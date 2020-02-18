@@ -63,11 +63,16 @@ const Intro = props => {
           <Typography variant="h3" className={classes.title} color="textPrimary">
             Welcome to the SAT Course!
           </Typography>
-          <Typography variant="subtitle1" component="p" className={classes.subtitle}>
-            Unfortunately, our interactive, high-tech SAT course isn't quite finished. In the
-            meantime, we invite you to start getting familier with the SAT by reading the prep-book
-            version of the course.
+          <Typography variant="h4" className={classes.title} color="textPrimary">
+            (Under Construction)
           </Typography>
+          <Grid container item justify="center">
+            <Typography variant="subtitle1" component="p" className={classes.subtitle}>
+              Unfortunately, our interactive, high-tech SAT course isn't quite finished. In the
+              meantime, we invite you to start getting familier with the SAT by reading the
+              prep-book version of the course.
+            </Typography>
+          </Grid>
         </Grid>
 
         {/* <ProgressMobileStepper />

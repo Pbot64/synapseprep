@@ -19,19 +19,9 @@ import ButtonCustom from '../../assets/jss/components/ButtonCustom';
 import Category from '../../components/Category';
 import LinkCustom from '../../assets/jss/components/LinkCustom';
 import { setAssignment } from '../../actions/profileActions';
-import { getQuestions } from '../../actions/questionActions';
 
 // Local Assets
 import chevronRight from '../../assets/images/chevron-right.svg';
-// import line from '../../assets/images/Icon-Line.svg';
-// import inequality from '../../assets/images/Icon-Inequality.svg';
-// import parabola from '../../assets/images/Icon-Parabola.svg';
-import social from '../../assets/images/Icon-Social.svg';
-import clock from '../../assets/images/Icon-Clock.svg';
-// import considering from '../../assets/images/Icon-Considering.svg';
-// import handshake from '../../assets/images/Icon-HandShake.svg';
-// import fist from '../../assets/images/Icon-Fist.svg';
-// import flasks from '../../assets/images/Icon-Flasks.svg';
 
 //  Style Overrides
 const styles = theme => ({
@@ -145,8 +135,15 @@ TabContainer.propTypes = {
 
 class QuestionFeedTabs extends Component {
   state = {
-    value: 0
+    value: 0,
+    image: []
   };
+
+  componentDidMount() {
+    const { tasksHistory } = this.props.profile.profile;
+    const allCurrentTasksContent = tasksHistory.map(task => task.taskContent);
+    this.loadImage(allCurrentTasksContent.map(taskContent => taskContent.img));
+  }
 
   handleChange = (event, value) => {
     this.setState({ value });
@@ -160,14 +157,49 @@ class QuestionFeedTabs extends Component {
     await this.props.setAssignment(this.state.value);
   };
 
+  loadImage = imageNames => {
+    console.log(imageNames);
+    const imagesArray = imageNames.map(imageName => {
+      return import(`../../assets/images/${imageName}.svg`).then(image => {
+        return image.default;
+      });
+    });
+    Promise.all(imagesArray).then(res => {
+      this.setState({
+        image: res
+      });
+    });
+  };
+
   render() {
-    const { tasks } = this.props.profile.practice;
     const { classes, theme } = this.props;
+    const { tasksHistory } = this.props.profile.profile;
     const { value } = this.state;
     const transitionDuration = {
       enter: theme.transitions.duration.enteringScreen,
       exit: theme.transitions.duration.leavingScreen
     };
+
+    const allCurrentTasksContent = tasksHistory.map(task => task.taskContent);
+
+    const currentMathTaskContent = allCurrentTasksContent.filter(
+      currentTaskContent => currentTaskContent.subject === 'Math'
+    );
+    const currentReadingTaskContent = allCurrentTasksContent.filter(
+      currentTaskContent => currentTaskContent.subject === 'Reading'
+    );
+    const currentWritingTaskContent = allCurrentTasksContent.filter(
+      currentTaskContent => currentTaskContent.subject === 'Writing'
+    );
+
+    const subjects = ['Math', 'Reading', 'Writing'];
+
+    const currentTasks = tasksHistory.filter(
+      taskHistory => taskHistory.taskContent.subject === subjects[value]
+    );
+
+    console.log('currentTasks', currentTasks);
+
     const fabs = [
       {
         color: 'primary',
@@ -224,15 +256,18 @@ class QuestionFeedTabs extends Component {
         >
           <TabContainer dir={theme.direction}>
             <Grid container justify={'space-between'} className={classes.topicMainContainer}>
-              {tasks[value].map(task => {
-                return <Category src={task.img}>{task.title}</Category>;
+              {allCurrentTasksContent.map((task, i) => {
+                if (task.subject === 'Math') {
+                  return (
+                    <Category key={task.title} src={this.state.image[i]}>
+                      {task.title}
+                    </Category>
+                  );
+                }
+                return null;
               })}
-              {/* {<img src = {require(task[0][0].img)} />} */}
-              {/* <Category src={line}>{tasks[0].title}</Category>
-              <Category src={inequality}>Inequalities</Category>
-              <Category src={parabola}>Graphing Parabolas</Category> */}
             </Grid>
-            {tasks[0].length === 0 && (
+            {currentMathTaskContent.length === 0 && (
               <Typography variant="h5" className={classes.bottomText}>
                 You've completed all the math tasks, but we're currently making more, so come back
                 soon!
@@ -241,17 +276,17 @@ class QuestionFeedTabs extends Component {
           </TabContainer>
           <TabContainer dir={theme.direction}>
             <Grid container justify={'space-between'} className={classes.topicMainContainer}>
-              {tasks[1].map((task, i) => {
-                return (
-                  <Category key={i} src={social}>
-                    {task.title}
-                  </Category>
-                );
+              {allCurrentTasksContent.map((task, i) => {
+                if (task.subject === 'Reading') {
+                  return (
+                    <Category key={task.title} src={this.state.image[i]}>
+                      {task.title}
+                    </Category>
+                  );
+                }
+                return null;
               })}
-              {/* <Category src={social}>Social Science</Category>
-              <Category src={fist}>Great Global Conversation</Category>
-              <Category src={flasks}>Physical Science</Category> */}
-              {tasks[1].length === 0 && (
+              {currentReadingTaskContent.length === 0 && (
                 <Typography variant="h5" className={classes.bottomText}>
                   You've completed all the reading tasks, but we're currently making more, so come
                   back soon!
@@ -261,17 +296,17 @@ class QuestionFeedTabs extends Component {
           </TabContainer>
           <TabContainer dir={theme.direction}>
             <Grid container justify={'space-between'} className={classes.topicMainContainer}>
-              {tasks[2].map((task, i) => {
-                return (
-                  <Category key={i} src={clock}>
-                    {task.title}
-                  </Category>
-                );
+              {allCurrentTasksContent.map((task, i) => {
+                if (task.subject === 'Writing') {
+                  return (
+                    <Category key={task.title} src={this.state.image[i]}>
+                      {task.title}
+                    </Category>
+                  );
+                }
+                return null;
               })}
-              {/* <Category src={clock}>Tense</Category>
-              <Category src={handshake}>Subject-Verb Agreement</Category>
-              <Category src={considering}>Author is Considering...</Category> */}
-              {tasks[2].length === 0 && (
+              {currentWritingTaskContent.length === 0 && (
                 <Typography variant="h5" className={classes.bottomText}>
                   You've completed all the writing tasks, but we're currently making more, so come
                   back soon!
@@ -280,7 +315,6 @@ class QuestionFeedTabs extends Component {
             </Grid>
           </TabContainer>
         </SwipeableViews>
-
         {fabs.map((fab, index) => (
           <LinkCustom
             key={fab.color}
@@ -296,7 +330,7 @@ class QuestionFeedTabs extends Component {
               }}
               unmountOnExit
             >
-              <ButtonCustom disabled={tasks[index].length === 0} className={fab.className}>
+              <ButtonCustom disabled={currentTasks.length === 0} className={fab.className}>
                 Start Tasks
                 {fab.icon}
               </ButtonCustom>
@@ -319,8 +353,5 @@ const mapStatetoProps = state => ({
 });
 
 export default withStyles(styles, { withTheme: true })(
-  connect(
-    mapStatetoProps,
-    { setAssignment, getQuestions }
-  )(QuestionFeedTabs)
+  connect(mapStatetoProps, { setAssignment })(QuestionFeedTabs)
 );

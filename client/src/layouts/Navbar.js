@@ -23,7 +23,7 @@ import Typography from '@material-ui/core/Typography';
 import { updateQuestions } from '../actions/profileActions';
 
 // Local Components
-import UserMenu from '../components/Menu';
+import UserMenu from '../components/UserMenu';
 import LinkCustom from '../assets/jss/components/LinkCustom';
 import ButtonCustom from '../assets/jss/components/ButtonCustom';
 
@@ -116,16 +116,35 @@ class Navbar extends Component {
     anchorElNotifications: null
   };
 
-  handleSave = () => {
-    const { tasks, questions } = this.props.profile.practice;
-    const { assignment } = this.props.profile;
+  // handleSave = () => {
+  //   const { tasksHistory, questionsHistory } = this.props.profile.profile;
+  //   const { assignment } = this.props.profile;
 
-    this.props.updateQuestions({
-      assignment,
-      tasks,
-      currentQuestions: questions
-    });
-  };
+  //   const subjects = ['Math', 'Reading', 'Writing'];
+
+  //   const currentAssTasks = tasksHistory.filter(
+  //     taskHistory => taskHistory.taskContent.subject === subjects[assignment]
+  //   );
+
+  //   const currentAssQuestions = questionsHistory.filter(
+  //     questionHistory => questionHistory.questionContent.subject === subjects[assignment]
+  //   );
+
+  //   // Find current subject
+  //   const currentSubject = currentAssTasks[0].taskContent.subject;
+
+  //   const currentAssQuestionsData = currentAssQuestions.map(currentQuestion => ({
+  //     _id: currentQuestion.questionContent._id,
+  //     answered: currentQuestion.answered,
+  //     selected: currentQuestion.selected
+  //   }));
+
+  //   this.props.updateQuestions({
+  //     assignment,
+  //     currentSubject,
+  //     currentAssQuestionsData
+  //   });
+  // };
 
   handleMenuNotifications = e => {
     this.setState({ anchorElNotifications: e.currentTarget });
@@ -198,8 +217,12 @@ class Navbar extends Component {
 
     const questionFeedLinks = (
       <LinkCustom to="/dashboard">
-        <ButtonCustom size="small" backgroundColor="white" hasArrowRight onClick={this.handleSave}>
-          Save and Exit
+        <ButtonCustom
+          size="small"
+          backgroundColor="white"
+          hasArrowLeft /* onClick={this.handleSave} */
+        >
+          Return
         </ButtonCustom>
       </LinkCustom>
     );
@@ -258,8 +281,5 @@ const mapStatetoProps = state => ({
 });
 
 export default withStyles(styles)(
-  connect(
-    mapStatetoProps,
-    { logoutUser, updateQuestions }
-  )(withRouter(Navbar))
+  connect(mapStatetoProps, { logoutUser, updateQuestions })(withRouter(Navbar))
 );

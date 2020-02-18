@@ -11,6 +11,7 @@ import User from '../../models/User';
 import Practice from '../../models/Practice';
 import Task from '../../models/Task';
 import Question from '../../models/Question';
+import Passage from '../../models/Passage';
 
 const app = express();
 
@@ -41,7 +42,7 @@ passport.use(
 );
 
 //* @route   GET api/practice/setPractice
-//* @desc    Returns initial task set and question set
+//* @desc    Returns initial task and question sets
 //* @access  Private
 
 app.get(
@@ -58,9 +59,33 @@ app.get(
     if (hasPractice) {
       // Send back the user's practice
       const practice = await Practice.findOne({ user: id }).populate('user');
-      console.log('found practice and sent to client ');
+
+      console.log('found practice and sent to client');
       res.json(practice);
     } else {
+      // const initialTasks = await Tasks.aggregate([
+      //   {
+      //     $lookup: {
+      //       from: 'questions',
+      //       let: { taskId: '$taskId', subject: '$subject' },
+      //       pipeline: [
+      //         {
+      //           $match: {
+      //             $expr: {
+      //               $and: [{ $eq: ['$questionId', '$$taskId'] }, { $eq: ['$subject', '$$subject'] }]
+      //             }
+      //           }
+      //         }
+      //       ],
+      //       as: 'questions'
+      //     }
+      //   },
+      //   {
+      //     $match: {
+      //       groupId: 1
+      //     }
+      //   }
+      // ]);
       // Find 9 initial tasks
       const initialMathTasks = await Task.find({ groupId: 1, subject: 'Math' }).sort({ taskId: 1 });
 
@@ -71,24 +96,60 @@ app.get(
       const initialWritingTasks = await Task.find({ groupId: 1, subject: 'Writing' }).sort({
         taskId: 1
       });
-
       const initialTasks = [initialMathTasks, initialReadingTasks, initialWritingTasks];
 
-      // Find initial questions
-      const allInitialQuestions = await Question.find({
-        $or: [{ questionId: 1 }, { questionId: 2 }, { questionId: 3 }]
-      });
+      // const initialTasks = { math: initialMathTasks, reading: initialReadingTasks, writing: initialWritingTasks};
 
-      const initialMathQuestions = allInitialQuestions.filter(
-        initialQuestion => initialQuestion.subject === 'Math'
+      // Find initial questions
+      const initialQuestions = await Question.aggregate([
+        {
+          $lookup: {
+            from: 'passages',
+            let: { questionId: '$questionId', subject: '$subject' },
+            pipeline: [
+              {
+                $match: {
+                  $expr: {
+                    $and: [
+                      { $eq: ['$passageId', '$$questionId'] },
+                      { $eq: ['$subject', '$$subject'] }
+                    ]
+                  }
+                }
+              },
+              {
+                $project: { _id: 0 }
+              }
+            ],
+            as: 'passage'
+          }
+        },
+        {
+          $match: {
+            $or: [{ questionId: 1 }, { questionId: 2 }, { questionId: 3 }]
+          }
+        },
+        {
+          $project: { _id: 0 }
+        },
+        {
+          $unwind: { path: '$passage', preserveNullAndEmptyArrays: true }
+        }
+      ]);
+
+      // const currentTasks = { math: {}, reading: {}, writing: {} };
+
+      const initialMathQuestions = initialQuestions.filter(question => question.subject === 'Math');
+
+      const initialReadingQuestions = initialQuestions.filter(
+        question => question.subject === 'Reading'
       );
-      const initialReadingQuestions = allInitialQuestions.filter(
-        initialQuestion => initialQuestion.subject === 'Reading'
+
+      const initialWritingQuestions = initialQuestions.filter(
+        question => question.subject === 'Writing'
       );
-      const initialWritingQuestions = allInitialQuestions.filter(
-        initialQuestion => initialQuestion.subject === 'Writing'
-      );
-      const initialQuestions = [
+
+      const initialQuestionsGrouped = [
         initialMathQuestions,
         initialReadingQuestions,
         initialWritingQuestions
@@ -98,10 +159,11 @@ app.get(
       new Practice({
         user: id,
         tasks: initialTasks,
-        questions: initialQuestions,
+        questions: initialQuestionsGrouped,
         completedQuestions: [[], [], []]
       })
         .populate('user')
+        .populate('tasks')
         .save()
         .then(newPractice => {
           console.log('created and saved Practice');

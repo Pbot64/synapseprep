@@ -25,6 +25,14 @@ const theme = createMuiTheme({
       secondary: '#7a92a5',
       lightGrey: 'rgba(0, 0, 0, 0.3)'
     },
+    lightBlue: '#e8f5ff',
+    pink: '#ee5087',
+    purple: '#cf6cc9',
+    red: 'red',
+    blue: '#4fa3eb',
+    lighterBlue: '#4fa3eb14',
+    green: '#00BF6F',
+    lightGreen: '#00BF6F14',
     pinkToYellow: {
       ...colors.pinkToYellow
     },
@@ -42,8 +50,7 @@ const theme = createMuiTheme({
     },
     blueToTurquoise: {
       ...colors.blueToTurquoise
-    },
-    lightBlue: '#e8f5ff'
+    }
   },
   typography: {
     useNextVariants: true,
@@ -57,7 +64,7 @@ const theme = createMuiTheme({
       }
     },
     body2: {
-      fontSize: '0.9rem',
+      fontSize: '0.9375rem',
       [breakpoints.up('sm')]: {
         fontSize: '1.1rem'
       }
@@ -73,13 +80,32 @@ const theme = createMuiTheme({
       }
     },
     h5: {
-      fontWeight: '300'
+      fontWeight: '300',
+      fontSize: '1.2rem',
+      [breakpoints.up('sm')]: {
+        fontSize: '1.5rem'
+      }
     },
     h6: {
-      fontSize: '1.1rem',
+      fontSize: '1rem',
       fontWeight: '300',
       [breakpoints.up('sm')]: {
-        fontSize: '1.3rem'
+        fontSize: '1.2rem'
+      }
+    },
+    subtitle1: {
+      fontWeight: '300',
+      lineHeight: '1.33',
+      letterSpacing: '0.2px',
+      fontSize: '1rem',
+      [breakpoints.up('sm')]: {
+        fontSize: '1.1rem'
+      }
+    },
+    subtitle2: {
+      fontSize: '0.75rem',
+      [breakpoints.up('sm')]: {
+        fontSize: '0.875rem'
       }
     }
   }

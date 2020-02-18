@@ -1,31 +1,31 @@
 // Node Modules
-import React from "react";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 
 // Material UI Components
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
 // Local Components
-import CardCustom from "../assets/jss/components/CardCustom.js";
+import CardCustom from '../assets/jss/components/CardCustom.js';
 
 // Local Assets
-import students from "../assets/images/students.jpg";
+import students from '../assets/images/students.jpg';
 
 //  Style Overrides
 const styles = theme => ({
   videoContainer: {
-    marginTop: "50px",
-    maxWidth: "750px"
+    marginTop: '50px',
+    maxWidth: '750px'
   },
   title: {
-    fontSize: "1.75rem",
-    [theme.breakpoints.up("sm")]: {
-      fontSize: "3.75rem"
+    fontSize: '1.75rem',
+    [theme.breakpoints.up('sm')]: {
+      fontSize: '3.75rem'
     }
   },
-  img: { marginTop: "30px", width: "100%" }
+  img: { marginTop: '30px', width: '100%' }
 });
 
 const Lessons = props => {

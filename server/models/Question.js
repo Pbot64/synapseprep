@@ -17,14 +17,21 @@ const QuestionSchema = new Schema({
   title: {
     type: String
   },
-  img: {
+  choices: [{ type: String }],
+  rightChoice: {
     type: String
   },
-  choices: {
+  solutions: {
     type: Array
   },
-  explanations: {
-    type: Array
+  alternate: {
+    type: String
+  },
+  hints: {
+    type: Number
+  },
+  img: {
+    type: String
   },
   difficulty: {
     type: String
@@ -32,17 +39,12 @@ const QuestionSchema = new Schema({
   calculator: {
     type: Boolean
   },
-  rightChoice: {
+  passage: {
+    type: Schema.Types.ObjectId,
+    ref: 'passages'
+  },
+  multi: {
     type: String
-  },
-  wrongChoices: {
-    type: Array
-  },
-  selected: {
-    type: String
-  },
-  completed: {
-    type: Boolean
   }
 });
 // UserSchema.plugin(findOrCreate);

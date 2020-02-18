@@ -10,6 +10,7 @@ import path from 'path';
 
 // Load User model
 import User from '../models/User';
+import Rep from '../models/Rep';
 
 // Load Input Validation
 import validateRegisterInput from '../validation/register';
@@ -44,7 +45,6 @@ app.post('*', async (req, res) => {
         errors.email = 'Email already exists';
         return res.status(400).json(errors);
       }
-      console.log(req.body.email);
       const avatar = gravatar.url(req.body.email, {
         s: '200', // Size
         r: 'pg', // Rating
@@ -64,7 +64,34 @@ app.post('*', async (req, res) => {
           newUser.password = hash;
           newUser
             .save()
-            .then(user => {
+            .then(async user => {
+              // Finds all reps in db
+              const reps = await Rep.find();
+              console.log('reps', reps);
+
+              // Finds first rep in 'reps' array that does not have a lead
+              let currentRep = reps.find(({ gotLead }) => gotLead === false);
+              console.log('currentRep', currentRep);
+
+              //* If all reps have leads then...
+              if (!currentRep) {
+                // Make first rep the current rep
+                currentRep = reps[0];
+                const resetreps = reps.map((rep, i) => {
+                  if (i !== 0) {
+                    rep.gotLead = false;
+                  }
+                  return rep;
+                });
+                // Reset all reps gotLead status in db...
+                await Rep.updateMany({}, { gotLead: false });
+                // expect for the first rep
+                await Rep.findOneAndUpdate({}, { gotLead: true });
+
+                // resetreps.forEach(async resetrep => await resetrep.save());
+                console.log(resetreps, 'resetreps');
+              }
+
               const transporter = nodemailer.createTransport({
                 host: 'smtp.gmail.com',
                 port: 587,
@@ -80,22 +107,15 @@ app.post('*', async (req, res) => {
                 transport: transporter,
                 message: {
                   from: 'support@synapseprep.net',
+                  replyTo: currentRep.email,
                   subject: `Hey ${user.name
                     .split(' ')
                     .slice(0, -1)
                     .join(' ')}, Welcome to Synapse Prep!`
-                  // attachments: [
-                  //   {
-                  //     filename: "Logo.png",
-                  //     path: "../../client/src/assets/images/logo-email.png",
-                  //     cid: "logo" //same cid value as in the html img src
-                  //   }
-                  // ]
                 },
                 // uncomment below to send emails in development/test env:
                 send: true
               });
-
               email
                 .send({
                   template: path.join(__dirname, '..', 'emails'),
@@ -104,17 +124,26 @@ app.post('*', async (req, res) => {
                   },
                   locals: {
                     title: 'Welcome to Synapse Prep!',
-                    message:
-                      "We're super excited to help you and/or your kiddo to meet and surpass your academic goals. \n\n" +
-                      "For starters, clicking the green button below will take you to our free online courses. Feel free to reply to this email or call ‪(512) 481-2485‬ if you're looking for a extra help and we'll connect you with one of our incredible personal tutors.",
+                    message: `Hey ${user.name
+                      .split(' ')
+                      .slice(0, -1)
+                      .join(' ')}, 
+                    
+                    ${currentRep.fname} ${currentRep.lname} here from Synapse Prep.
+                    I noticed you recently signed up with us and wanted to reach out to see if I could help answer any questions you may have. I'd love to learn more about your academic goals and help you find the best path forward to achieve them.`,
+                    message2:
+                      "You're also welcome to access our FREE test prep courses by clicking on the green button below.",
                     buttonText: 'Get to Learning',
-                    buttonLink: 'https://app.synapseprep.net/login'
+                    buttonLink: 'https://app.synapseprep.net/login',
+                    calendlyLink: currentRep.calendlyLink,
+                    phone: currentRep.phone
                   }
                 })
                 .then(email => {
+                  currentRep.gotLead = true;
+                  currentRep.save();
                   res.status(200).json({
                     email: email,
-                    currentUser: user,
                     emailSent: true
                   });
                 })

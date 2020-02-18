@@ -15,7 +15,14 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { setAlerted } from '../actions/profileActions';
 
 //  Style Overrides
-const styles = theme => ({});
+const styles = theme => ({
+  dialog: {
+    margin: '16px',
+    [theme.breakpoints.up('sm')]: {
+      margin: '24px'
+    }
+  }
+});
 
 class Alert extends React.Component {
   state = {
@@ -32,21 +39,21 @@ class Alert extends React.Component {
   };
 
   render() {
+    const { classes } = this.props;
     return (
       <div>
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
+          classes={{ paper: classes.dialog }}
         >
           <DialogTitle id="alert-dialog-title">{'This App is Under Construction'}</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              We're in the process of rolling out our awesome new app! In the meantime, you can
-              still view your dashboard. Just know that all of values are randomly generated and
-              parts of the app remain inaccessible. We'll keep you updated as more features are
-              released in the coming weeks.
+              We're in the process of rolling out our awesome new app! Just know that most of the
+              values you see are randomly generated and parts of the app remain inaccessible.
+              Nevetheless, there are some math questions that you can work through! We'll keep you
+              updated as more features are released in the coming weeks.
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -64,9 +71,4 @@ const mapStatetoProps = state => ({
   alerted: state.profile.alerted
 });
 
-export default withStyles(styles)(
-  connect(
-    mapStatetoProps,
-    { setAlerted }
-  )(Alert)
-);
+export default withStyles(styles)(connect(mapStatetoProps, { setAlerted })(Alert));

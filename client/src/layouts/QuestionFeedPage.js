@@ -1,4 +1,4 @@
-// TODO Refactor effects to eliminate both comment hack on next line.
+// TODO Refactor effects to eliminate comment hack on next line.
 /* eslint-disable react-hooks/exhaustive-deps */
 // Node Modules
 import React, { useState, useEffect, useRef } from 'react';
@@ -14,13 +14,20 @@ import RootRef from '@material-ui/core/RootRef';
 
 // Local Components
 import Question from '../components/Question';
-import TooltipCustom from '../components/TooltipCustom';
+import TooltipCustom from '../components/Text/TooltipCustom';
 import ProgressMobileStepper from '../components/Stepper';
 import ButtonCustom from '../assets/jss/components/ButtonCustom';
 import QuestionSolution from '../components/QuestionSolution';
+import DialogPassage from '../components/DialogPassage';
+import UseDidMountEffect from '../components/common/useDidMountEffect';
 
 // Actions
-import { setTasks, updateStoreSelected, updateStoreCompleted } from '../actions/profileActions';
+import {
+  updateTasks,
+  updateStoreSelected,
+  updateStoreAnswered,
+  updateStorePageNumbers
+} from '../actions/profileActions';
 import CardCustom from '../assets/jss/components/CardCustom';
 
 // Local Assets
@@ -33,7 +40,7 @@ import chevronRight from '../assets/images/chevron-right.svg';
 //  Style Overrides
 const styles = theme => ({
   questionWrapper: {
-    marginTop: '50px'
+    marginTop: '30px'
   },
   questionContainer: {
     minHeight: '400px',
@@ -41,6 +48,7 @@ const styles = theme => ({
   },
   questionTop: {
     marginBottom: 18,
+    paddingBottom: '5px',
     borderBottom: '1px solid black'
   },
   progress: {
@@ -59,13 +67,15 @@ const styles = theme => ({
     width: '15px'
   },
   bottomIcon: {
-    height: '25px',
-    marginRight: '8px'
+    height: '25px'
   },
   bottomOptionWrapper: {
-    cursor: 'pointer',
-    '&:hover': {
-      opacity: '0.6'
+    textTransform: 'none',
+    padding: '6px 10px',
+    border: 'none',
+    boxShadow: 'none',
+    [theme.breakpoints.up(450)]: {
+      padding: '8px 15px'
     }
   },
   solutionTitleContainer: {
@@ -73,6 +83,7 @@ const styles = theme => ({
     borderRadius: '10px',
     borderTopLeftRadius: '0px',
     borderTopRightRadius: '0px',
+    borderTop: 'none',
     width: '100%',
     '&:hover': {
       transform: 'translateY(0px)',
@@ -83,8 +94,8 @@ const styles = theme => ({
       transform: 'rotate(90deg)',
       content: '""',
       transition: 'transform 0.3s',
-      height: '14px',
-      width: '14px',
+      height: '12px',
+      width: '12px',
       [theme.breakpoints.up('sm')]: {
         height: '20px',
         width: '20px'
@@ -98,8 +109,8 @@ const styles = theme => ({
       transform: 'rotate(90deg)',
       content: '""',
       transition: 'transform 0.3s',
-      height: '14px',
-      width: '14px',
+      height: '12px',
+      width: '12px',
       [theme.breakpoints.up('sm')]: {
         height: '20px',
         width: '20px'
@@ -120,7 +131,7 @@ const styles = theme => ({
     'background-clip': 'text'
   },
   solutionTitleMath: {
-    'font-size': '1rem',
+    'font-size': '0.875rem',
     extend: 'solutionTitleBase',
     backgroundImage: 'linear-gradient(45deg, #2980ba 0%, #238E9B 50%, #00BF6F 100%)',
     'border-bottom': '1px solid #00BF6F',
@@ -129,7 +140,7 @@ const styles = theme => ({
     }
   },
   solutionTitleReading: {
-    'font-size': '1rem',
+    'font-size': '0.875rem',
     extend: 'solutionTitleBase',
     backgroundImage: 'linear-gradient(224deg, #ee5087, #ef5186 1%, #f05784 7%, #ffbe5f 100%)',
     'border-bottom': '1px solid #ffbe5f',
@@ -138,7 +149,7 @@ const styles = theme => ({
     }
   },
   solutionTitleWriting: {
-    'font-size': '1rem',
+    'font-size': '0.875rem',
     extend: 'solutionTitleBase',
     backgroundImage: 'linear-gradient(224deg,  #b465da 0%, #cf6cc9 33%, #ee609c 100%)',
     'border-bottom': '1px solid #cf6cc9',
@@ -147,10 +158,18 @@ const styles = theme => ({
     }
   },
   solutionTitleWrapper: {
+    minWidth: '140px',
     height: '55px'
   },
   hintNumber: {
     marginLeft: '10px'
+  },
+  bottomIconText: {
+    marginLeft: '8px',
+    display: 'none',
+    [theme.breakpoints.up(450)]: {
+      display: 'initial'
+    }
   }
 });
 
@@ -162,14 +181,23 @@ const QuestionFeedPage = props => {
   // State Declarations
   const [pageNumber, setPageNumber] = useState(0);
   const [correct, setCorrect] = useState(false);
-  const [completed, setCompleted] = useState(false);
+  const [answered, setAnswered] = useState(false);
   const [selected, setSelected] = useState('');
-  const [solutionStep, setSolutionStep] = useState(0);
+  const [hintStep, setHintStep] = useState(0);
+  const [passage, setPassage] = useState(false);
+  console.log('pageNumber', pageNumber);
 
   // Destructure Props
-  const { classes, setTasks, updateStoreSelected, updateStoreCompleted } = props;
-  const { tasks, questions } = props.profile.practice;
-  const { assignment } = props.profile;
+  const {
+    classes,
+    updateTasks,
+    updateStoreSelected,
+    updateStoreAnswered,
+    updateStorePageNumbers
+  } = props;
+  const { tasksHistory, questionsHistory } = props.profile.profile;
+
+  const { assignment, pageNumbers } = props.profile;
   const { loading } = props.question;
 
   // Variables
@@ -177,24 +205,53 @@ const QuestionFeedPage = props => {
   let currentQuestion;
   let nextQuestion;
   let previousQuestion;
+  const assPageNumber = pageNumbers[assignment];
+
   let hasQuestions = false;
-  if (questions[assignment].length !== 0) {
-    currentQuestions = questions[assignment];
-    currentQuestion = questions[assignment][pageNumber];
-    nextQuestion = questions[assignment][pageNumber + 1];
-    previousQuestion = questions[assignment][pageNumber - 1];
-    hasQuestions = true;
-  }
+
+  const subjects = ['Math', 'Reading', 'Writing'];
+
+  const currentSubject = subjects[assignment];
+
+  const currentTasks = tasksHistory.filter(
+    taskHistory => taskHistory.taskContent.subject === currentSubject
+  );
+
+  const currentTasksIds = currentTasks.map(currentTask => currentTask.taskContent.taskId);
+
+  // const currentTasks = profileTasks.filter(
+  //   profileTask => profileTask.subject === subjects[assignment]
+  // );
+
+  currentQuestions = questionsHistory.filter(
+    questionHistory => questionHistory.questionContent.subject === currentSubject
+  );
+
+  // currentQuestions = profileQuestions.filter(profileQuestion => {
+  //   return currentTasks.map(currentTask => currentTask.taskId === profileQuestion.taskId);
+  // });
+
+  // console.log('currentQuestions', currentQuestions);
+  // console.log('currentTasks', currentTasks);
+
+  //  const currentQuestions = currentTasks.map(currenttask => {
+  //    return currentTask.questions
+  //  })
+
+  //  const currentQuest
 
   /* -------------------------------------------------------------------------- */
   /*                          First Render Effect Hooks                          */
   /* -------------------------------------------------------------------------- */
 
-  //* Set local "completed", "selected", and "correct" to the first question's corresponding store properties
+  //* Set local "answered", "selected", and "correct" to the first question's corresponding store properties
   useEffect(() => {
-    setCompleted(currentQuestion.completed);
-    setSelected(currentQuestion.selected);
-    setCorrect(currentQuestion.selected === currentQuestion.rightChoice);
+    let i = assPageNumber;
+    setAnswered(currentQuestions[i].answered);
+    setSelected(currentQuestions[i].selected);
+    setPageNumber(i);
+    setCorrect(currentQuestions[i].selected === currentQuestions[i].questionContent.rightChoice);
+    setHintStep(currentQuestions[i].answered ? currentQuestions[i].questionContent.hints : 0);
   }, []);
 
   /* -------------------------------------------------------------------------- */
@@ -202,14 +259,40 @@ const QuestionFeedPage = props => {
   /* -------------------------------------------------------------------------- */
 
   //* Update current question store "selected" to local "selected"
-  useEffect(() => {
-    updateStoreSelected({ selected, pageNumber, assignment });
+  UseDidMountEffect(() => {
+    console.log('selected', selected);
+    updateStoreSelected({ selected, currentSubject, currentTasksIds, currentQuestion });
   }, [selected]);
 
-  //* Update current question store "completed" to local "completed"
-  useEffect(() => {
-    updateStoreCompleted({ completed, pageNumber, assignment });
-  }, [completed]);
+  //* Update current question store "answered" to local "answered"
+  UseDidMountEffect(() => {
+    updateStoreAnswered({
+      answered,
+      currentSubject,
+      currentTasksIds,
+      currentQuestion
+    });
+  }, [answered]);
+
+  //* Update current store "page number" to local "page number"
+  // useEffect(() => {
+  //   if (pageNumber !== pageNumberStored) {
+  //     console.log('pageNumber effect hook', pageNumber);
+  //     updateStorePageNumbers(pageNumber);
+  //   }
+  // }, [pageNumber, pageNumberStored]);
+
+  UseDidMountEffect(() => {
+    const updatedPageNumbers = pageNumbers.map((storedPageNumber, i) =>
+      i === assignment ? pageNumber : storedPageNumber
+    );
+    console.log('updatedPageNumber', updatedPageNumbers);
+    updateStorePageNumbers(updatedPageNumbers);
+  }, [pageNumber]);
+
+  // useEffect(() => {
+  //   console.log('settest', test);
+  // }, [test]);
 
   /* -------------------------------------------------------------------------- */
   /*                          "User Activated" Methods                          */
@@ -217,36 +300,39 @@ const QuestionFeedPage = props => {
 
   //* When user clicks NEXT button...
   const handleNext = () => {
-    // If local "completed" is true or there is no local selected then apply following logic to next question:
-    if (completed || selected === '') {
+    // If local "answered" is true or there isn't a local "selected" then apply this logic to next question:
+    if (answered || !selected) {
       // Disable Next button on the last question in assignment.
       if (pageNumber === currentQuestions.length - 1) {
         return null;
       }
-      // Increase page number
+      // Increase page number and scroll to top
       setPageNumber(pageNumber + 1);
+      window.scrollTo(0, 0);
       // Set local "selected" to next question store "selected"
       setSelected(nextQuestion.selected);
-      // Set local "completed" to true/false and local "solutionStep" to 0 based on next question store "completed"
-      if (nextQuestion.completed) {
-        setCompleted(true);
+      // Set local "answered" to true/false based on next question store "answered"
+      if (nextQuestion.answered) {
+        setAnswered(true);
+        setHintStep(nextQuestion.questionContent.hints);
       } else {
-        setCompleted(false);
-        setSolutionStep(0);
+        setAnswered(false);
+        setHintStep(0);
       }
       // Set local "correct" to true or false based on whether next question store "selected" is equal to next question store "rightChoice"
-      nextQuestion.selected === nextQuestion.rightChoice ? setCorrect(true) : setCorrect(false);
+      nextQuestion.selected === nextQuestion.questionContent.rightChoice
+        ? setCorrect(true)
+        : setCorrect(false);
 
-      // Else local "completed" is false or there is a local "selected" value then apply following logic to current question:
+      // Else local "answered" is false or there is a local "selected" value then apply this logic to current question:
     } else {
-      // Set local "solutionStep" to 3
-      setSolutionStep(3);
-      // Set local "completed" to true if there is a local "selected"
-      if (selected !== '') {
-        setCompleted(true);
+      // Set local "answered" to true and local 'hints' to current question store "hints" if there is a local "selected."
+      if (selected) {
+        setAnswered(true);
+        setHintStep(currentQuestion.questionContent.hints);
       }
       // Set local "correct" to true if local "selected" is equal to current question store "rightChoice."
-      if (selected === currentQuestion.rightChoice) {
+      if (selected === currentQuestion.questionContent.rightChoice) {
         setCorrect(true);
       }
     }
@@ -254,38 +340,49 @@ const QuestionFeedPage = props => {
 
   //* When user clicks BACK button...
   const handleBack = () => {
-    // Decrease page number
+    // Decrease page number and scroll to top
     setPageNumber(pageNumber - 1);
-    // Set local "selected" to previous question store "selected"
+    window.scrollTo(0, 0);
+    // Set local "selected" to previous question store "selected."
     setSelected(previousQuestion.selected);
-    // Set local "completed" to true/false and local "solutionStep" # based on previous question store "selected"
-    if (previousQuestion.selected === '') {
-      setCompleted(false);
-      setSolutionStep(0);
+    // Set local "answered" to true/false based on previous question store "selected."
+    if (!previousQuestion.selected) {
+      setAnswered(false);
+      setHintStep(0);
     } else {
-      setSolutionStep(3);
-      setCompleted(true);
+      setAnswered(true);
+      setHintStep(previousQuestion.questionContent.hints);
     }
-    // Set local "correct" to true or false based on whether previous question store "selected" is equal to previous question store "rightChoice"
-    previousQuestion.selected === previousQuestion.rightChoice
+    // Set local "correct" to true or false based on whether previous question store "selected" is equal to previous question store "rightChoice."
+    previousQuestion.selected === previousQuestion.questionContent.rightChoice
       ? setCorrect(true)
       : setCorrect(false);
   };
 
   //* Scroll down to solution when user clicks SOLUTION button
   const handleScroll = () => {
-    window.scrollTo({ top: questionSolution.current.offsetTop - 95, left: 0, behavior: 'smooth' });
+    console.log('testing', questionSolution.current.offsetTop - 125);
+    window.scrollTo({ top: questionSolution.current.offsetTop - 125, left: 0, behavior: 'smooth' });
+  };
+
+  const handleHints = () => {
+    if (hintStep < currentQuestion.questionContent.hints) {
+      setHintStep(hintStep + 1);
+    }
+    if (answered) {
+      setHintStep(currentQuestion.questionContent.hints);
+    }
   };
 
   /* -------------------------------------------------------------------------- */
   /*                            EXTRA STUFF FOR DEBUGGING                       */
   /* -------------------------------------------------------------------------- */
 
-  //* Resets "selected" and "completed" values for all questions in store
+  //* Resets "selected" and "answered" values for all questions in store
   const handleReset = () => {
     currentQuestions.map(question => {
       question.selected = '';
-      question.completed = false;
+      question.answered = false;
       return question;
     });
   };
@@ -294,34 +391,52 @@ const QuestionFeedPage = props => {
   const assignmentArray = currentQuestions.map(question => {
     return {
       selected: question.selected,
-      completed: question.completed
+      answered: question.answered
     };
   });
 
+  if (questionsHistory.length) {
+    currentQuestions = questionsHistory.filter(
+      questionHistory => questionHistory.questionContent.subject === currentSubject
+    );
+
+    currentQuestion = currentQuestions[pageNumber];
+    nextQuestion = currentQuestions[pageNumber + 1];
+    previousQuestion = currentQuestions[pageNumber - 1];
+    hasQuestions = true;
+  }
+
   //* Need to learn jest + enzyme
-  console.log('props', props);
-  console.log('assignmentArray', assignmentArray);
-  console.log('pageNumber', pageNumber);
+  // console.log('assignmentArray', assignmentArray);
   console.log('currentQuestion', currentQuestion);
   if (hasQuestions) {
-    console.log('questions', currentQuestions);
+    console.log('currentQuestions', currentQuestions);
   }
-  console.log('correct', correct);
 
   /* -------------------------------------------------------------------------- */
   /*                                 DOM Content                                */
   /* -------------------------------------------------------------------------- */
 
-  let questionContent;
+  let questionFeedContent;
   if (!hasQuestions || loading) {
-    questionContent = (
+    questionFeedContent = (
       <Grid container justify="center" alignItems="center" className={classes.progressContainer}>
         <CircularProgress className={classes.progress} />
       </Grid>
     );
   } else {
-    questionContent = (
+    questionFeedContent = (
       <React.Fragment>
+        {passage && (
+          <DialogPassage
+            open={passage}
+            assignment={assignment}
+            currentQuestion={currentQuestion}
+            handleClose={() => {
+              setPassage(false);
+            }}
+          />
+        )}
         <RootRef rootRef={questionRef}>
           <Grid item container justify="center" className={classes.questionWrapper}>
             <Grid item xs={12} sm={10} md={9} className={classes.questionContainer}>
@@ -338,14 +453,25 @@ const QuestionFeedPage = props => {
 
                 <Grid item>
                   <Grid item container>
-                    <Typography variant="h6" className={classes.questionType}>
-                      {currentQuestion.type}
-                    </Typography>
-                    {tasks[assignment][0].subject === 'Math' && (
+                    <Grid item>
+                      {(assignment === 1 || assignment === 2) && (
+                        <ButtonCustom
+                          size="small"
+                          onClick={() => {
+                            setPassage(true);
+                          }}
+                        >
+                          Open Passage
+                        </ButtonCustom>
+                      )}
+                    </Grid>
+                    {assignment === 0 && (
                       <img
-                        src={currentQuestion.calculator ? calculator : noCalculator}
+                        src={currentQuestion.questionContent.calculator ? calculator : noCalculator}
                         className={classes.calculator}
-                        alt={currentQuestion.calculator ? 'calculator' : 'noCalculator'}
+                        alt={
+                          currentQuestion.questionContent.calculator ? 'calculator' : 'noCalculator'
+                        }
                       />
                     )}
                   </Grid>
@@ -354,13 +480,14 @@ const QuestionFeedPage = props => {
 
               <CardCustom borderBottom padding>
                 <Question
+                  previousQuestion={previousQuestion ? previousQuestion.questionContent : ''}
                   questionRef={questionRef}
-                  completed={completed}
-                  rightChoice={currentQuestion.rightChoice}
+                  answered={answered}
+                  rightChoice={currentQuestion.questionContent.rightChoice}
                   correct={correct}
                   selected={selected}
                   setSelected={setSelected}
-                  currentQuestion={currentQuestion}
+                  currentQuestion={currentQuestion.questionContent}
                   pageNumber={pageNumber}
                 />
               </CardCustom>
@@ -371,36 +498,28 @@ const QuestionFeedPage = props => {
         <Grid item container justify="center" className={classes.bottomWrapper}>
           <Grid item xs={12} sm={10} md={9} className={classes.bottomContainer}>
             <Grid item container justify="space-between" alignItems="center">
-              <Grid
-                item
-                onClick={() => {
-                  if (solutionStep < 3) {
-                    setSolutionStep(solutionStep + 1);
-                  }
-                  if (completed) {
-                    setSolutionStep(3);
-                  }
-                }}
+              <ButtonCustom
+                onClick={handleHints}
                 className={classes.bottomOptionWrapper}
+                backgroundColor="white"
               >
                 <Grid item container alignItems="center" className={classes.hintContainer}>
                   <img src={lightBulb} className={classes.bottomIcon} alt="hint" />
-                  <div ref={questionSolution}>
-                    <Typography variant="subtitle2" className={classes.bottomIconText}>
-                      Hint
-                    </Typography>
-                  </div>
+                  <Typography variant="subtitle2" className={classes.bottomIconText}>
+                    Hint
+                  </Typography>
                   <Typography
                     variant="subtitle2"
                     color="textSecondary"
                     className={classes.hintNumber}
                   >
-                    {solutionStep}/3
+                    {hintStep}/{currentQuestion.questionContent.hints}
                   </Typography>
                 </Grid>
-              </Grid>
+              </ButtonCustom>
+
               <Grid item xs={5} className={classes.solutionTitleWrapper}>
-                {(solutionStep > 0 || completed) && (
+                {answered && (
                   <ButtonCustom
                     onClick={handleScroll}
                     className={classes.solutionTitleContainer}
@@ -421,25 +540,28 @@ const QuestionFeedPage = props => {
                   </ButtonCustom>
                 )}
               </Grid>
-              <Grid item className={classes.bottomOptionWrapper}>
+              <ButtonCustom backgroundColor="white" className={classes.bottomOptionWrapper}>
                 <TooltipCustom title="Sorry. Not available yet. Currently working on linking questions to their associated lessons.">
-                  <Grid item container alignItems="center">
+                  <Grid item container justify="center" alignItems="center">
                     <img src={lesson} className={classes.bottomIcon} alt="lesson" />
                     <Typography variant="subtitle2" className={classes.bottomIconText}>
                       Lesson
                     </Typography>
                   </Grid>
                 </TooltipCustom>
+              </ButtonCustom>
+            </Grid>
+            <RootRef rootRef={questionSolution}>
+              <Grid item container className={classes.explanationWrapper}>
+                <QuestionSolution
+                  hintStep={hintStep}
+                  pageNumber={pageNumber}
+                  answered={answered}
+                  solutions={currentQuestion.questionContent.solutions}
+                  alternate={currentQuestion.questionContent.alternate}
+                />
               </Grid>
-            </Grid>
-
-            <Grid item container className={classes.explanationWrapper}>
-              <QuestionSolution
-                completed={completed}
-                solutions={currentQuestion.solutions}
-                solutionStep={solutionStep}
-              />
-            </Grid>
+            </RootRef>
           </Grid>
         </Grid>
 
@@ -449,16 +571,19 @@ const QuestionFeedPage = props => {
         {pageNumber}
 
         <ProgressMobileStepper
-          setCompleted={setCompleted}
+          updateStorePageNumbers={updateStorePageNumbers}
+          pageNumbers={pageNumbers}
+          setAnswered={setAnswered}
           setSelected={setCorrect}
           setCorrect={setCorrect}
-          completed={completed}
-          questions={questions}
-          currentQuestions={currentQuestions}
+          answered={answered}
+          tasksHistory={tasksHistory}
+          currentAssQuestions={currentQuestions}
           assignment={assignment}
-          setTasks={setTasks}
+          updateTasks={updateTasks}
+          questionsHistory={questionsHistory}
           selected={selected}
-          tasks={tasks}
+          currentAssTasks={currentTasks}
           handleNext={handleNext}
           handleBack={handleBack}
           pageNumber={pageNumber}
@@ -467,7 +592,7 @@ const QuestionFeedPage = props => {
     );
   }
 
-  return <React.Fragment>{questionContent}</React.Fragment>;
+  return <React.Fragment>{questionFeedContent}</React.Fragment>;
 };
 
 QuestionFeedPage.propTypes = {
@@ -481,8 +606,10 @@ const mapStatetoProps = state => ({
 });
 
 export default withStyles(styles)(
-  connect(
-    mapStatetoProps,
-    { setTasks, updateStoreSelected, updateStoreCompleted }
-  )(QuestionFeedPage)
+  connect(mapStatetoProps, {
+    updateTasks,
+    updateStoreSelected,
+    updateStoreAnswered,
+    updateStorePageNumbers
+  })(QuestionFeedPage)
 );

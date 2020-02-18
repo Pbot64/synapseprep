@@ -30,6 +30,9 @@ const styles = theme => ({
       'padding-right': '24px'
     },
     width: '100%'
+  },
+  dashboardWrapper: {
+    minHeight: '100vh'
   }
 });
 
@@ -48,19 +51,19 @@ class SiteWrapper extends Component {
     //   this.setState({ mobileOpen: false });
     // }
 
-    const { classes } = this.props;
+    const { classes, children } = this.props;
+    const { location } = this.props.history;
     return (
       <React.Fragment>
-        <Navbar
-          path={this.props.history.location.pathname}
-          handleDrawerToggle={this.handleDrawerToggle}
-        />
-        <Grid container wrap="nowrap">
-          <Sidebar
-            handleDrawerToggle={this.handleDrawerToggle}
-            mobileOpen={this.state.mobileOpen}
-          />
-          <div className={classes.dashboardContainer}>{this.props.children}</div>
+        <Navbar path={location.pathname} handleDrawerToggle={this.handleDrawerToggle} />
+        <Grid item container wrap="nowrap" className={classes.dashboardWrapper}>
+          {location.pathname !== '/testing' && (
+            <Sidebar
+              handleDrawerToggle={this.handleDrawerToggle}
+              mobileOpen={this.state.mobileOpen}
+            />
+          )}
+          <div className={classes.dashboardContainer}>{children}</div>
         </Grid>
       </React.Fragment>
     );

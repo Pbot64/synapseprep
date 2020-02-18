@@ -3,11 +3,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-// Local Components
-
 // Material UI Components
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+
+// Local Components
 
 // Local Assets
 import star from '../assets/images/Icon-Star.svg';
@@ -67,7 +67,7 @@ const styles = theme => ({
 });
 
 const Category = props => {
-  const { classes, children } = props;
+  const { classes, children, src } = props;
   return (
     <React.Fragment>
       <Grid
@@ -82,7 +82,7 @@ const Category = props => {
       >
         <Grid item container xs={6} sm={12} className={classes.topic}>
           <img src={star} className={classes.star} alt="star" />
-          {/* <img src={require(src)} className={classes.svg} alt={'Category'} /> */}
+          <img src={src} className={classes.svg} alt={'Category'} />
           <img src={vertMenu} className={classes.vertMenu} alt="vertMenu" />
         </Grid>
         <Typography variant="subtitle2" align="center" className={classes.font}>

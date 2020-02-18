@@ -23,6 +23,7 @@ import ResetPassword from './views/ResetPassword';
 import ScrollToTop from './components/common/ScrollToTop';
 import UnderConstruction from './layouts/UnderConstruction';
 import Review from './layouts/Review';
+import Testing from './layouts/Testing';
 
 // Material UI Components
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -31,7 +32,44 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 // Local Assets
 
 //  Style Overrides
-const styles = () => ({});
+const styles = theme => ({
+  '@global': {
+    '.rootTest': {
+      marginBottom: '-60px'
+    },
+    '.katex': {
+      'text-indent': '1px'
+    },
+    '.mathdefault': {
+      marginRight: '0px'
+    },
+    '.katex-display': {
+      margin: '0px'
+    },
+    '.text': {
+      fontFamily: `"Roboto", "Helvetica", "Arial", sans-serif`,
+      fontSize: '0.9rem',
+      [theme.breakpoints.up('sm')]: {
+        fontSize: '1.1rem'
+      }
+    },
+    '.newline': {
+      marginBottom: '0.5rem'
+    },
+    '.katex .fbox': {
+      border: '2px solid'
+    },
+    html: {
+      minHeight: '100vh'
+    },
+    body: {
+      minHeight: '100vh'
+    },
+    '#root': {
+      minHeight: '100vh'
+    }
+  }
+});
 
 //Check for Token
 const jwtToken = localStorage.jwtToken;
@@ -76,6 +114,7 @@ class App extends Component {
                     <PrivateRoute exact path="/review" component={Review} />
                     <Route exact path="/resetpassword/:token" component={ResetPassword} />
                     <Route exact path="/login" component={Login} />
+                    <Route exact path="/testing" component={Testing} />
                     <Route exact path="/register" component={Register} />
                     <Route exact path="/passwordResetEmail" component={PasswordResetEmail} />
                   </Switch>

@@ -1,19 +1,22 @@
 import axios from 'axios';
 
 import {
-  SET_PRACTICE,
-  PRACTICE_LOADING,
+  GET_PROFILE,
+  UPDATE_QUESTIONS,
+  UPDATE_TASKS,
+  PROFILE_LOADING,
   SET_ALERTED,
   SET_ASSIGNMENT,
   UPDATE_SELECTED,
   QUESTION_RESET,
-  UPDATE_COMPLETED
+  UPDATE_ANSWERED,
+  UPDATE_PAGENUMBER
 } from './types';
 
-// Practice loading
+// Profile loading
 export const setLoading = () => {
   return {
-    type: PRACTICE_LOADING
+    type: PROFILE_LOADING
   };
 };
 
@@ -24,22 +27,30 @@ export const setAlerted = () => {
   };
 };
 
-// Get current practice
-export const setPractice = () => dispatch => {
+// Set current page number in question feed
+export const updateStorePageNumbers = pageNumbers => {
+  return {
+    type: UPDATE_PAGENUMBER,
+    payload: pageNumbers
+  };
+};
+
+// Get current profile
+export const getProfile = () => dispatch => {
   dispatch(setLoading());
   axios
-    .get('/api/practice/setPractice')
+    .post('/api/profile/getProfile')
     .then(res => {
       console.log(res);
       dispatch({
-        type: SET_PRACTICE,
+        type: GET_PROFILE,
         payload: res.data
       });
     })
     .catch(err => {
       console.log(err);
       dispatch({
-        type: SET_PRACTICE,
+        type: GET_PROFILE,
         payload: []
       });
     });
@@ -58,18 +69,48 @@ export const updateQuestions = questionData => dispatch => {
   console.log('questionData', questionData);
   dispatch(setLoading());
   axios
-    .post('/api/practice/updateQuestions', questionData)
+    .post('/api/profile/updateQuestions', questionData)
     .then(res => {
       console.log(res);
       dispatch({
-        type: SET_PRACTICE,
+        type: UPDATE_QUESTIONS,
         payload: res.data
       });
     })
     .catch(err => {
       console.log(err);
       dispatch({
-        type: SET_PRACTICE,
+        type: UPDATE_QUESTIONS,
+        payload: []
+      });
+    });
+};
+
+// Get new set of tasks and questions on submitting assignment
+export const updateTasks = taskData => dispatch => {
+  dispatch(setLoading());
+  axios
+    .post('/api/profile/updateTasks', taskData)
+    .then(res => {
+      const { currentSubject, assignment, currentAssQuestionsData } = taskData;
+
+      dispatch({
+        type: UPDATE_TASKS,
+        payload: res.data
+      });
+      dispatch(
+        updateQuestions({
+          assignment,
+          currentSubject,
+          allCurrentTasks: res.data,
+          currentAssQuestionsData
+        })
+      );
+    })
+    .catch(err => {
+      console.log(err);
+      dispatch({
+        type: UPDATE_TASKS,
         payload: []
       });
     });
@@ -83,67 +124,13 @@ export const updateStoreSelected = selectedData => {
   };
 };
 
-// Update current question store "completed"
-export const updateStoreCompleted = completedData => {
-  console.log('completedData', completedData);
+// Update current question store "answered"
+export const updateStoreAnswered = answeredData => {
+  console.log('answeredData', answeredData);
   return {
-    type: UPDATE_COMPLETED,
-    payload: completedData
+    type: UPDATE_ANSWERED,
+    payload: answeredData
   };
-};
-
-//
-// // Get profile questions
-// export const setTasks = taskData => dispatch => {
-//   dispatch(setLoading());
-//   axios
-//     .post('/api/practice/setTasks', taskData)
-//     .then(res => {
-//       console.log(res);
-//       dispatch({
-//         type: SET_PRACTICE,
-//         payload: res.data
-//       });
-//     })
-//     .catch(err => {
-//       console.log(err);
-//       dispatch({
-//         type: SET_PRACTICE,
-//         payload: []
-//       });
-//     });
-// };
-
-// Get new set of tasks and questions on submitting assignment
-export const setTasks = taskData => dispatch => {
-  dispatch(setLoading());
-  axios
-    .post('/api/practice/setTasks', taskData)
-    .then(res => {
-      console.log('res', res);
-      console.log('res.data.practice', res.data.practice);
-      console.log('assignment', taskData.assignment);
-      const { tasks } = res.data;
-      const { assignment, questions } = taskData;
-      dispatch({
-        type: SET_PRACTICE,
-        payload: res.data
-      });
-      dispatch(
-        updateQuestions({
-          assignment,
-          tasks,
-          currentQuestions: questions
-        })
-      );
-    })
-    .catch(err => {
-      console.log(err);
-      dispatch({
-        type: SET_PRACTICE,
-        payload: []
-      });
-    });
 };
 
 /* -------------------------------------------------------------------------- */
@@ -155,25 +142,4 @@ export const resetQuestions = () => {
   return {
     type: QUESTION_RESET
   };
-};
-
-// Update all profiles
-export const updateAllProfiles = () => dispatch => {
-  dispatch(setLoading());
-  axios
-    .get('/api/profile/updateAllProfiles')
-    .then(res => {
-      console.log(res);
-      dispatch({
-        type: SET_PRACTICE,
-        payload: res.data
-      });
-    })
-    .catch(err => {
-      console.log(err);
-      dispatch({
-        type: SET_PRACTICE,
-        payload: {}
-      });
-    });
 };

@@ -12,7 +12,7 @@ import QuestionFeed from './QuestionFeed';
 import ContinueLesson from './ContinueLesson';
 import EstimatedScores from './EstimatedScores';
 import Alert from '../../components/Alert';
-import { setPractice } from '../../actions/profileActions';
+import { getProfile } from '../../actions/profileActions';
 
 // Local Assets
 
@@ -22,7 +22,7 @@ const styles = theme => ({
     color: 'grey'
   },
   progressContainer: {
-    height: '-webkit-fill-available'
+    minHeight: '100%'
   }
 });
 
@@ -32,17 +32,16 @@ class Dashboard extends React.Component {
   };
 
   componentDidMount() {
-    const { practice } = this.props.profile;
-    if (practice === null || practice.length === 0) {
-      this.props.setPractice();
+    const { profile } = this.props.profile;
+    if (profile === null || profile.length === 0) {
+      this.props.getProfile();
     }
   }
   render() {
     const { classes } = this.props;
-    const { practice, loading } = this.props.profile;
-
+    const { profile, loading } = this.props.profile;
     let dashboardContent;
-    if (practice === null || practice.length === 0 || loading) {
+    if (profile === null || profile.length === 0 || loading) {
       dashboardContent = (
         <Grid container justify="center" alignItems="center" className={classes.progressContainer}>
           <CircularProgress className={classes.progress} />
@@ -70,9 +69,4 @@ const mapStatetoProps = state => ({
   errors: state.errors
 });
 
-export default withStyles(styles)(
-  connect(
-    mapStatetoProps,
-    { setPractice }
-  )(Dashboard)
-);
+export default withStyles(styles)(connect(mapStatetoProps, { getProfile })(Dashboard));
