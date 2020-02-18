@@ -24,8 +24,13 @@ const TaskSchema = new Schema({
   },
   difficulty: {
     type: String
+  },
+  questions: {
+    type: Schema.Types.ObjectId,
+    ref: 'questions'
   }
 });
-// UserSchema.plugin(findOrCreate);
+
 const Task = mongoose.model('tasks', TaskSchema);
+
 export default Task;

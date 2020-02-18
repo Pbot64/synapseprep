@@ -20,7 +20,6 @@ const styles = theme => ({
     display: 'flex'
   },
   drawer: {
-    display: 'none',
     [theme.breakpoints.up('lg')]: {
       width: drawerWidth,
       flexShrink: 0,
@@ -70,37 +69,43 @@ class Sidebar extends Component {
   };
 
   render() {
-    const { classes, theme } = this.props;
+    const { classes, theme, children, handleDrawerToggle, mobileOpen } = this.props;
+    const { location } = this.props.history;
+    const { practiceMenuOpen, lessonsMenuOpen } = this.state;
+    console.log('props', this.props);
     return (
       <div className={classes.root}>
-        <nav
-          className={
-            this.props.history.location.pathname === '/question-feed'
-              ? classes.noDrawer
-              : classes.drawer
-          }
-        >
+        <nav className={location.pathname === '/question-feed' ? classes.noDrawer : classes.drawer}>
           {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-          <Hidden smUp implementation="css">
+          <Hidden
+            {...(location.pathname === '/testing' ? { mdUp: true } : { lgUp: true })}
+            implementation="css"
+          >
             <Drawer
               container={this.props.container}
               variant="temporary"
               anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-              open={this.props.mobileOpen}
-              onClose={this.props.handleDrawerToggle}
+              open={mobileOpen}
+              onClose={handleDrawerToggle}
               classes={{
                 paper: classes.drawerPaper
               }}
             >
-              <SidebarList
-                handleClick={this.handleClick.bind(this)}
-                handleDrawerToggle={this.props.handleDrawerToggle}
-                practiceMenuOpen={this.state.practiceMenuOpen}
-                lessonsMenuOpen={this.state.lessonsMenuOpen}
-              />
+              {children || (
+                <SidebarList
+                  handleClick={this.handleClick.bind(this)}
+                  handleDrawerToggle={handleDrawerToggle}
+                  practiceMenuOpen={practiceMenuOpen}
+                  lessonsMenuOpen={lessonsMenuOpen}
+                />
+              )}
             </Drawer>
           </Hidden>
-          <Hidden xsDown implementation="css">
+          <Hidden
+            {...(location.pathname === '/testing' ? { smDown: true } : { mdDown: true })}
+            implementation="css"
+          >
+            {/* <Hidden> */}
             <Drawer
               classes={{
                 paper: classes.drawerPaper
@@ -108,11 +113,13 @@ class Sidebar extends Component {
               variant="permanent"
               open
             >
-              <SidebarList
-                handleClick={this.handleClick.bind(this)}
-                practiceMenuOpen={this.state.practiceMenuOpen}
-                lessonsMenuOpen={this.state.lessonsMenuOpen}
-              />
+              {children || (
+                <SidebarList
+                  handleClick={this.handleClick.bind(this)}
+                  practiceMenuOpen={practiceMenuOpen}
+                  lessonsMenuOpen={lessonsMenuOpen}
+                />
+              )}
             </Drawer>
           </Hidden>
         </nav>

@@ -51,19 +51,19 @@ class SiteWrapper extends Component {
     //   this.setState({ mobileOpen: false });
     // }
 
-    const { classes } = this.props;
+    const { classes, children } = this.props;
+    const { location } = this.props.history;
     return (
       <React.Fragment>
-        <Navbar
-          path={this.props.history.location.pathname}
-          handleDrawerToggle={this.handleDrawerToggle}
-        />
+        <Navbar path={location.pathname} handleDrawerToggle={this.handleDrawerToggle} />
         <Grid item container wrap="nowrap" className={classes.dashboardWrapper}>
-          <Sidebar
-            handleDrawerToggle={this.handleDrawerToggle}
-            mobileOpen={this.state.mobileOpen}
-          />
-          <div className={classes.dashboardContainer}>{this.props.children}</div>
+          {location.pathname !== '/testing' && (
+            <Sidebar
+              handleDrawerToggle={this.handleDrawerToggle}
+              mobileOpen={this.state.mobileOpen}
+            />
+          )}
+          <div className={classes.dashboardContainer}>{children}</div>
         </Grid>
       </React.Fragment>
     );

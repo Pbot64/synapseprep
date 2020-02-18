@@ -140,17 +140,9 @@ class QuestionFeedTabs extends Component {
   };
 
   componentDidMount() {
-    const { value } = this.state;
-    const { tasks } = this.props.profile.practice;
-    this.loadImage([tasks[value][0].img, tasks[value][1].img, tasks[value][2].img]);
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    const { value } = this.state;
-    const { tasks } = this.props.profile.practice;
-    if (prevState.value !== this.state.value) {
-      this.loadImage([tasks[value][0].img, tasks[value][1].img, tasks[value][2].img]);
-    }
+    const { tasksHistory } = this.props.profile.profile;
+    const allCurrentTasksContent = tasksHistory.map(task => task.taskContent);
+    this.loadImage(allCurrentTasksContent.map(taskContent => taskContent.img));
   }
 
   handleChange = (event, value) => {
@@ -166,6 +158,7 @@ class QuestionFeedTabs extends Component {
   };
 
   loadImage = imageNames => {
+    console.log(imageNames);
     const imagesArray = imageNames.map(imageName => {
       return import(`../../assets/images/${imageName}.svg`).then(image => {
         return image.default;
@@ -179,13 +172,34 @@ class QuestionFeedTabs extends Component {
   };
 
   render() {
-    const { tasks } = this.props.profile.practice;
     const { classes, theme } = this.props;
+    const { tasksHistory } = this.props.profile.profile;
     const { value } = this.state;
     const transitionDuration = {
       enter: theme.transitions.duration.enteringScreen,
       exit: theme.transitions.duration.leavingScreen
     };
+
+    const allCurrentTasksContent = tasksHistory.map(task => task.taskContent);
+
+    const currentMathTaskContent = allCurrentTasksContent.filter(
+      currentTaskContent => currentTaskContent.subject === 'Math'
+    );
+    const currentReadingTaskContent = allCurrentTasksContent.filter(
+      currentTaskContent => currentTaskContent.subject === 'Reading'
+    );
+    const currentWritingTaskContent = allCurrentTasksContent.filter(
+      currentTaskContent => currentTaskContent.subject === 'Writing'
+    );
+
+    const subjects = ['Math', 'Reading', 'Writing'];
+
+    const currentTasks = tasksHistory.filter(
+      taskHistory => taskHistory.taskContent.subject === subjects[value]
+    );
+
+    console.log('currentTasks', currentTasks);
+
     const fabs = [
       {
         color: 'primary',
@@ -242,15 +256,18 @@ class QuestionFeedTabs extends Component {
         >
           <TabContainer dir={theme.direction}>
             <Grid container justify={'space-between'} className={classes.topicMainContainer}>
-              {tasks[0].map((task, i) => {
-                return (
-                  <Category key={task.title} src={this.state.image[i]}>
-                    {task.title}
-                  </Category>
-                );
+              {allCurrentTasksContent.map((task, i) => {
+                if (task.subject === 'Math') {
+                  return (
+                    <Category key={task.title} src={this.state.image[i]}>
+                      {task.title}
+                    </Category>
+                  );
+                }
+                return null;
               })}
             </Grid>
-            {tasks[0].length === 0 && (
+            {currentMathTaskContent.length === 0 && (
               <Typography variant="h5" className={classes.bottomText}>
                 You've completed all the math tasks, but we're currently making more, so come back
                 soon!
@@ -259,14 +276,17 @@ class QuestionFeedTabs extends Component {
           </TabContainer>
           <TabContainer dir={theme.direction}>
             <Grid container justify={'space-between'} className={classes.topicMainContainer}>
-              {tasks[1].map((task, i) => {
-                return (
-                  <Category key={task.title} src={this.state.image[i]}>
-                    {task.title}
-                  </Category>
-                );
+              {allCurrentTasksContent.map((task, i) => {
+                if (task.subject === 'Reading') {
+                  return (
+                    <Category key={task.title} src={this.state.image[i]}>
+                      {task.title}
+                    </Category>
+                  );
+                }
+                return null;
               })}
-              {tasks[1].length === 0 && (
+              {currentReadingTaskContent.length === 0 && (
                 <Typography variant="h5" className={classes.bottomText}>
                   You've completed all the reading tasks, but we're currently making more, so come
                   back soon!
@@ -276,14 +296,17 @@ class QuestionFeedTabs extends Component {
           </TabContainer>
           <TabContainer dir={theme.direction}>
             <Grid container justify={'space-between'} className={classes.topicMainContainer}>
-              {tasks[2].map((task, i) => {
-                return (
-                  <Category key={task.title} src={this.state.image[i]}>
-                    {task.title}
-                  </Category>
-                );
+              {allCurrentTasksContent.map((task, i) => {
+                if (task.subject === 'Writing') {
+                  return (
+                    <Category key={task.title} src={this.state.image[i]}>
+                      {task.title}
+                    </Category>
+                  );
+                }
+                return null;
               })}
-              {tasks[2].length === 0 && (
+              {currentWritingTaskContent.length === 0 && (
                 <Typography variant="h5" className={classes.bottomText}>
                   You've completed all the writing tasks, but we're currently making more, so come
                   back soon!
@@ -307,7 +330,7 @@ class QuestionFeedTabs extends Component {
               }}
               unmountOnExit
             >
-              <ButtonCustom disabled={tasks[index].length === 0} className={fab.className}>
+              <ButtonCustom disabled={currentTasks.length === 0} className={fab.className}>
                 Start Tasks
                 {fab.icon}
               </ButtonCustom>
@@ -330,8 +353,5 @@ const mapStatetoProps = state => ({
 });
 
 export default withStyles(styles, { withTheme: true })(
-  connect(
-    mapStatetoProps,
-    { setAssignment }
-  )(QuestionFeedTabs)
+  connect(mapStatetoProps, { setAssignment })(QuestionFeedTabs)
 );

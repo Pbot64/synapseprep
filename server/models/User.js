@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-// import findOrCreate from "mongoose-findorcreate";
 
 const { Schema } = mongoose;
 
@@ -29,6 +28,6 @@ const UserSchema = new Schema({
     type: Date
   }
 });
-// UserSchema.plugin(findOrCreate);
+
 const User = mongoose.model('users', UserSchema);
 export default User;

@@ -19,23 +19,37 @@ const styles = theme => ({
     [theme.breakpoints.up('sm')]: {
       marginBottom: '30px'
     }
+  },
+  half: {
+    marginBottom: '5px'
   }
 });
 
-const E = props => {
-  const { children, className, classes, ...rest } = props;
+const EquationBase = props => {
+  const { children, className, classes, half, ...rest } = props;
+  console.log('theprops', props);
+  // const latex = (...a) => String.raw(...a).replace('\\`', '`');
 
+  // console.log(latex`${children}`);
   return (
     <TeX
       settings={{
         macros: {
+          '\\l': '\\\\[0.5em]',
+          '\\lf': '\\\\[1.8em]',
           '\\red': '\\textcolor{red}',
           '\\blue': '\\textcolor{#2980ba}',
           '\\green': '\\textcolor{#00BF6F}',
           '\\purple': '\\textcolor{#7336df}'
         }
       }}
-      className={classNames(classes.root, className)}
+      className={classNames(
+        classes.root,
+        {
+          [classes.half]: half
+        },
+        className
+      )}
       {...rest}
     >
       {children}
@@ -43,8 +57,8 @@ const E = props => {
   );
 };
 
-E.propTypes = {
+EquationBase.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(E);
+export default withStyles(styles)(EquationBase);

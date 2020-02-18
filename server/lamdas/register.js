@@ -45,7 +45,6 @@ app.post('*', async (req, res) => {
         errors.email = 'Email already exists';
         return res.status(400).json(errors);
       }
-      console.log(req.body.email);
       const avatar = gravatar.url(req.body.email, {
         s: '200', // Size
         r: 'pg', // Rating
@@ -145,7 +144,6 @@ app.post('*', async (req, res) => {
                   currentRep.save();
                   res.status(200).json({
                     email: email,
-                    currentUser: user,
                     emailSent: true
                   });
                 })

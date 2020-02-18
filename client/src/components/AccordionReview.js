@@ -114,7 +114,7 @@ const styles = theme => {
   };
 };
 
-class Accordion extends Component {
+class AccordionReview extends Component {
   state = {
     expanded: false
   };
@@ -275,8 +275,8 @@ class Accordion extends Component {
   }
 }
 
-Accordion.propTypes = {
+AccordionReview.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Accordion);
+export default withStyles(styles)(AccordionReview);

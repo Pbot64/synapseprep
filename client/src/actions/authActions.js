@@ -118,7 +118,6 @@ export const deleteAccount = () => dispatch => {
 };
 
 export const updateAccount = updatedUser => dispatch => {
-  console.log(updatedUser);
   axios
     .post('/api/users/updateAccount', updatedUser)
     .then(res => {

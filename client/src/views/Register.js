@@ -85,9 +85,9 @@ class Register extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors, disabled: false });
+  componentDidUpdate(prevProps) {
+    if (this.props.errors !== prevProps.errors) {
+      this.setState({ errors: this.props.errors, disabled: false });
     }
   }
 

@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 
 // Local Components
 import CardCustom from '../assets/jss/components/CardCustom';
-import Accordion from '../components/Accordion';
+import AccordionReview from '../components/AccordionReview';
 import LinkCustom from '../assets/jss/components/LinkCustom';
 import ButtonCustom from '../assets/jss/components/ButtonCustom';
 
@@ -58,7 +58,7 @@ const Review = props => {
             className={classes.topCardContainer}
           >
             <Grid container justify="center" className={classes.topCardInner}>
-              <Accordion profile={profile} />
+              <AccordionReview profile={profile} />
             </Grid>
 
             <Grid container item justify="flex-end" className={classes.bottomContainer}>
@@ -90,8 +90,5 @@ const mapStatetoProps = state => ({
 });
 
 export default withStyles(styles, { withTheme: true })(
-  connect(
-    mapStatetoProps,
-    { setAssignment }
-  )(Review)
+  connect(mapStatetoProps, { setAssignment })(Review)
 );

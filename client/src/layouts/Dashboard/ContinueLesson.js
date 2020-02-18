@@ -239,7 +239,7 @@ class ContinueLesson extends Component {
                       case 'writing':
                         return progressCircle(80, '#b465da', '#ee609c');
                       case 'math':
-                        return progressCircle(18, '#2980ba', '#17ab5d');
+                        return progressCircle(18, '#4fa3eb', '#17ab5d');
                       case 'essay':
                         return progressCircle(5, '#209cff', '#68e0cf');
                       default:

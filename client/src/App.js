@@ -32,8 +32,33 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 // Local Assets
 
 //  Style Overrides
-const styles = () => ({
+const styles = theme => ({
   '@global': {
+    '.rootTest': {
+      marginBottom: '-60px'
+    },
+    '.katex': {
+      'text-indent': '1px'
+    },
+    '.mathdefault': {
+      marginRight: '0px'
+    },
+    '.katex-display': {
+      margin: '0px'
+    },
+    '.text': {
+      fontFamily: `"Roboto", "Helvetica", "Arial", sans-serif`,
+      fontSize: '0.9rem',
+      [theme.breakpoints.up('sm')]: {
+        fontSize: '1.1rem'
+      }
+    },
+    '.newline': {
+      marginBottom: '0.5rem'
+    },
+    '.katex .fbox': {
+      border: '2px solid'
+    },
     html: {
       minHeight: '100vh'
     },

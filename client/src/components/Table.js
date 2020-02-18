@@ -56,8 +56,8 @@ function createData(name, calories, fat, carbs, protein) {
 }
 
 const rows = [
-  createData('Linear Equations', '4/5', 'Low'),
-  createData('Parabolas', '2/5', 'High'),
+  createData('y = 2x + 5', '4/5', 'Low'),
+  createData('y - 5 = 2x + 5 - 5', '2/5', 'High'),
   createData('Inequalities', '3/5', 'Medium'),
   createData('Right Angles', '5/5', 'Defeated'),
   createData('Graphing Lines', '5/5', 'Defeated')

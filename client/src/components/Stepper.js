@@ -1,16 +1,16 @@
-// Node Modules
+// Node modules
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
 
-// Material UI Components
+// Material components
 import MobileStepper from '@material-ui/core/MobileStepper';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import ButtonCustom from '../assets/jss/components/ButtonCustom';
 
-// Local Components
+// Local components
 import SnackBar from './SnackBar';
 
 const styles = theme => ({
@@ -50,36 +50,62 @@ const ProgressMobileStepper = props => {
     handleBack,
     handleNext,
     pageNumber,
-    currentQuestions,
     selected,
+    currentAssTasks,
+    currentAssQuestions,
     assignment,
-    completed
+    updateTasks,
+    setAnswered,
+    setCorrect,
+    pageNumbers,
+    updateStorePageNumbers,
+    answered
   } = props;
 
-  const handleSubmit = async () => {
-    const { tasks, questions, assignment, setTasks, setCompleted, setCorrect } = props;
+  let onLastQuestion = pageNumber === currentAssQuestions.length - 1;
 
-    const currentQuestion = currentQuestions[pageNumber];
+  const handleSubmit = async () => {
+    const currentAssQuestion = currentAssQuestions[pageNumber];
     // if current question has a "selected" value then
-    if (currentQuestion.selected !== 'null') {
-      setCompleted(true);
-      currentQuestion.completed = true;
+    if (currentAssQuestion.selected) {
+      setAnswered(true);
+      currentAssQuestion.answered = true;
     }
 
-    if (selected === currentQuestion.rightChoice) {
+    if (selected === currentAssQuestion.questionContent.rightChoice) {
       setCorrect(true);
     }
-    const uncompletedCurrentQuestions = currentQuestions.filter(
-      currentQuestion => currentQuestion.completed === false
+    const unansweredCurrentAssQuestions = currentAssQuestions.filter(
+      currentAssQuestion => currentAssQuestion.answered === false
     );
-    if (uncompletedCurrentQuestions.length !== 0) {
+    if (unansweredCurrentAssQuestions.length !== 0) {
       setSnackBarOpen(true);
     } else {
-      // Set current tasks in store to completed
-      tasks[assignment].map(task => (task.completed = true));
+      // Set current tasks in store to answered
+      currentAssTasks.map(task => (task.completed = true));
+
+      // Find current subject
+      const currentSubject = currentAssTasks[0].taskContent.subject;
+
+      const currentAssQuestionsData = currentAssQuestions.map(currentQuestion => ({
+        _id: currentQuestion.questionContent._id,
+        answered: currentQuestion.answered,
+        selected: currentQuestion.selected
+      }));
+
+      const updatedPageNumbers = pageNumbers.map((storedPageNumber, i) =>
+        i === assignment ? 0 : storedPageNumber
+      );
+
+      updateStorePageNumbers(updatedPageNumbers);
 
       // Replace current tasks in store with a new set of tasks from DB
-      await setTasks({ currentTasks: tasks, assignment, questions });
+      await updateTasks({
+        currentAssTasks,
+        assignment,
+        currentSubject,
+        currentAssQuestionsData
+      });
       props.history.push('./dashboard');
     }
   };
@@ -95,7 +121,7 @@ const ProgressMobileStepper = props => {
     <React.Fragment>
       <MobileStepper
         variant="progress"
-        steps={currentQuestions.length}
+        steps={currentAssQuestions.length}
         position="bottom"
         activeStep={pageNumber}
         className={classes.root}
@@ -111,25 +137,18 @@ const ProgressMobileStepper = props => {
         }}
         nextButton={
           <ButtonCustom
-            color={selected !== 'null' ? 'green' : null}
-            hasArrowRightWhite={selected === 'null' ? false : true}
-            hasArrowRight={selected === 'null' ? true : false}
+            color={selected ? 'green' : null}
+            hasArrowRightWhite={!selected ? false : true}
+            hasArrowRight={!onLastQuestion && !selected ? true : false}
             size="small"
-            onClick={
-              pageNumber === currentQuestions.length - 1 && completed ? handleSubmit : handleNext
-            }
-            disabled={selected === 15}
+            onClick={onLastQuestion && answered ? handleSubmit : handleNext}
+            disabled={onLastQuestion && !selected}
           >
-            {pageNumber === currentQuestions.length - 1 && completed
-              ? 'Submit'
-              : selected === 'null' || completed
-              ? 'Next'
-              : 'Check'}
+            {onLastQuestion && answered ? 'Submit' : !selected || answered ? 'Next' : 'Check'}
           </ButtonCustom>
         }
         backButton={
-          <ButtonCustom size="small" onClick={handleBack} disabled={pageNumber === 0}>
-            {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+          <ButtonCustom hasArrowLeft size="small" onClick={handleBack} disabled={pageNumber === 0}>
             Back
           </ButtonCustom>
         }

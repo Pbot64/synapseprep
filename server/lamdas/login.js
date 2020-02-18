@@ -1,19 +1,19 @@
 // Node Modules
-import express from "express";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import bodyParser from "body-parser";
-import passport from "passport";
+import express from 'express';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import bodyParser from 'body-parser';
+import passport from 'passport';
 
-import mongoose from "../lib/mongoose";
+import mongoose from '../lib/mongoose';
 
 // Load User model
-import User from "../models/User";
+import User from '../models/User';
 
-import configPassportModule from "../config/passport";
+import configPassportModule from '../config/passport';
 
 // Load Input Validation
-import validateLoginInput from "../validation/login";
+import validateLoginInput from '../validation/login';
 
 const app = express();
 
@@ -30,8 +30,7 @@ configPassportModule(passport);
 // @route Post api/users/login
 // @desc Login User / Returning JWT TOken
 // @access Public
-app.post("*", async (req, res) => {
-  console.log("req.body", req.body);
+app.post('*', async (req, res) => {
   const { errors, isValid } = validateLoginInput(req.body);
 
   // Check validation
@@ -50,7 +49,7 @@ app.post("*", async (req, res) => {
     console.log(user);
     // Check for user
     if (!user) {
-      errors.email = "User not found";
+      errors.email = 'User not found';
       return res.status(404).json(errors);
     }
 
@@ -69,7 +68,7 @@ app.post("*", async (req, res) => {
           payload,
           process.env.SECRET_OR_KEY,
           {
-            expiresIn: 36000
+            expiresIn: 259200
           },
           (err, token) => {
             res.json({
@@ -79,7 +78,7 @@ app.post("*", async (req, res) => {
           }
         );
       } else {
-        errors.password = "Password incorrect";
+        errors.password = 'Password incorrect';
         return res.status(400).json(errors);
       }
     });

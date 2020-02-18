@@ -1,68 +1,68 @@
 // Node Modules
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-import classNames from "classnames";
-import { connect } from "react-redux";
-import axios from "axios";
-import { GET_ERRORS } from "../actions/types";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import classNames from 'classnames';
+import { connect } from 'react-redux';
+import axios from 'axios';
+import { GET_ERRORS } from '../actions/types';
 
 // Local Components
-import ButtonCustom from "../assets/jss/components/ButtonCustom";
-import CardCustom from "../assets/jss/components/CardCustom";
+import ButtonCustom from '../assets/jss/components/ButtonCustom';
+import CardCustom from '../assets/jss/components/CardCustom';
 
 // Material UI Components
-import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
 
 // Local Assets
 
 //  Style Overrides
 const styles = theme => ({
   progress: {
-    color: "grey"
+    color: 'grey'
   },
   textField: {},
   label: {
-    color: "grey"
+    color: 'grey'
   },
   root: {
-    color: "grey"
+    color: 'grey'
   },
   submit: {
     marginTop: theme.spacing.unit * 2
   },
   progressContainer: {
-    height: "-webkit-fill-available"
+    height: '-webkit-fill-available'
   },
   buttonContainer: {
-    marginBottom: "20px"
+    marginBottom: '20px'
   },
   cardInner: {
     padding: 20
   },
   password: {
-    marginBottom: "20px"
+    marginBottom: '20px'
   },
   billing: {
-    marginTop: "40px"
+    marginTop: '40px'
   },
   form: {
-    marginTop: "20px"
+    marginTop: '20px'
   }
 });
 
 class PasswordResetEmail extends Component {
   state = {
-    email: "",
+    email: '',
     errors: {},
     submitted: false
   };
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
+  componentDidUpdate(prevProps) {
+    if (this.props.errors !== prevProps.errors) {
+      this.setState({ errors: this.props.errors });
     }
   }
 
@@ -73,7 +73,7 @@ class PasswordResetEmail extends Component {
     };
     const resetPassword = emailData => {
       axios
-        .post("/api/users/emailResetToken", emailData)
+        .post('/api/users/emailResetToken', emailData)
         .then(this.setState({ submitted: true, errors: {} }))
         .catch(err => this.props.getErrors(err));
     };
@@ -91,15 +91,10 @@ class PasswordResetEmail extends Component {
       <React.Fragment>
         <Grid item xs={12} sm={8} md={5}>
           <CardCustom title="Change Password" borderBottom>
-            <Grid
-              container
-              justify="center"
-              direction="column"
-              className={classes.cardInner}
-            >
+            <Grid container justify="center" direction="column" className={classes.cardInner}>
               <Typography variant="body1" color="inherit">
-                Enter your email address below and we'll send you an email with
-                instructions to reset your password.
+                Enter your email address below and we'll send you an email with instructions to
+                reset your password.
               </Typography>
               <form onSubmit={this.handleSubmit} className={classes.form}>
                 <Grid container direction="column">
@@ -113,7 +108,7 @@ class PasswordResetEmail extends Component {
                     label="Enter Email"
                     value={this.state.email}
                     helperText={errors.email}
-                    onChange={this.handleChange("email")}
+                    onChange={this.handleChange('email')}
                   />
 
                   <Grid
@@ -169,9 +164,4 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default withStyles(styles)(
-  connect(
-    mapStatetoProps,
-    mapDispatchToProps
-  )(PasswordResetEmail)
-);
+export default withStyles(styles)(connect(mapStatetoProps, mapDispatchToProps)(PasswordResetEmail));

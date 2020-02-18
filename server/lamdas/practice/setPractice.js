@@ -42,7 +42,7 @@ passport.use(
 );
 
 //* @route   GET api/practice/setPractice
-//* @desc    Returns initial task set and question set
+//* @desc    Returns initial task and question sets
 //* @access  Private
 
 app.get(
@@ -63,6 +63,29 @@ app.get(
       console.log('found practice and sent to client');
       res.json(practice);
     } else {
+      // const initialTasks = await Tasks.aggregate([
+      //   {
+      //     $lookup: {
+      //       from: 'questions',
+      //       let: { taskId: '$taskId', subject: '$subject' },
+      //       pipeline: [
+      //         {
+      //           $match: {
+      //             $expr: {
+      //               $and: [{ $eq: ['$questionId', '$$taskId'] }, { $eq: ['$subject', '$$subject'] }]
+      //             }
+      //           }
+      //         }
+      //       ],
+      //       as: 'questions'
+      //     }
+      //   },
+      //   {
+      //     $match: {
+      //       groupId: 1
+      //     }
+      //   }
+      // ]);
       // Find 9 initial tasks
       const initialMathTasks = await Task.find({ groupId: 1, subject: 'Math' }).sort({ taskId: 1 });
 
@@ -73,8 +96,9 @@ app.get(
       const initialWritingTasks = await Task.find({ groupId: 1, subject: 'Writing' }).sort({
         taskId: 1
       });
-
       const initialTasks = [initialMathTasks, initialReadingTasks, initialWritingTasks];
+
+      // const initialTasks = { math: initialMathTasks, reading: initialReadingTasks, writing: initialWritingTasks};
 
       // Find initial questions
       const initialQuestions = await Question.aggregate([
@@ -113,6 +137,8 @@ app.get(
         }
       ]);
 
+      // const currentTasks = { math: {}, reading: {}, writing: {} };
+
       const initialMathQuestions = initialQuestions.filter(question => question.subject === 'Math');
 
       const initialReadingQuestions = initialQuestions.filter(
@@ -137,6 +163,7 @@ app.get(
         completedQuestions: [[], [], []]
       })
         .populate('user')
+        .populate('tasks')
         .save()
         .then(newPractice => {
           console.log('created and saved Practice');

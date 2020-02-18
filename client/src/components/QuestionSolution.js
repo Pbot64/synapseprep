@@ -11,38 +11,14 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
 // Local Components
-import E from './Equation';
-import T from './Text';
+import E from './Equation/@Equation';
+import T from './Text/@Text';
 import ButtonCustom from '../assets/jss/components/ButtonCustom';
 
 // Local assets
 
 //  Style overrides
 const styles = theme => ({
-  '@global': {
-    '.katex': {
-      'text-indent': '1px'
-    },
-    '.mathdefault': {
-      marginRight: '0px'
-    },
-    '.katex-display': {
-      margin: '0px'
-    },
-    '.text': {
-      fontFamily: `"Roboto", "Helvetica", "Arial", sans-serif`,
-      fontSize: '0.9rem',
-      [theme.breakpoints.up('sm')]: {
-        fontSize: '1.1rem'
-      }
-    },
-    '.newline': {
-      marginBottom: '0.5rem'
-    },
-    '.katex .fbox': {
-      border: '2px solid'
-    }
-  },
   root: {
     marginTop: '60px',
     width: '100%'
@@ -58,23 +34,54 @@ const styles = theme => ({
     }
   },
   stepTitleContainer: {
-    marginBottom: '15px'
+    marginBottom: '15px',
+    display: 'block',
+    [theme.breakpoints.up(360)]: {
+      display: 'flex'
+    }
   },
   stepTitle: {
-    borderBottom: '1px solid black'
+    borderBottom: '1px solid black',
+    display: 'inline'
   },
-  alternateButton: {
-    marginLeft: '15px',
-    fontSize: '0.5rem',
+  approchContainer: {
+    marginTop: '15px',
+    marginLeft: '0px',
+    flexWrap: 'nowrap',
+    [theme.breakpoints.up(360)]: {
+      marginTop: '0px',
+      marginLeft: '25px'
+    },
     [theme.breakpoints.up('sm')]: {
-      marginLeft: '30px',
-      fontSize: '0.6875rem'
+      marginLeft: '45px'
+    }
+  },
+  approchButton: {
+    marginRight: '10px',
+    fontSize: '0.625rem',
+    opacity: '0.8',
+    [theme.breakpoints.up('sm')]: {
+      marginRight: '20px',
+      fontSize: '0.75rem'
+    }
+  },
+  approchButtonSelected: {
+    marginRight: '10px',
+    fontSize: '0.625rem',
+    color: 'white',
+    ...theme.palette.blueToGreen,
+    '&:hover': {
+      ...theme.palette.blueToGreen
+    },
+    [theme.breakpoints.up('sm')]: {
+      marginRight: '20px',
+      fontSize: '0.75rem'
     }
   }
 });
 
 const QuestionSolution = props => {
-  const { solutions, alternate, classes, completed, pageNumber, hintStep } = props;
+  const { solutions, alternate, classes, answered, pageNumber, hintStep } = props;
   const [altSolution, setAltSolution] = useState(false);
 
   useEffect(() => {
@@ -103,7 +110,7 @@ const QuestionSolution = props => {
   return (
     <React.Fragment>
       <Grid className={classes.root}>
-        {(hintStep >= 1 || completed) && (
+        {(hintStep >= 1 || answered) && (
           <Grid item className={classes.stepContainer}>
             <Grid container className={classes.stepTitleContainer}>
               <Typography variant="h5" className={classes.stepTitle}>
@@ -112,8 +119,8 @@ const QuestionSolution = props => {
             </Grid>
             {solutions[0].map((solution, i) => {
               return (
-                (hintStep > i || completed) && (
-                  <Typography key={solution} variant="body2" component="div">
+                (hintStep > i || answered) && (
+                  <Typography key={i} variant="body2" component="div">
                     <JsxParser components={{ TeX, Grid, Typography, E, T }} jsx={solution} />
                   </Typography>
                 )
@@ -121,40 +128,46 @@ const QuestionSolution = props => {
             })}
           </Grid>
         )}
-        {(hintStep > solutions[0].length || completed) && (
+        {(hintStep > solutions[0].length || answered) && (
           <Grid item className={classes.stepContainer}>
             <Grid item container alignItems="center" className={classes.stepTitleContainer}>
               <Typography variant="h5" className={classes.stepTitle}>
                 Predict Answer
               </Typography>
-              {alternate.length !== 0 && completed && (
-                <ButtonCustom
-                  onClick={() => {
-                    setAltSolution(!altSolution);
-                  }}
-                  size="small"
-                  className={classes.alternateButton}
-                >
-                  {altSolution ? 'Main Approach' : 'Alternate Approach'}
-                </ButtonCustom>
+              {alternate && answered && (
+                <Grid item xs container className={classes.approchContainer}>
+                  <ButtonCustom
+                    onClick={() => {
+                      setAltSolution(altSolution ? !altSolution : altSolution);
+                    }}
+                    size="small"
+                    className={altSolution ? classes.approchButton : classes.approchButtonSelected}
+                  >
+                    Main
+                  </ButtonCustom>
+                  <ButtonCustom
+                    onClick={() => {
+                      setAltSolution(altSolution ? altSolution : !altSolution);
+                    }}
+                    size="small"
+                    className={!altSolution ? classes.approchButton : classes.approchButtonSelected}
+                  >
+                    Alternate
+                  </ButtonCustom>
+                </Grid>
               )}
             </Grid>
 
-            {altSolution &&
-              alternate.map(alt => {
-                return (
-                  completed && (
-                    <Typography key={alt} variant="body2" component="div">
-                      <JsxParser components={{ TeX, Grid, Typography, E, T }} jsx={alt} />
-                    </Typography>
-                  )
-                );
-              })}
+            {altSolution && alternate && answered && (
+              <Typography variant="body2" component="div">
+                <JsxParser components={{ TeX, Grid, Typography, E, T }} jsx={alternate} />
+              </Typography>
+            )}
             {!altSolution &&
               solutions[1].map((solution, i) => {
                 return (
-                  (hintStep > i + solutions[0].length || completed) && (
-                    <Typography key={solution} variant="body2" component="div">
+                  (hintStep > i + solutions[0].length || answered) && (
+                    <Typography key={i} variant="body2" component="div">
                       <JsxParser components={{ TeX, Grid, Typography, E, T }} jsx={solution} />
                     </Typography>
                   )
@@ -162,7 +175,7 @@ const QuestionSolution = props => {
               })}
           </Grid>
         )}
-        {(hintStep > solutions[0].length + solutions[1].length || completed) && (
+        {(hintStep > solutions[0].length + solutions[1].length || answered) && (
           <Grid item className={classes.stepContainer}>
             <Grid container className={classes.stepTitleContainer}>
               <Typography variant="h5" className={classes.stepTitle}>
@@ -171,8 +184,8 @@ const QuestionSolution = props => {
             </Grid>
             {solutions[2].map((solution, i) => {
               return (
-                (hintStep > i + solutions[0].length + solutions[1].length || completed) && (
-                  <Typography key={solution} variant="body2" component="div">
+                (hintStep > i + solutions[0].length + solutions[1].length || answered) && (
+                  <Typography key={i} variant="body2" component="div">
                     <JsxParser components={{ TeX, Grid, Typography, E, T }} jsx={solution} />
                   </Typography>
                 )
