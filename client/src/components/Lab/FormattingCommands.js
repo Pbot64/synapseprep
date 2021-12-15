@@ -1,0 +1,32 @@
+const Commands = {
+  T_add: () => ['<T>', '</T>'],
+  small: () => ['<T small>', '</T>'],
+  large: () => ['<T large>', '</T>'],
+  bold: () => ['<T bold>', '</T>'],
+  italic: () => ['<T italic>', '</T>'],
+  underline: () => ['<T underline>', '</T>'],
+  center: () => ['<T center>', '</T>'],
+  indent: () => ['<T indent>', '</T>'],
+  half: () => ['<T half>', '</T>'],
+  inline: () => ['<T inline>', '</T>'],
+  T_block: () => ['<T block>', '</T>'],
+  quote: () => ['<T quote>', '</T>'],
+  define: () => [`<T define='word to define'>`, '</T>'],
+  rule: () => [`<T rule title=''>`, '</T>'],
+  trap: () => [`<T curriculum trap title=''>`, '</T>'],
+  ivy: () => [`<T curriculum ivy title=''>`, '</T>'],
+  strat: () => [`<T curriculum strat title=''>`, '</T>'],
+  build: () => [`<T curriculum build title=''>`, '</T>'],
+  expand: () => ['<T curriculum expand title="">', '</T>'],
+  E_add: () => ["<E>{'", "'}</E>"],
+  E_block: () => ["<E block>{'", "'}</E>"],
+  red: () => ['\\\\red{', '}'],
+  blue: () => ['\\\\blue{', '}'],
+  green: () => ['\\\\green{', '}'],
+  purple: () => ['\\\\purple{', '}'],
+  boxed: () => ['\\\\boxed{', '}'],
+  aligned: () => ['\\\\begin{aligned}', '\\\\end{aligned}'],
+  hphantom: () => ['\\\\hphantom{..................}', '']
+};
+
+export default Commands;
