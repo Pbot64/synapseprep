@@ -59,13 +59,5 @@
       },
       "dest": "/client/index.html"
     }
-  ],
-  "env": {
-    "MONGODB_URI": "@mongodb-atlas-uri",
-    "SECRET_OR_KEY": "@secret-or-key",
-    "EMAIL_PASSWORD": "@email-password",
-    "FACEBOOK_APP_ID": "@facebook-app-id",
-    "FACEBOOK_APP_SECRET": "@facebook-app-secret",
-    "FILESTACK_API_KEY": "@filestack-api-key"
-  }
+  ]
 }
