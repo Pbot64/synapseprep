@@ -14,7 +14,7 @@ import Sidebar from './Sidebar';
 // Local Assets
 
 //  Style Overrides
-const styles = theme => ({
+const styles = (theme) => ({
   dashboardContainer: {
     marginLeft: 'auto',
     marginRight: 'auto',
@@ -27,22 +27,22 @@ const styles = theme => ({
     [theme.breakpoints.up('sm')]: {
       padding: '90px 0px',
       'padding-left': '24px',
-      'padding-right': '24px'
+      'padding-right': '24px',
     },
-    width: '100%'
+    width: '100%',
   },
   dashboardWrapper: {
-    minHeight: '100vh'
-  }
+    minHeight: '100vh',
+  },
 });
 
 class SiteWrapper extends Component {
   state = {
-    mobileOpen: false
+    mobileOpen: false,
   };
 
   handleDrawerToggle = () => {
-    this.setState(state => ({ mobileOpen: !state.mobileOpen }));
+    this.setState((state) => ({ mobileOpen: !state.mobileOpen }));
   };
 
   render() {
@@ -71,7 +71,7 @@ class SiteWrapper extends Component {
 }
 
 SiteWrapper.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(withRouter(SiteWrapper));
