@@ -1,11 +1,11 @@
 {
   "name": "synapseprep",
   "version": "1.0.0",
+  "engines": {
+    "node": "18.x"
+  },
   "description": "",
   "main": "index.js",
-  "engines": {
-    "node": "12.x"
-  },
   "scripts": {
     "client-install": "npm install --prefix ../client",
     "start": "babel-node server.js",
