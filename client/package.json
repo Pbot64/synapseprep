@@ -1,6 +1,9 @@
 {
   "name": "new-synapse-prep-app",
   "version": "0.1.0",
+  "engines": {
+    "node": "18.x"
+  },
   "private": true,
   "dependencies": {
     "@matejmazur/react-katex": "^3.0.2",
