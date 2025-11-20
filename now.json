@@ -47,9 +47,10 @@
       "src": "/api/users/login",
       "dest": "/server/lamdas/login.js"
     },
-    {
+   {
       "src": "/api/users/register",
-      "dest": "/server/lamdas/register.js"
+      "dest": "/server/lamdas/register.js",
+      "methods": ["POST"] 
     },
     {
       "src": "/api/users/changePass",
