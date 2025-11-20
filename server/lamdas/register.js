@@ -127,8 +127,8 @@ app.post('*', async (req, res) => {
                     message: `Hey ${user.name
                       .split(' ')
                       .slice(0, -1)
-                      .join(' ')}, 
-                    
+                      .join(' ')},
+
                     ${currentRep.fname} ${currentRep.lname} here from Synapse Prep.
                     I noticed you recently signed up with us and wanted to reach out to see if I could help answer any questions you may have. I'd love to learn more about your academic goals and help you find the best path forward to achieve them.`,
                     message2:
