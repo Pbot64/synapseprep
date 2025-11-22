@@ -2,7 +2,7 @@
   "name": "new-synapse-prep-app",
   "version": "0.1.0",
   "engines": {
-    "node": "22.x"
+    "node": "20.x"
   },
   "private": true,
   "dependencies": {
@@ -36,9 +36,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "NODE_OPTIONS=--openssl-legacy-provider react-scripts build",
     "test": "react-scripts test",
-    "now-build": "react-scripts build",
+    "now-build": "NODE_OPTIONS=--openssl-legacy-provider react-scripts build",
     "now-dev": "react-scripts start --port PORT=3000"
   },
   "eslintConfig": {

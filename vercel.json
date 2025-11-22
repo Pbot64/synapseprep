@@ -9,55 +9,22 @@
       }
     },
     {
-      "src": "/server/api/**/*.js",
+      "src": "server/api/**/*.js",
       "use": "@vercel/node"
     },
     {
-      "src": "/server/images/**",
+      "src": "server/images/**",
       "use": "@vercel/static"
     }
   ],
   "routes": [
     {
-      "src": ".*/*?api/(.*)",
-      "dest": "/server/api/$1.js"
-    },
-    {
-      "src": "/static/(.*)",
-      "headers": {
-        "cache-control": "s-maxage=31536000,immutable"
-      },
-      "dest": "/client/static/$1"
-    },
-    {
-      "src": "/favicon.ico",
-      "dest": "/client/favicon.ico"
-    },
-    {
-      "src": "/asset-manifest.json",
-      "dest": "/client/asset-manifest.json"
-    },
-    {
-      "src": "/manifest.json",
-      "dest": "/client/manifest.json"
-    },
-    {
-      "src": "/precache-manifest.(.*)",
-      "dest": "/client/precache-manifest.$1"
-    },
-    {
-      "src": "/service-worker.js",
-      "headers": {
-        "cache-control": "s-maxage=0"
-      },
-      "dest": "/client/service-worker.js"
+      "src": "/api/(.*)",
+      "dest": "/server/api/$1"
     },
     {
       "src": "/(.*)",
-      "headers": {
-        "cache-control": "s-maxage=0"
-      },
-      "dest": "/client/index.html"
+      "dest": "/index.html"
     }
   ]
 }
