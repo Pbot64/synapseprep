@@ -4,13 +4,8 @@ import { create } from 'jss';
 import extend from 'jss-extend';
 
 // Material UI
-import {
-  ThemeProvider,
-  createMuiTheme,
-  StylesProvider,
-  jssPreset,
-  createGenerateClassName
-} from '@material-ui/core/styles';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { StylesProvider, jssPreset, createGenerateClassName } from '@material-ui/styles';
 import createBreakpoints from '@material-ui/core/styles/createBreakpoints';
 
 // Local Components
@@ -129,11 +124,11 @@ const generateClassName = createGenerateClassName();
 
 const CustomThemeProvider = ({ children }) => {
   return (
-    <ThemeProvider theme={theme}>
+    <MuiThemeProvider theme={theme}>
       <StylesProvider jss={jss} generateClassName={generateClassName}>
         {children}
       </StylesProvider>
-    </ThemeProvider>
+    </MuiThemeProvider>
   );
 };
 

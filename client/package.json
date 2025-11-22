@@ -35,7 +35,7 @@
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "NODE_OPTIONS=--openssl-legacy-provider react-scripts start",
     "build": "NODE_OPTIONS=--openssl-legacy-provider react-scripts build",
     "test": "react-scripts test",
     "now-build": "NODE_OPTIONS=--openssl-legacy-provider react-scripts build",

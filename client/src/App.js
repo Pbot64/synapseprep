@@ -1,7 +1,7 @@
 // Node Modules
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
 import { setCurrentUser, logoutUser } from './actions/authActions';
@@ -97,6 +97,34 @@ class App extends Component {
   };
 
   render() {
+    // Diagnostic: surface missing component imports that would cause "element type is invalid"
+    if (process.env.NODE_ENV !== 'production') {
+      const missing = [];
+      const componentsToCheck = {
+        Dashboard,
+        Intro,
+        Login,
+        PasswordResetEmail,
+        Profile,
+        QuestionFeedPage,
+        Register,
+        SiteWrapper,
+        ResetPassword,
+        ScrollToTop,
+        UnderConstruction,
+        Review,
+        Testing,
+        PrivateRoute
+      };
+      Object.entries(componentsToCheck).forEach(([name, cmp]) => {
+        if (!cmp) missing.push(name);
+      });
+      if (missing.length) {
+        // eslint-disable-next-line no-console
+        console.error('Missing components (undefined):', missing.join(', '));
+      }
+    }
+
     return (
       <Provider store={store}>
         <PersistGate loading={<CircularProgress />} persistor={persistor}>
@@ -106,6 +134,9 @@ class App extends Component {
                 <CssBaseline />
                 <SiteWrapper>
                   <Switch>
+                    <Route exact path="/">
+                      <Redirect to="/login" />
+                    </Route>
                     <PrivateRoute exact path="/dashboard" component={Dashboard} />
                     <PrivateRoute exact path="/profile" component={Profile} />
                     <PrivateRoute exact path="/intro" component={Intro} />
@@ -117,6 +148,9 @@ class App extends Component {
                     <Route exact path="/testing" component={Testing} />
                     <Route exact path="/register" component={Register} />
                     <Route exact path="/passwordResetEmail" component={PasswordResetEmail} />
+                    <Route>
+                      <Redirect to="/login" />
+                    </Route>
                   </Switch>
                 </SiteWrapper>
               </React.Fragment>
