@@ -1,5 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
+// eslint-disable-next-line react-hooks/exhaustive-deps
 const useDidMountEffect = (func, deps) => {
   const didMount = useRef(false);
 

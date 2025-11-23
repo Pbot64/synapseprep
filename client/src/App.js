@@ -24,6 +24,8 @@ import ScrollToTop from './components/common/ScrollToTop';
 import UnderConstruction from './layouts/UnderConstruction';
 import Review from './layouts/Review';
 import Testing from './layouts/Testing';
+import Lab from './layouts/Lab';
+import LabDocs from './layouts/LabDocs';
 
 // Material UI Components
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -143,6 +145,8 @@ class App extends Component {
                     <PrivateRoute exact path="/underConstruction" component={UnderConstruction} />
                     <PrivateRoute exact path="/question-feed" component={QuestionFeedPage} />
                     <PrivateRoute exact path="/review" component={Review} />
+                    <PrivateRoute exact path="/lab" component={Lab} />
+                    <PrivateRoute exact path="/labDocs" component={LabDocs} />
                     <Route exact path="/resetpassword/:token" component={ResetPassword} />
                     <Route exact path="/login" component={Login} />
                     <Route exact path="/testing" component={Testing} />

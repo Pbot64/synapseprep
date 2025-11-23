@@ -79,9 +79,15 @@ const styles = theme => ({
   },
   logo: {
     display: 'inline',
+    fontFamily: '"goodtimesrg", "Logofont", sans-serif',
     '&:hover': {
       opacity: '0.8'
     }
+  },
+  logoImg: {
+    height: 28,
+    marginRight: 8,
+    verticalAlign: 'middle'
   },
   link: {
     textDecoration: 'none'
@@ -111,6 +117,9 @@ const StyledIconButton = withStyles({
 })(IconButton);
 
 class Navbar extends Component {
+  logoData =
+    'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNDguMjEgMTUxLjUiPjxkZWZzPjxzdHlsZT4uY2xzLTF7ZmlsbDojZjBjNDE4fS5jbHMtMntmaWxsOiNmZmZ9PC9zdHlsZT48L2RlZnM+PGcgaWQ9IkxheWVyXzIiIGRhdGEtbmFtZT0iTGF5ZXIgMiI+PGcgaWQ9IkxheWVyXzEtMiIgZGF0YS1uYW1lPSJMYXllciAxIj48ZWxsaXBzZSBjbGFzcz0iY2xzLTEiIGN4PSI0NCIgY3k9IjYyLjcxIiByeD0iMTcuMjMiIHJ5PSIxNS43OSIvPjxlbGxpcHNlIGNsYXNzPSJjbHMtMSIgY3g9IjE2MCIgY3k9IjU1LjcxIiByeD0iMTcuMjMiIHJ5PSIxNS43OSIvPjxjaXJjbGUgY2xhc3M9ImNscy0xIiBjeD0iMjE3IiBjeT0iMjEuMjEiIHI9IjE3LjIzIi8+PGNpcmNsZSBjbGFzcz0iY2xzLTEiIGN4PSI5OCIgY3k9IjM2LjIxIiByPSIxNy4yMyIvPjxwYXRoIGNsYXNzPSJjbHMtMiIgZD0iTTMwIDQ5LjVjMy41MyAzLjMxIDEwLjk0IDEwLjQzIDE3IDEwLjQzaDE5LjkxcTI0IDAgMzYuNCAxMS4yM3QxMi40MiAzNC4xM2E1My44MiA1My44MiAwIDAgMS0zIDE4LjM2IDM5LjYzIDM5LjYzIDAgMCAxLTkuMDcgMTQuNTggNDEuNDMgNDEuNDMgMCAwIDEtMTUuMjMgOS42MSA2MC43MyA2MC43MyAwIDAgMS0yMS40OSAzLjQ2SDMuMzN2LTI3LjQzaDYzLjU4cTExIDAgMTctNS42MnQ1Ljk0LTE0LjlxMC0xMC4xNi01Ljk0LTE1LjIzdC0xNy01LjEySDQ2Ljc3YTU2LjUxIDU2LjUxIDAgMCAxLTIwLTMuMzUgNDMuMTEgNDMuMTEgMCAwIDEtMTUuMTItOS4yOEM3LjU2IDY2LjQ1IDAgNTUuNDEgMCA0OS41em0xMjcuNjMgMTAuNmwtLjA3LTEwLjZjLTkgMC0xOC40NC0uMjktMjcuMjktLjI5VjE1MS4zbDI3LjU2LjItLjItNjQuODMiLz48cGF0aCBjbGFzcz0iY2xzLTIiIGQ9Ik0xNTYuMTMgODYuNjdoMzguNTJjOS4wNyAwIDE5LS44NiAyNi4xOC0zLjY3czEyLjk0LTYuMTIgMTgtMTFjNC44NC00LjY4IDktMTUuNzQgOS4zOC0yMi41aC0zMWMtMy4yMiA2LjMxLTEyLjkzIDEwLjYtMjIuNTcgMTAuNmgtMzguNTFNLjEyIDMwQzAgOC40NiAxNy40NiAwIDM5IDBoMTcwYzIxLjU0IDAgMzkgOC40NiAzOSAzMGgtMzAuNzhjLTIuMzktOC0xNC4zOS02LTIyLjU3LTZoLTM3LjA4djZoLTI3LjN2LTZoLTY5Yy0yLjM3LS4wOS0xMC40My0uMTUtMTQuMjQgMHMtMTMuMTYgMS0xNyA2eiIvPjwvZz48L2c+PC9zdmc+';
+
   state = {
     anchorEl: null,
     anchorElNotifications: null
@@ -251,6 +260,7 @@ class Navbar extends Component {
             </IconButton>
             <Grid item className={classes.grow}>
               <a className={classes.logoLink} href="https://synapseprep.net">
+                <img src={this.logoData} alt="Synapse Prep logo" className={classes.logoImg} />
                 <Typography className={classes.logo} variant="caption" color="inherit">
                   Synapse Prep
                 </Typography>

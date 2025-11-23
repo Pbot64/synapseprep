@@ -25,7 +25,7 @@ import FormatColorTextIcon from '@material-ui/icons/FormatColorText';
 // import EditIcon from '@material-ui/icons/Edit';
 import FormatHalfIcon from '@material-ui/icons/FormatLineSpacing';
 import DefineTextIcon from '@material-ui/icons/ContactSupport';
-import RuleIcon from '@material-ui/icons/PostAdd';
+import RuleIcon from '@material-ui/icons/NoteAdd';
 // import FormatSizeIcon from '@material-ui/icons/FormatSize';
 
 // Local Components

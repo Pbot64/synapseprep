@@ -11,3 +11,9 @@ body {
   font-family: Logofont;
   src: url(./assets/fonts/good_times.ttf);
 }
+
+@font-face {
+  font-family: goodtimesrg;
+  src: url(./assets/fonts/good_times.ttf);
+  font-display: swap;
+}
